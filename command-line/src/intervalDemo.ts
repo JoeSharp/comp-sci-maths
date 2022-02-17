@@ -1,4 +1,4 @@
-import { simpleLogger } from 'common'
+import simpleLogger from 'simpleLogger'
 
 simpleLogger.info('Program Is Starting')
 

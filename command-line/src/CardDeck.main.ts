@@ -1,7 +1,8 @@
-import { simplePrompt, simpleLogger } from "common";
+import simplePrompt from 'simplePrompt';
+import simpleLogger from 'simpleLogger';
 import { MainFunction } from "types";
-import CardDeck from "./CardDeck";
-import CardStack from "./CardStack";
+import CardDeck from "comp-sci-maths-lib/dist/fun/cardGames/CardDeck";
+import CardStack from "comp-sci-maths-lib/dist/fun/cardGames/CardStack";
 
 interface MenuItem {
     title: string;

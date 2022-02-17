@@ -1,7 +1,7 @@
 import { MainFunction } from "types";
-import { simpleLogger } from "common";
-import MonteCarloPi from "./MonteCarloPi";
-import percentageError from "../../maths/percentageError";
+import simpleLogger from "simpleLogger";
+import MonteCarloPi from "comp-sci-maths-lib/dist/fun/monteCarloPi/MonteCarloPi";
+import percentageError from "comp-sci-maths-lib/dist/maths/percentageError";
 
 const main: MainFunction = (args: string[]) => {
     const iterations = (args.length === 0) ? 1000 : parseInt(args[0], 10);

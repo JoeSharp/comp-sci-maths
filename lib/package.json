@@ -20,19 +20,13 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "chalk": "4",
-    "prompt-sync": "^4.2.0",
-    "winston": "^3.2.1",
-    "yargs": "^17.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "7.14.3",
     "@babel/preset-env": "7.14.2",
     "@babel/preset-typescript": "7.13.0",
     "@types/jest": "^26.0.5",
     "@types/node": "^13.9.2",
-    "@types/prompt-sync": "^4.1.1",
     "jest": "^27.0.1",
     "np": "^7.6.0",
     "ts-jest": "^27.1.3",

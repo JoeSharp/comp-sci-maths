@@ -1,12 +1,12 @@
-import algorithms from ".";
-import { generateRandomNumbers, simpleLogger } from "common";
+import algorithms from "comp-sci-maths-lib/dist/algorithms/sort";
+import { generateRandomNumbers, simpleLogger } from "comp-sci-maths-lib/dist/common";
 import {
   SplitObserver,
   JoinObserver,
   SplitList,
   PositionVars,
-} from "types";
-import { SortObserver } from "./types";
+} from "comp-sci-maths-lib/dist/types";
+import { SortObserver } from "comp-sci-maths-lib/dist/algorithms/sort/types";
 
 algorithms
   .filter(({ name }) => name === "Merge Sort")

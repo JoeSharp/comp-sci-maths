@@ -8,7 +8,6 @@ import {
   isPrime,
   divisibilityRules,
 } from "./divisibilityRules";
-import { simpleLogger } from "common";
 import { getPrimeFactors, getPrimeFactorTree } from "./primeFactors";
 import { StringReporter } from "types";
 
@@ -62,7 +61,7 @@ test("Get Prime Factors", () => {
 test("Get Prime Factor Tree", () => {
   [1067, 3600, 875, 15485873].forEach((value) => {
     const tree = getPrimeFactorTree(value);
-    simpleLogger.debug(`Prime Factor Tree for ${value}:\n ${tree.toString()}`);
+    expect(tree).toBeDefined(); // TODO proper assertions
   });
 });
 

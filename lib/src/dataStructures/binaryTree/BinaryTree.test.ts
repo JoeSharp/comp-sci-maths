@@ -1,5 +1,4 @@
 import BinaryTree from "./BinaryTree";
-import { simpleLogger } from "common";
 import BinaryTreeString from "./BinaryTreeString";
 import BinaryTreeNumber from "./BinaryTreeNumber";
 
@@ -31,8 +30,6 @@ describe("Binary Tree", () => {
     myTree.add(14);
     myTree.add(2);
     myTree.add(7);
-
-    simpleLogger.debug(myTree.toString());
   });
 
 })

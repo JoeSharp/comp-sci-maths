@@ -1,12 +1,12 @@
 import { exit } from "process";
-import { simpleLogger } from "./common";
+import simpleLogger from "simpleLogger";
 
-import monteCarloPi from './fun/monteCarloPi/MonteCarloPi.main';
-import mastermind from './fun/masterMind/MasterMind.main';
-import montyHall from './fun/montyHall/montyHall.main';
-import vmCompiler from './computation/virtualMachine/vmCompiler';
-import cardDeck from './fun/cardGames/CardDeck.main';
-import { MainFunction } from "./types";
+import monteCarloPi from 'MonteCarloPi.main';
+import mastermind from 'MasterMind.main';
+import montyHall from 'montyHall.main';
+import vmCompiler from 'vmCompiler';
+import cardDeck from 'CardDeck.main';
+import { MainFunction } from "types";
 
 interface MainFunctions {
     [key: string]: MainFunction;

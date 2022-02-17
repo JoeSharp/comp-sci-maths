@@ -1,4 +1,4 @@
-import * as winston from "winston";
+
 import {
   EqualityCheck,
   ToString,
@@ -9,7 +9,6 @@ import {
   LineReference,
   RawLineRef,
 } from "./types";
-import promptSync from 'prompt-sync';
 
 function isString(x: any): x is string {
   return typeof x === "string";
@@ -40,14 +39,6 @@ export const generateLineRef = (rawLineRef?: RawLineRef): LineReference => {
     }
   }
 }
-
-export const simpleLogger = winston.createLogger({
-  level: "info",
-  format: winston.format.simple(),
-  transports: [new winston.transports.Console()],
-});
-
-export const simplePrompt = promptSync();
 
 export const ROOT_RECURSION_KEY = 50;
 

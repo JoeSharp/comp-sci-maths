@@ -3,10 +3,10 @@ import {
   generateRandomNumbers,
   arithmeticComparator,
   objToString,
-} from "common";
+} from "comp-sci-maths-lib/dist/common";
 
-import algorithms from ".";
-import { SortObserver } from "./types";
+import algorithms from "comp-sci-maths-lib/dist/algorithms/sort";
+import { SortObserver } from "comp-sci-maths-lib/dist/algorithms/sort/types";
 
 const observe: SortObserver<number> = (
   stageName: string,

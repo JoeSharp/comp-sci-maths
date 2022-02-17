@@ -1,4 +1,4 @@
-import algorithms from ".";
+import algorithms from "comp-sci-maths-lib/dist/algorithms/search";
 import {
   simpleLogger,
   arithmeticComparator,

@@ -1,0 +1,25 @@
+{
+  "name": "command-line",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node"
+  },
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@types/node": "^17.0.18",
+    "@types/prompt-sync": "^4.1.1",
+    "chalk": "^5.0.0",
+    "comp-sci-maths-lib": "file:../lib",
+    "prompt-sync": "^4.2.0",
+    "winston": "^3.6.0",
+    "yargs": "^17.3.1"
+  }
+}

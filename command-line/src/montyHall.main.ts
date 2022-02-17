@@ -1,6 +1,6 @@
-import { simpleLogger } from "common";
+import simpleLogger from "simpleLogger";
 import { MainFunction } from "types";
-import montyHall from "./montyHall";
+import montyHall from "comp-sci-maths-lib/dist/fun/montyHall/montyHall";
 
 const main: MainFunction = (args: string[]) => {
 

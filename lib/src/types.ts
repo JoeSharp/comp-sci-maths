@@ -1,4 +1,4 @@
-export type MainFunction = (a: string[]) => void;
+
 
 export type MatchFunction<T> = (a: T) => boolean;
 

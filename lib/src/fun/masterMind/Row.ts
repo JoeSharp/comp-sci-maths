@@ -1,4 +1,4 @@
-import { pickRandom, simpleLogger, simpleSwap } from "common";
+import { pickRandom } from "common";
 import { DEFAULT_CELL_VALUE } from "./constants";
 import { CountByPin, Pin } from './Pin';
 
