@@ -1,0 +1,43 @@
+.cpu-contents {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.cpu-contents div {
+  width: 100%;
+}
+
+.code-text {
+  font-size: 90%;
+  font-family: "Courier New", Courier, monospace;
+}
+
+textarea.txt-code {
+  height: 40rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+table.cpu-table {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+table.cpu-table td,
+th {
+  border: solid thin black;
+  padding: 0.5rem;
+}
+
+table.cpu-table tr.highlighted {
+  background-color: lightgreen;
+}
+
+.title-button {
+  float: right;
+}
+
+.hidden-version {
+  display: none;
+}

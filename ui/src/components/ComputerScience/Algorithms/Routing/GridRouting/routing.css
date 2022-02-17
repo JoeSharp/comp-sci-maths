@@ -1,0 +1,14 @@
+.routing-visual {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.routing-visual div {
+  width: 100%;
+}
+
+.routing-visual div {
+  width: 100%;
+}

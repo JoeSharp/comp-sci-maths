@@ -1,0 +1,11 @@
+.correct {
+  background-color: lightgreen;
+}
+
+.incorrect {
+  background-color: lightcoral;
+}
+
+.algebra {
+  font-size: x-large;
+}

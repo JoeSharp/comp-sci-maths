@@ -1,0 +1,17 @@
+.clueWithValue {
+  display: flex;
+  flex-direction: row;
+}
+
+.clueWithValue > div {
+  padding: 0.5rem;
+  vertical-align: top;
+}
+
+.clueWithValue__description {
+  width: 15rem;
+}
+
+.valueDisplay__digit {
+  padding-right: 0.5rem;
+}

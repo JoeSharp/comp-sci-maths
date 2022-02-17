@@ -1,0 +1,131 @@
+import { TuringTumbleChallenge } from "./types";
+
+const challenges: TuringTumbleChallenge[] = [
+    {
+        title: 'Gravity',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA3klEQVQ4T+2TQQ7CIBBF/2xcd+kSzuAB2hgP0qbeo1yEpL2HMSxdGW8AS1fGExQzVUgtqBdwEhIY/mOGgSFjzFjXNXj0fY+qqmCMQbClXykFChCLrHWQUkQgTLR2aNunPwNZIhA8PKSU3lpLAeR1As0FdCT47aR5MwZjpLIs44khUkK8HMMw+OlOc+iTOPiz0D/Sr7LNS66UGpf6ruviuzVNk7wyCSESyDoLKSS002hFm+SQQPNfncuY97ORApiDuH2yEIsZzBn3GwHe78UG5+KG1X2Ha3HA+uJw+lLNB5hYoLCQpKrgAAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=2&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA4klEQVQ4T+2TwQ3CMAxFvy+ce+SYzMAArRCDtAp7NItEavdAKEdOiA2SIyfEBA24kKo0QSyApUiJ7Zev2A5Za4e6rsGr6zpUVQVrLaIt/VprUIQ4yTkPKcUExI0xHkq9/BnIEYEQECClDM45iiCfE2ieQEdC2I45H8bgpFSW5XRjVEqIt6Pv+zC+aQ5x7JsSx7LQX2lW45/V01oPy560bTv1rWmapMskhEgg5x2kkDDeQAmV9DmB5lOdmwqOZ5UimIP4+2QhTmYwZ/zfCAhhLzY4Fzes7jtciwPWF4/Tt4l9+h9FwKywxsHlugAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Re-entry',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA30lEQVQ4T9XTMQ6DMAwF0J+lM2PH5Aw9AAw9CIjeg1wkEtyjQ8ZOVW+QjJ2qnoBUBiWKiKuy1hISWH5YEFtYa+e2bUHXOI5omgbWWsTY5rXWEBFRkXMeSskE4o0xHn2/5hnkhIBAQIBSKjjnRIT0XKC8IMJtS4KpU13X6Y2x8Bucpiks38Qhwhz8iTi4C23hbpT/kH9AWut5e4jDMKRz67pumYQ8hJSyQM47KKlgvEEv+2IWC5RPdVENLNvAdoqQQ7Q+LKJiglzQvgkghIs84V69cHif8ayuOD48bixZkx+gUZ+w1VFySwAAAABJRU5ErkJggg==',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1.5&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA7UlEQVQ4T43TQYrDMAwF0K9N113O0j7DHCBhmIMkpPeILxJI7jEUL2dV5gb2clalJ6iLUhSCrVILAonQizCWyHt/77oO/MzzjLZt4b2HRJ53zoEEcVEIEdaaDcjLNEUMwzOvoEAEQkKCtTaFEEggfxdoXyAwb8lw69Q0zfZHKXwFl2VJ65k0xFiDb5EGq1AOq9EKz4T0lVCNBDCuQntQhXKwIefcPb/EcRxJQN/36yTsg4wxBQoxwBqLKU4YzFDMYoH2U11UA+s2qJ0EaojXR0VczFAL3jcCUjqZT1yOVxxu3/g//uDjL+JXJc/kA06qrrCnRuvlAAAAAElFTkSuQmCC'
+    },
+    {
+        title: 'Ignition',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA30lEQVQ4T92TQQrCMBBF/2xcd+kyOYMHaBEP0hLv0Vwk0N5DJEtX4g2SpSvxBI1MS0ppggruHAgkk3kMM/OHrLVDXdfg03UdqqqCtRbR1n6tNShCHOSch5RiBuLFGA+lJn8GckQgBARIKYNzjuhMCPvpnUAckKRYORicM5Vl+RGIfN/3YazpD6DYxa9rimPgZnwNcfDvmbTWw3qobdvOc2uaZlTC0kgIkUDOO0ghYbyBEioRSgItVZ2TFf9nM0UwB/H6ZCEOZjBnvG8EhHAUO1yLBzbPA+7FCdubx+WN5F+jOaKwVh6qHgAAAABJRU5ErkJggg==',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA70lEQVQ4T63TQQ6CMBAF0D8b1y5dtmfwABDjQSB4D3oREriHMV26Mt6gXboynsCaAYeQtoksnIQEJvMYSqdkrX1XVQW++r5HWZaw1kIizhtjQIK4yDkPrdUM5KbrPJpmymeQIwIhIEBrHZxzRBdCOEzPCeICebNAAZJnOHcqimIGMYy/dRiGMK4ph7hYOi7hT5SDq1AMV6MRfv/iarRc22r0n07GmHe8F23bzvtW1/U4CcsgpVSCnHfQSqPzHRrVJLOYoOVUJ9XAeBqynQTmEB+fLOJihrng80ZACCe1x237xOZ1xGN7xu7ucc2SKfkBKW6vsL7OdnwAAAAASUVORK5CYII='
+    },
+    {
+        title: 'Fusion',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA3UlEQVQ4T+2TOw7CMAyGfy/MHRmTM3CAVoiDtCr3aC4Sqb0HQhmZEDdIRibECRrktqmqJmVgxlKkxPFnyy8yxvRlWYJP27YoigLGGARZ65VSoACxkbUOUooZCBetHep61CcgS3Ql+KOHlNJba4lA8BjfETQYTMA61BKcI+V5vgkEBwHsus4POTEUJbKh+ENTYX4vhFKqX1e3aZq5BVVVDZOwFBJCRJB1FlJIaKdRizrqWAQtpzrVX/5PRgpgCuL1SUJszGBKeN8I8P4sDrhnL+zeJzyzC/YPh9uXYfwAlvyisK0YzGgAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABBElEQVQ4T4XTQWrEIBQG4P9tup7lLPUMPUCk9CAJ6T3iRQLmHqW47Kr0Bgqz6ar0BGN5ZgwhPmeEQGL8fM+nkvf+2vc9+HHOwRgD7z1KO/Zba0EF8aAQIrRWGygv8xwxjmu/gALRByG9JGitUwiBCISE9btCecANHEPt4Rap67omKBMUuCxLymsynSFO4VHjTNzFrShHuuXegiX1LRIjHtyC+7VWSILH4ohoD6VqNlGGjfK3IzUAT5aRtfZ6rNg0Tbkw3IZhqPaClFIVCjFAK405zhjVWO1ChfanWtoz/i9GKlBCfH1ExIMZSo3vGwEpvalnfJ1+8fT3ip/TO87fEZ93DuI/H4q/sNAqaoYAAAAASUVORK5CYII='
+    },
+    {
+        title: 'Entropy',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=1&pt=4&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA5ElEQVQ4T+WTQQrDIBBF/2y6zrJLPUMPkFB6kIT0HtqDBJJ7lOKyq9Ib6LKr0hPEMglKEoUeoAOCDv/NV8YhY8xY1zV49X2PqqpgjEGIbV5rDQoQi6x1kFJEIGy6zqFt53wGskQ3gj96SCm9tZYCyOcEWgoCuLVkMDqVZRkrRuGFADUVX8UwDH56UxYCQCB4rMGfEFtsr/oT+isnrfW47YVSKvataZqkWSSESCDrLKSQ6FyHVrRJgxNo+asTNTBNQ9YpgDmIxycLsZjBXPC8EeD9WRzwKN7YfU54FVfsnw73LDInv7TArLBXApN7AAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABAElEQVQ4T7WTMW7DMAxFP5fMGTtKZ+gBLBQ5iA33HlYOYsC+RxBozFT0BtKYKcgJooB2KCSSik4hIMAk+PRJyiTn3K1tW/CZpgnGGDjnIJbHrbUggTjJ+wCtVQLkYxwD+n6NVyBPBEJEhNY6eu+JjoT4tfoFxAlys4ACSJzBpNQ0TQJSbXsChuXyF5vnOS495ZAoiOIzVYXyknK/gArgMZQ/lXIgDeUxPfGTkmkM8Zhz+7en9ytZa295WcMwpHfruq6om5RSBeSDh1YaYxjRq77sNYee/+oiG1i2oaokYA3i9alCnMxgzXjfCIjxW33iZ3vB5rrDeXvAx2/AqYqswTvc3cOwWXr+VwAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Total Internal Reflection',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA4ElEQVQ4T+2TQQ7CIBBF/2xcd+kSzuAB2hgP0qbeo1ykSXsPY1i6Mt4Alq6MJyhmasFasCeQhASG//gwA6S1HsqyBPeu61AUBbTW8G0ZV0qBPMQiYyykFAHwg7a1qOt3PAEZ8kIppTPmex5BcwGB4OBAZ4Lbu+DMGwWnPM+DQ3S2RaDvezfeaQn9cmL+J7Tm9neasjMmQik1LLPVNE2oW1VVn+pOQhJCRJCxBlJItLZFLeqoAhE0f9WpevF60smDKYi/TxJiMYOpxv+NAOeOYodr9sDmecA9O2F7s7isvKUXk5OssPuzVE4AAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=7.5&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA5klEQVQ4T+2TwQ3CMAxFvy+ce+SYzMAArRCDtCp7NAxSqd0DoRw5ITZIjpwQEzTIrVxBk4oFsBQpsfz8Ezsma+1QliV4dV2HoihgrYXY0m+MAQnEQc55aK1mQDZt61HXkz8BOSIQAgK01sE5R3QhhP10jiAOkMwCCiB+BmelPM9nYL7biYBmTP5lfd+H8U1LaE2J6VVoTP1XAn5WzxgzLHvRNA1J9aqqippFSqkIct5BK43Wt6hVHTU4gj5/dRQNjNOQVBIwBfH4JCEOZjBlPG8EhHBUO9yyJzavAx7ZGdu7xzWJTM43F9+7sGyXUb4AAAAASUVORK5CYII='
+    },
+    {
+        title: 'Path of Least Resistance',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=4&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA6klEQVQ4T62TTQ6CMBCFXzeuWbpsz+ABYOFBIHiP1oOQwD1cdOnKeIN26cp4AmpGaQO04k9s0gDT982bMi3TWvdlWYJm27YoigJaa/gxjyulwDxEImMshOAB8C9NY1HXz3gCMswLhRDOmOl3BI0FkdUQoETBKc/z4IA9A6RDeM4ydF3nHnuaQK9shvgU8g5fQWPxQoI/lEdOH5SYdnoD/l6eUqqf/zApZehbVVVuvs445xFkrIHgAo1tUPM6akIEjU91qmW0nnTyYAqi65OESExgatB9Y4BzO77BKbtiddvikh2wPlscF47THbwGn7CwQfA5AAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABA0lEQVQ4T4WTQW6EMAxFvzddz7LL5Aw9AFHVg4DoPcgcBAnuUVVZdlX1Bsmyq9GcgIzMjCMggbGEAMcvn28Tcs5NdV2Dr2EYYIyBcw4S27y1FiQQF3kfoLVKgDz0fUDb3vMFyBOBEBGhtY7eexKQ3zNoWUDfhPg+16yCwaRUVVXaEWcCuoh034DjOMbZk0B7CktuDYlC9lHrRIJMZYjNpzjYYKUkXXsihMzTnvl9T7LyxFuu9ACPujhD1tpp66PrujS3pmmyKZNSKoN88NBKow89WtVmvcmg5V9d6iSvF5UELEF8fIoQFzNYCj5vBMT4qd7we7rg5fqB/9MXXv8Cfg6mfAOoOq6w9tIJmQAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'De-Polarisation',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=6&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA4ElEQVQ4T+2TMQ7CMAxFvxfmjozJGThAK8RBWpV7NBeJ1N4DoYxMiBskIxPiBA24JQE1YWHGUqTkx89WbIeMMWNd1+DV9z2qqoIxBsGWulIKFCB2stZBShGBsNHaoW1nPQNZIhA8PKSU3lpLdCT47XxOIHYIkQMYgKAzGDOVZRmBNwhMoRc2DIOf3pSDMv6T9Idelfm9EEqpcVneruti35qmSdpFQogEss5CCgntNFrRJi1LoM+pzjWY77OZApiD+PtkIXZmMGf83wjwfi82OBc3rO47XIsD1heH07fhe+oPRFOesGfVN7wAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABCUlEQVQ4T4XTQU7FIBAG4H82rt/SJZzBA5QYD9Km3qNcpAm9hzEsXRlvQBM3rl48wcNM3xte34BK0qRQvhkGCsUYT33fg58QApxziDFCmh733oME8aSUVlhrCpCXeV4xjufxBkpEIGRkWGtzSonolZAfz/0K8QSJLFCAjDMsmbquK+AKgS20asuy5K0mjSSDZNy7JtJL0rBCGugauX+DfgMaFuQ6R7zN/zUOHD7DdSNaRe+DyErqmi4HqzPuA27Ie3/Sk6ZpKuc2DEO1bjLGVCitCdZYzOuM0YxVqRXa/9WtjeHvzUwCW4ivTxPxZIatxveNgJyfzQPeD0fcfT/h6/CC+48Vb38c2g8PU76wCs6ZQwAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Dimers',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA5UlEQVQ4T+2TMQ7CMAxFvxdmRsbkDBygFeIgrco9Gg5Sqb0HQhmZEDdIRibECTBySyJowsKMpUjJj1+c2A5Zax9VVUFG3/coyxLWWgSb68YYUIDEyTkPrVUEwqTrPJpm0jOQIwLAALTW7JwjOhJ4w+M6gcQhnEwgMBgBCLqAMVJRFBGId9sT0I6Hf9gwDDy+KQsl7pPwh16J+T0RxpjHPLtt28a61XWdFIuUUgnkvINWGp3v0KgmqVgCvXd1rr6yn40UwBwk3ycLibOAOZP/RgDzTq1xXt6wuG9xXR6wunicvvSeyE/TRJ6wzndBwQAAAABJRU5ErkJggg==',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABEUlEQVQ4T4WTQW7EIAxFvzddz3KWcIYeIGjUgyTK3CP0IJHIPaqKZVdVbwBSN11Vc4KhMg2UAdpaQgmOnz+2A1lrr+M4gpcxBkopWGuRrPZrrUEJ4iDnPKQUGUgv6+oxz9/+DuSIAAQAUsrgnCN6JoRTiPsGigEgBATk5w4kRQaz0jAMLBAtAXgkYInJb2zbthBrKqEI7go5QYF1oQQ0yrujgWqgB95AvwE1mCE1KOKu/Wec2Lybn0b0ii6TpJO0Ne1zqhXLhBHSWl/roGVZ8tymaWrOTUKIBnLeQQqJ1a+YxdyU2kDlX91rDH/vKiWwB/H16UIczGDP+L4REMJZ3OP18Im7ywM+Dk84vnm8/DG0L1EIwrD8fEkiAAAAAElFTkSuQmCC'
+    },
+    {
+        title: 'Double Bond',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=4&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA3UlEQVQ4T+2TMQ7CMAxFvxfmjozJGThAq4qDtAr3aDhIpPYeqMrIhLhBMjIhTtAgF1pBExiYsRQpcfxixd8ma+1QVRV4tW2LoihgrcVkS7/WGjRBHOSch5RiBqaNMR5KPfwJyBH1PUJZQkoZnHNEAAIwniOIA6IUCweDc6Y8z2NgT0AzPv5mXdeF8U9J6EPaP/QszO+F0FoPy+o2TTPrVtd1JBYJISLIeQcpJIw3UEJFikXQa1en9OX7ZKYJTEE8PkmIgxlMGc8bASHsxAan7IrVbYtLdsD67HH80vJ3BV6ZsJehIHQAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1.5&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABFUlEQVQ4T4XTPW7DIBQH8P9bOmfsCGfoAYysHsSWew+Tg1jC96gsxk5VbwBSl0xVTxCiRwxxDGmfZGEDPx4fhqy1567rwI8xBkopWGuRYl+vtQYlxJ2c85BSZJBepsljGK71FeSIlgWhbSGlDM45IgABiN8FunYgBATkciGENoDWkmHO1DQNDxgjARwJGG8gtc/zHOKatijClGHNvF1kFSVQZF4rCrQHNXiHHoE9zEg1injX/gse2Hyb20bkXXsg00zKNVV26+4YAESktT7vBx/HMZ9b3/fFvEkIUSDnHaSQmPyEQQzFhAu0/atry+P2aqYEa4ivTxVxZ4a14PtGQAhv4gWfhx88/b7idHjH85fHxx+HdgGN+8iwnFUoAAAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Selectivity',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=2&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA1UlEQVQ4T8WT3Q2DIBSFDxs4AszQAfShg2joHrIIie7RByZo3AAmMJ1AmmsLsXJtHyUhwOF+nMufcM4tbduC6jAMaJoGzjmksteNMRAJoiDvA5SSGUgdawO0fusM5EUKVEpF77/HBbQNKKw+Ai2Uneq6zg4JICEy9DiOcd0TBx25nQSlPfxrT0rv6LT2+pqeMWbZT/R9n++t67riuoSUsoB88FBSwQYLLXWRRAFtXzWXMs2zTgnkIPo+LETBBHKF/psAYrzJCx7VDDyvmKs7qilg+nGcLybkmbA3F1k4AAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABBElEQVQ4T42T4W3EIAyFnzfICDBDB0gUdZBE6R5hkUhkj1PEBNVtAFL/nzrBuXKuIA6orpYQwfIX+xlMzrn7NE2QZa3FMAxwziFa6TfGgCIkQd4HaK0SED+2LWBZHv4G5IlAYDC01uy9pwjKuYLygAiWKQVMmfq+T3+MgXQc4HGsSt33nU9NJUQHgUdGK2MTikDK+KsxnivoLy25/wkSUdKeV/tLTWUXpHT7ZetGlJpKbf/WlIN2t0zGmHtZxrqu6d7meT5fQm6klKogHzy00tjChkUt1QVXUP6qq2jgnIZmpgi2IBmfJiTBArZM5o0A5g/1hs/uBny/49Zd0F0Drk3k4fwBCie4sBwjh1gAAAAASUVORK5CYII='
+    },
+    {
+        title: 'Duality - Part 1',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=6&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA8ElEQVQ4T82TMY7CMBBF/zTUlFvaZ+AAiVZ7kEThHvFFIiX3QMjlVituYJdUiBMwMEEOyB6UdkeKlHz/5+9xbPLe35qmgTzjOKKua3jvkSrXnXOgBIkphAhrzQKkl2GI6LqnrkCBCAQGw1rLIQRKoHwX0LshgXmkgEtSVVXLjMkowjx1VtM08dyTBin+WfpnEB0J/P3qbnV5ObDaExGBudy/1SRtB2fIOXfLB/u+X/5b27ZFHBljCijEAGsshjigM10RWEDvp1pbnoyrSQnUILk+KiRmAbWS+0YA897s8Le9YHP9wXl7wNcp4vfT4Xvod24yobC0cLpkAAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA9klEQVQ4T43TTaqDMBAH8P9s3rrLLpMz9ACKvIMo9h7mIoLeo0iWXT16g2TZ1aMn6JRRImIGakDQcX6Z8WPIe/+u6xpyDMOAsizhvUda+7hzDpSQJIUQYa1ZQTrp+4i2XeIKCkQgMBjWWg4hUIJynaFtQoL7kgLXSkVRrDumRJomcFVlrY7jyPMzaUiytYpfkQYPoRlOBK7m94BDaAsOoT34iogIzEtL23WoPRU55977G13Xrd+taZqsHBljMhRigDUWfezRmjZrMUPbvzrLBuZpUCslqCEZHxVJskBtybwRwHw1F/yd/vHz+sXzdMP5EXFXyRL8ACh8qrDioqtxAAAAAElFTkSuQmCC'
+    },
+    {
+        title: 'Duality - Part 2',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA9klEQVQ4T43TTaqDMBAH8P9s3rrLLpMz9ACKvIMo9h7mIoLeo0iWXT16g2TZ1aMn6JRRImIGakDQcX6Z8WPIe/+u6xpyDMOAsizhvUda+7hzDpSQJIUQYa1ZQTrp+4i2XeIKCkQgMBjWWg4hUIJynaFtQoL7kgLXSkVRrDumRJomcFVlrY7jyPMzaUiytYpfkQYPoRlOBK7m94BDaAsOoT34iogIzEtL23WoPRU55977G13Xrd+taZqsHBljMhRigDUWfezRmjZrMUPbvzrLBuZpUCslqCEZHxVJskBtybwRwHw1F/yd/vHz+sXzdMP5EXFXyRL8ACh8qrDioqtxAAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABBUlEQVQ4T3WTMU7FMAyGfy/Mb2RMzsABWiEO0qrco7lIpfYeCGVkQtwgGZkQJ3hGbuvwSIylSo3lz7/j2BRjvA7DAPnWdUXf94gxQq32hxBACklQShneuwLoz7JkTNPhN6BEBAKD4b3nlBLRK4Efj3MDSYBmVlAB9QtYlLquK8AvCOypK9u2jfc71ZAqqOItZ0J1STXYQDVQSj2bIec/kFWKBNWJWqWz3ZaC+uw7nSARgbnt3//dqxSb7oUQrvVbzPNcJmMcx0aOnHMNlHKCdx5LXjC5qXngBrqdamMg9m0wlRS0IFkfE5JgAS2TfSOA+dk94P3yhbvvJ3xeXnD/kfFmIofzB1iiwbAIh48yAAAAAElFTkSuQmCC'
+    },
+    {
+        title: 'Duality - Part 3',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=5&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA2ElEQVQ4T+WTMQ7CIBSGfxbnjo5wBg/QDh6kDd6jXISkvYcDo5PxBjA6GU9Q9KmQWl4XV19CAj/v4w/vgXDOTW3bgsYwDGiaBs45pFjqxhiIBFGS9wFKyQykibUBWr91BvIiJSqlovff6wKaJxRWH4EOyk51XWeHBJAQGXocx/i6Ewetuf0dJIRAjGX9fi+EMWZalrfv+9y3rusKOyGlLCAfPJRUsMFCS120rIDmr5prMO2zTgnkIPo+LETJBHJB/00AMR7kDufqhs19j2t1xPYScFp7fE/9Afu6l7CFHRZpAAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABCUlEQVQ4T4WTQWrEMAxFvzZdz7JL+ww9QELoQRLSe8QXCST3KMHLrkpvYC+7Kj3BqDgeuVPLUEEgFnr638Ii7/11HEekb9s29H0P7z0k6rxzDiRQKgohwlpTAPlZ14h5zvkGFIhAYDCstRxCIDoIPOSzglKBdBZQAMknsCh1XVeAAh4HeBiU1X3f+bxTDYmCKN6TTai2VIMKqoFfq3kYKf5ALSupqG6klW7jbilIrn2nG0hEYM6W/h3EaalSVJBz7lp3W5alvIxpmpQcGWMUFGKANRZrXDGbWVlU0P2rVtXAuQ1NJQFbUFqfJpSKE9iKtG8EML+YJ7xfvvDw/YzPyysePyLemkhO/gDt3cOwsTIpQgAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Inversion',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=6&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA50lEQVQ4T+WTvQ3CMBCF3zXUlJT2DAyQKGKQRGGPeJFIyR4IuaRCbGCXVIgJcnABW4BNQ8tJluzn+3zy/ZC1dqrrGrKGYUBZlrDWItinbowBBUicnPPQWkUgbPreo20fegZyRPs9uKqgtWbn5EzgiudzAolDeJlAYDACEHQBY6SiKCIQQSIwz4+/2TiOPP8pByXeT+HvIElnmjvg90QYY6bP9HZdF+vWNE0SkJRSCeS8g1Yave/RqjYpWQK9dnWuwHKfjRTAHCTjk4XEWcCcybwRwLxVaxyXFyyuG5yXO6xOHodvzXfXb57horClTcRRAAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABBUlEQVQ4T5WTQW6DMBBF/2y6zrJL+ww9AAj1ICB6D9yDIME9qsjLrqLcwF52FeUEmWqcDKLYSZWRLPD4P38zg8l7f2nbFjKmaUJd1/DeQ2Obd86BFBJRCBHWmgXQl3GM6PtrvgAFov0e3DSw1nIIMidww2meQUkAAoOxPG+AOgq4OFVVRbqwAERgTpv/iXmeOX3TGhKFghkB4C6UxJ8EDE84bY+6dnzsdFNq9RT8F9oCAj6EtF9PV++uk3Pust1tGAbS6nVdl5WQjDEZFGKANRZjHNGbPmtXBq3/6lJzZb3opGAJkutThEQsYCnkvhHA/GHecNid8HJ+x8/uC6/HiO8ick3+AoXou7D68z0pAAAAAElFTkSuQmCC'
+    },
+    {
+        title: 'Termination',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=5&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA4UlEQVQ4T+2TvQ3DIBCF3zWpXaaEGTKAXWQQW2QPswiSvUcKylRRNoAyVZQJQnQkIMvgTJCTkPi57w7ucWStffV9Dx7TNKHrOlhrkWy9r7UGJYidnPOQUmQgTYzxUOqzX4EcEYAAQEoZnHO8jMbrAmIHAiFEpG4M5kxt2+aIKdMWOM9ziG9KEBEhhO1MHKiANu+1OPhD32LEQmitX+uqjeOYdRuGodCAhBAF5LyDFBLGGyihCiUKaPmra7rxeTVTAmsQt08VYmcGa8b9RkAIJ3HAtXlg9zzi3pyxv3lcfvypN5CJmrAwz4ssAAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA+0lEQVQ4T42TMQ7CMAxFvxdmRsbkDBygFeIgrco9motUau+BUEYmxA2SkQlxAoxclAiatGCpamL5+dt1TdbaZ1VVkKfve5RlCWstgk39xhhQgCTIOQ+tVQTCoes8mubtz0COCAAD0Fqzc06uo8k9gSSAQGAwwnsqKWBUKooiZgxKdCLwbkz+ZcMw8NhTgIgIzPNKQifQZ8q5EhchSZArcVnp355CeXMfYbanJSAL/QIiZIx5TmfRtm2cW13XybBIKZVAzjtopdH5Do1qkgEn0OdfnUQD4zZklQKYg2R9spAEC5gz2TcCmA9qi8v6jtVjj9v6iM3V45xF3s4XVp6ysMiYz1cAAAAASUVORK5CYII='
+    },
+    {
+        title: 'Fixed Ratio',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA7UlEQVQ4T+2TwQ3CMAxFvy+cOXJMZmCAVhWDtCp7NItUavdAKEdOiA2SIyfEBDVyq5S2icQCWIqU2H628hOTtXYoyxKyuq5Dnuew1iLY1m+MAQVIkpzz0FrNQNi0rUddT/4E5IgAMACtNTu3PkeQJITKdCVwwSAQeCwxmRSaO2VZtgCu4KKYE0Pn4Oj7nsc7LaHlhYgIzN9OEvsJRYr8oa8ko3rGmGGrUtM087tVVbXWHAAppSLIeQetNFrfolZ1pHwELX916p0knuwUwBQk45OEJFnAlMm8EcB8Vkfc9y/s3ic89xccHh63JDI5P9itobC3HYABAAAAAElFTkSuQmCC',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABC0lEQVQ4T5WTQW6EMAxFvzddz7LL5Aw9AAj1ICB6D3IRJLjHCGXZVdUbhGVXVU8wrpzBmRmSUaeWUMD8x7eFTd77U9u2kGuaJtR1De89NPZ55xxIIRGFsMJakwC9GccVfX/OF6BAtCzgpoG1lkMIRAAYiM8ZFAULgRtGOkFgMGg7BUxOVVWRvlAnLU2d9EPzPHPsSSARJVAdiMB8cRJNBkVQS9zA5Ljl7zpdSrvt6U+nDHzUaQ8+7PTvnu46OedO+7kZhiH+Aomu6+IkXAcZYzIorAHWWIzriN702Sxm0PVUZ2ogbkPRScESJOtThEQsYClk3whgfjMv+Dh84+nnFV+HI54/V7wXkXPyF3IV17Bm2pQJAAAAAElFTkSuQmCC'
+    },
+    {
+        title: 'Entanglement 1',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA5klEQVQ4T7WTMQ7CIBSG/7c4d3SEM3iANo0HaVPvUS7SpL2HaRidjDeA0cl4gqJowVqog1ESEnj8Hz8PeCSlHIqigO1t2yLLMkgp4do8LoQAOciKlNLgnHnADZpGo6qe8QikyAk550ap93kATQWB1RiwG3mnNE29gwOo72HyPOC7rjOPnGLQkttH6P9ORARjjD/dfP77nL66iI+QEGKYC+q69u9WluUrwVFIjLEAUlqBM45GN6hYFZgG0PRXx45o16NODoxBtnyikBVbMNZsvRFgzI5tcEwuWF23OCd7rE8ah6Xru8dvy9afsGA51/sAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABAElEQVQ4T42TQW6DMBBF/2yyzjJL+ww5AAj1ICB6D3wRJLhHhLzsquoN7GVXVU7AVENiEtmGZCRL2P5v/oyNyVo713UNGcMwoCxLWGsRIl43xoACJCLnPLRWKxA++t6jbW/rGcgRgcBgaK3ZOUcBlHkCPQsCGFsKuDoVRbFmDEKaJnBVJaWO48hLTzEUnHKOm5CkF2tpgiYCV0s7S2w73YVvOxERmB+Z4/lueckJvCpvC9jt6SVkjJljUdd16701TfNo8C4kpVQCOe+glUbve7SqTYwT6PmvzpUp+1mnAOYgeT5ZSMQC5kLeGwHMn+qM7+MfDtcP/B4vOP14fO0c4T+oKq2wqQvfrwAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Entanglement 2',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=5&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA4ElEQVQ4T82TsQ3CMBBF/zXUKSntGRggUcQgicIe8SKRkj1Q5JIKsYFdUiEmyIEBRyF2KCgQlizZd/f872wfaa2HoijgZtu2yLIMWmv4MbcrpUAeckHGWEgpRsAvmsaiqp72CGTIB0op2Zj3fQBNAwKpl8EdNCqlaToqeID6HpznAd91HT9qikFLah+h3yl9ld6fQEqpYZ5KXddERGBmlGXJcz8JIQLIWAMpJBrboBJVUF4ATX917DKcP6rkwRjk2icKuWAHxobrNwKYd2KDY3LB6rrFOdljfbI4LD3U3X4Dc1KcsIyy8rcAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABFUlEQVQ4T42TQU7EMAxFvzesZ8kyOQMHaFVxkFblHg0HqZTeA1VZskLcIJHYzApxgjFyaTIlyQgiRXVcP9v5isk5d+n7HrKttWjbFs45xJX7jTGgCEmQ9wFaqwREY54DxvHHX4E8EQgMhtaavf99LiAJiJkjmJ8lUarUNE0CUuC6grsutUorgTvGsiy83SmHYqX03QHJcBOSn1KaxXgmYNqsbd2uFDPvwPGOVShvKW/170p7S8dE9sOWQuRyX9X8p3o5kIQwxlzydzNNExERmBnDMFyli+0qpQrIBw+tNOYwY1Rj8RYph46vuogGtmkoIAmMYA2S8alCEaxBMm8EMD+pB7ydPnH39Yjz6QX37wGvNWL3fQMsLs6wIeiFNAAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Symbiosis',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=5&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA4ElEQVQ4T82TsQ3CMBBF/zXUKSntGRggUcQgicIe8SKRkj1Q5JIKsYFdUiEmyIEBRyF2KCgQlizZd/f872wfaa2HoijgZtu2yLIMWmv4MbcrpUAeckHGWEgpRsAvmsaiqp72CGTIB0op2Zj3fQBNAwKpl8EdNCqlaToqeID6HpznAd91HT9qikFLah+h3yl9ld6fQEqpYZ5KXddERGBmlGXJcz8JIQLIWAMpJBrboBJVUF4ATX917DKcP6rkwRjk2icKuWAHxobrNwKYd2KDY3LB6rrFOdljfbI4LD3U3X4Dc1KcsIyy8rcAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAABFklEQVQ4T42TQW7DIBBF/2y6zjJLOEMPYKvqQWw59zA5iCV8jypi2VXVG4DUTVdVTpCpsA0mQKoiWTb4v/kDzJAx5tZ1HfyjtUbbtjDGIIx8XSkFCpAXWesgpYhA+Jgmh2FY1yuQJQKBwZBSsrX38wLyghA5gPncB4pOTdNEYBcCnCQaAs3zzMuecoguBH5hhHcMdCHoL11CEUDmtAUqnEIKO7geSupYTS8/BJwJGPfd/XtPaaA/nYpD2O7vsdMmyEvDO+pZMymlbvnPcRyJiMDM6Ps+va5FSkKIArLOQgqJyU0YxFDUYgGlVV2ogaUbqk4BrEG+faqQF3uwNny/EcB8Es/4OPzg6fqK78Mbjp8O71VkXfwFFkXOsB9vFDIAAAAASUVORK5CYII='
+    },
+    {
+        title: 'Quantum Number',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=9&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA4klEQVQ4T92T0Q2DIBCG/9vAEWCGDqAPHURj95BFSHSPPjBB4wawQJtOIM1pjzSCaZ97CQGO++6HA8g5t7RtC27jOKJpGjjnILb3G2NAAnGQ9wFaqwTIwNqAvt/8BcgTAYgAtNbRe8/T1XieQRxAIERESL+XZDAp1XWdMopStse3Y5qmuJ5JoG9KzGUQO/9TaSv7z9WTwKN7StUzxiz7rMMwpHvrui6TJaVUBvngoZWGDRa96rOdZtDnqy6di9eLSgKWIP4+RYiDGSwZ/zcCYryoE27VA/Q8415dUc0B82HRgRc9pquwSdFDswAAAABJRU5ErkJggg==',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA60lEQVQ4T92T0QnCMBCG/wMH6AjJDA7QIg7SUvdoFim0e4hkAukGybMP4gRGLvWKNhF99qAkOe7LT+/PkbX2Xtc1+BuGAVVVwVoLiXXeGAMSiIuc89BaLYBs+t6jbed8BnJEAAIArXVwzvExBp8TiAsIhIAAWdeSDC5KZVkuN4oSnQhhFy9/i3EcQ/wngb4pMZ1AnPxPpWfbf+2e9PaTT0v3jDH3tRdd15H41DRNYhYppRLIeQetNHrfo1VtYnACvb7qpBqI05BVEjAH8fhkIS5mMBc8bwSEcFBbnIsrNrc9LsURxeQxZZE5+QCaZbqwQfWa3QAAAABJRU5ErkJggg=='
+    },
+    {
+        title: 'Depletion',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA5klEQVQ4T92TQQ7CIBBF/2xcd+kSzuAB2jQepE29R7lIk/YepmHpyngDWLoynqCYUacxBTVunYQAwzz+MABZa6eqqsCt73sURQFrLcSWfmMMSCAOcs5DazUDMug6j6Z5+BOQIxpHhLKE1jo450hAnkcQB9BICGWA9EtJBmelPM/nHUUpyvHpGIYh3M8k0Dcl5iKInf+p9Cj7z9V7S0j1jDHTMqht2/ne6rqOZEkpFUHOO2il0fkOjWoi4Qh6fdWpNHk9qSRgCuLvk4Q4mMGU8X8jIISd2uCYXbC6bnHO9lifPA4fSngDfM+9sJ3eWAkAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA8klEQVQ4T72TQQrCMBBF/2xcu3SZnMEDtBQP0lLv0Vyk0N5DSpauxBskS1fiCRoZa4o2aUUQB0rS5D9+5pOQ1rrP8xz8NU2DNE2htYav6bpSCuQhFhljIaUYAT+pa4uyHNYjkCHqOrgsg5TSGWPIg/wfQCygjuAyBz9OLRkcnZIkIQLBgYHBaa7atnWPnhhi0Scn1rxBoxOAx+Fn6odO/+vpGfvXPS3kMKSnlOqnoqqqxptQFEUQJgkhAshYAykkalujFGVgHECvtzp2TN6POnkwBvHziUIsZjBW/N4IcG4vtjitr1jddrisD9icLY4LEd4BdMLDsGv+MHMAAAAASUVORK5CYII='
+    },
+    {
+        title: 'Tetrad',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=5&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA8klEQVQ4T72TQQ6CMBBF/2xcu3TZnsEDQIgHgeA96EVI4B6GdOnKeIN26cp4AseMWqK06MLESQil/S+/v3TIWnstyxLydF2HPM9hrUWo6bwxBhQgETnnobUagTBoW4+6fswnIEc0DOCigNaanXMUQPmOIBHQQOCCEd5TSwFHpyzLiEBgCPBwmqu+7/meSSARfXMSzRv0uxMRmO+5o0o6zYZ5Lsxm+gT+2ckYc51up2ma8SZUVRWdCCmlIsh5B600Wt+iVnUUMYJeb3XqQGQ96RTAFCTtk4RELGCqpN8IYN6qNQ7LMxaXDU7LHVZHj/2Hn3UDQyW8sK40Y8sAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA8klEQVQ4T72TQQ6CMBBF/2xcu3TZnsEDQIgHgeA96EVI4B6GdOnKeIN26cp4AseMWqK06MLESQil/S+/v3TIWnstyxLydF2HPM9hrUWo6bwxBhQgETnnobUagTBoW4+6fswnIEc0DOCigNaanXMUQPmOIBHQQOCCEd5TSwFHpyzLiEBgCPBwmqu+7/meSSARfXMSzRv0uxMRmO+5o0o6zYZ5Lsxm+gT+2ckYc51up2ma8SZUVRWdCCmlIsh5B600Wt+iVnUUMYJeb3XqQGQ96RTAFCTtk4RELGCqpN8IYN6qNQ7LMxaXDU7LHVZHj/2Hn3UDQyW8sK40Y8sAAAAASUVORK5CYII='
+    },
+    {
+        title: 'Ennead',
+        start: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=1&pt=6&sp=1.5&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA3UlEQVQ4T9WT/QnDIBDFn3SBjKAzZICETJKQ7hEXEZI9SnCCkg10gXaEWC6tIlGh9L8eCHq+n8/zg2mt977vQW2eZ7RtC601fJzzUkowD5HIGAsheAB8RymLcXznM5BhDIADIIRwxhgaHkHjBIoFiVUEBqemacKKbF3huq7EYVkWd9QUQ0X1ZyIL+ZpK8D86/XQQX0FSyv0snKYp3NswDMdLiINxzhPIWAPBBZRVGPmYmCdQ/KpzW6X5rJMHcxB9nyxEYgJzQf+NAc5deY179YS7APWjwq3aYLfyOb4ApMGZsJsk7bgAAAAASUVORK5CYII=',
+        solution: 'https://jessecrossen.github.io/ttsim/#s=13,17&z=32&cc=6&cr=8&t=3&sp=1.5&sc=0&b=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAASCAYAAACAa1QyAAAA6klEQVQ4T9WT4Q2DIBCF36ULOALM0AE0TqKxe8giJrpHY5igcQNYoB3Ba06LaQXb372EAMf78rgLkLV2rqoKMvq+R1EUsNYixD5vjAEFSETOeWitNiAsus6jadZ8AnJE4wguS2it2TlHAZR9BImARgKXjDDvLQXcnPI8JwKBIcDqdBTDMPBSk0Ai+uUkmg/on5yIwLx0OIpkTYdtex0cdu8buEDGmHkvatt2ewl1XUf3JKVUBDnvoJVG5zs0qomMI+j9VaeuKedJpwCmIPk+SUjEAqZC/hsBzBd1xi17gE/A+Z7hmk3w03EPn4ROwrAsPIfPAAAAAElFTkSuQmCC'
+    }
+    // , {
+    //     title: 'Gravity',
+    //     start: 'xxxxxxx',
+    //     solution: 'xxxxxxx'
+    // }     
+]
+
+export default challenges;

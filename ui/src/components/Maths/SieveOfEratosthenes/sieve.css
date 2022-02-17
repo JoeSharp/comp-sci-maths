@@ -1,0 +1,13 @@
+.primeListing {
+  display: flex;
+}
+
+.primeListing__number {
+  padding: 0.7rem 1rem 0.7rem 1rem;
+  border: solid thin black;
+  display: flex;
+}
+
+.primeListing__isPrime {
+  background-color: red;
+}

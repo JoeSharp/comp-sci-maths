@@ -1,0 +1,33 @@
+.sudoku-table td {
+  border: solid thin black;
+  border-collapse: collapse;
+}
+
+.sudoku-table td:nth-child(3n) {
+  border-right: solid thick black;
+}
+.sudoku-table td:nth-child(3n-2) {
+  border-left: solid thick black;
+}
+
+.sudoku-table tr:nth-child(3n + 1) {
+  border-top: solid thick black;
+}
+.sudoku-table tr:nth-child(9) {
+  border-bottom: solid thick black;
+}
+.sudoku-cell {
+  width: 4rem;
+  height: 4rem;
+  text-align: center;
+  font-size: xx-large;
+}
+.sudoku-cell-hint {
+  font-size: medium;
+  text-align: left;
+  vertical-align: top;
+  color: grey;
+}
+.sudoku-cell-error {
+  color: red;
+}

@@ -1,0 +1,59 @@
+.bitmap-table,
+.bitmap-table td {
+  border: solid thin black;
+  border-collapse: collapse;
+}
+
+.bitmap-table td {
+  width: 30px;
+  height: 30px;
+}
+
+.colour-palette {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.colour-palette__selector {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  height: 100px;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+.colour-palette__selector div {
+  width: 100%;
+  flex-grow: 1;
+  border: none;
+}
+
+.colour-palette__current {
+  display: flex;
+  flex-direction: column;
+}
+
+.colour-palette__current div {
+  width: 100%;
+}
+
+.colour-palette__current--swatch {
+  flex-grow: 1;
+  height: 2rem;
+}
+
+.image-data-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.binary-data {
+  font-family: "Courier New", Courier, monospace;
+  border-style: inset;
+  width: 50%;
+  height: 400px;
+  overflow: scroll;
+}
