@@ -3,7 +3,7 @@ import Perceptron from 'comp-sci-maths-lib/dist/computation/neuralNetwork/Percep
 import { coordinateTester } from 'comp-sci-maths-lib/dist/computation/neuralNetwork/trainingTests';
 import { signActivationFn } from 'comp-sci-maths-lib/dist/computation/neuralNetwork/activationFunctions';
 import p5 from "p5";
-import TrainingTest, { TrainingTestGenerator } from "comp-sci-maths-lib/dist/computation/neuralNetwork/TrainingTest";
+import TrainingTest, { TrainingTestGenerator } from "@comp-sci-maths/lib/dist/computation/neuralNetwork/TrainingTest";
 import { Queue } from "comp-sci-maths-lib";
 
 const WIDTH = 600;

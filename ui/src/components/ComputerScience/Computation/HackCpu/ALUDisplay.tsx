@@ -1,5 +1,5 @@
 import { HackCpu } from "comp-sci-maths-lib";
-import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
+import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 import React from "react";
 
 interface Props {

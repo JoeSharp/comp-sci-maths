@@ -1,9 +1,9 @@
 import React from "react";
-import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
-import traversePreOrder from "comp-sci-maths-lib/dist/algorithms/binaryTreeTraversal/traversePreOrder";
-import traverseInOrder from "comp-sci-maths-lib/dist/algorithms/binaryTreeTraversal/traverseInOrder";
-import traversePostOrder from "comp-sci-maths-lib/dist/algorithms/binaryTreeTraversal/traversePostOrder";
-import { VisitFunction } from "comp-sci-maths-lib/dist/types";
+import BinaryTree from "@comp-sci-maths/lib/dist/dataStructures/binaryTree/BinaryTree";
+import traversePreOrder from "@comp-sci-maths/lib/dist/algorithms/binaryTreeTraversal/traversePreOrder";
+import traverseInOrder from "@comp-sci-maths/lib/dist/algorithms/binaryTreeTraversal/traverseInOrder";
+import traversePostOrder from "@comp-sci-maths/lib/dist/algorithms/binaryTreeTraversal/traversePostOrder";
+import { VisitFunction } from "@comp-sci-maths/lib/dist/types";
 
 import { PRE_ORDER, IN_ORDER, POST_ORDER } from "./common";
 

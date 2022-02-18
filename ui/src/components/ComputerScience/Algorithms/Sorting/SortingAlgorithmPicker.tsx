@@ -1,8 +1,8 @@
 import React from "react";
 
-import algorithms from "comp-sci-maths-lib/dist/algorithms/sort";
+import algorithms from "@comp-sci-maths/lib/dist/algorithms/sort";
 import { ControlledInput } from "../../../../types";
-import { NamedCustomisableSort } from "comp-sci-maths-lib/dist/algorithms/sort/types";
+import { NamedCustomisableSort } from "@comp-sci-maths/lib/dist/algorithms/sort/types";
 
 interface Props extends ControlledInput<NamedCustomisableSort | undefined> {
   className?: string;

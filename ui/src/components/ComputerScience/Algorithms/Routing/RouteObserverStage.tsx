@@ -3,11 +3,11 @@ import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
 import {
   ObserverArgsWithPathFrom,
   getCurrentWeightCalcTypeStr,
-} from "comp-sci-maths-lib/dist/algorithms/routing/types";
+} from "@comp-sci-maths/lib/dist/algorithms/routing/types";
 import Table from "../../../Bootstrap/Table";
 import { DisplayDataItem } from "../../../p5/Boid/types";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
-import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
 
 interface Props<DATA_ITEM extends DisplayDataItem<any>> {
   graph: Graph<DATA_ITEM>;

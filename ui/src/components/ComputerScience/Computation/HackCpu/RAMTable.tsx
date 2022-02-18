@@ -1,7 +1,7 @@
 import React from "react";
 
 import { HackCpu } from "comp-sci-maths-lib";
-import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
+import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 import { Props as ButtonProps } from "../../../Bootstrap/Buttons/Button";
 import SetRamValueModal, { useSetRamValueModal } from "./SetRamValueModal";
 import StartAddressDialog, {

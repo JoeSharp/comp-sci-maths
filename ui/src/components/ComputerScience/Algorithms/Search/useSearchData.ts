@@ -3,11 +3,11 @@ import React from "react";
 import {
   stringComparator,
   generateRandomLetters,
-} from "comp-sci-maths-lib/dist/common";
-import { NamedSearch, SearchUtilities } from "comp-sci-maths-lib/dist/types";
+} from "@comp-sci-maths/lib/dist/common";
+import { NamedSearch, SearchUtilities } from "@comp-sci-maths/lib/dist/types";
 
 import { SearchingData, SearchObservation } from "./types";
-import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
+import { NO_MATCH } from "@comp-sci-maths/lib/dist/algorithms/search/common";
 import { StringDataItem } from "../../../p5/Boid/types";
 
 interface Props {

@@ -1,9 +1,9 @@
-import { ShortestPathTree, ObserverArgs } from "comp-sci-maths-lib/dist/algorithms/routing/types";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { ShortestPathTree, ObserverArgs } from "@comp-sci-maths/lib/dist/algorithms/routing/types";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 
-import { dijstraks, getPathTo } from "comp-sci-maths-lib/dist/algorithms/routing/dijkstras";
-import { IKeyWithValue, StringGraphVertex } from "comp-sci-maths-lib/dist/types";
-import { getStringVertex } from "comp-sci-maths-lib/dist/common";
+import { dijstraks, getPathTo } from "@comp-sci-maths/lib/dist/algorithms/routing/dijkstras";
+import { IKeyWithValue, StringGraphVertex } from "@comp-sci-maths/lib/dist/types";
+import { getStringVertex } from "@comp-sci-maths/lib/dist/common";
 import simpleLogger from './simpleLogger';
 
 interface Point {

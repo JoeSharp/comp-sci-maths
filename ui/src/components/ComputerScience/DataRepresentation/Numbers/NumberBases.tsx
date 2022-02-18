@@ -10,7 +10,7 @@ import {
 import useStreakCounter from "../../../lib/useStreakCounter";
 import ProgressBar from "../../../Bootstrap/ProgressBar";
 import NumberBaseConversionTable from "./NumberBaseConversionTable";
-import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
+import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 
 // Correction to default value
 const denary = denaryRaw.withWidth(1);
@@ -66,8 +66,7 @@ const NumberBases: React.FunctionComponent = () => {
         onHit();
       } else {
         cogoToast.error(
-          `Incorrect ${from.toString(value)} in ${
-            to.name
+          `Incorrect ${from.toString(value)} in ${to.name
           } is actually ${expected}`
         );
         onMiss();

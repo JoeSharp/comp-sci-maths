@@ -4,7 +4,7 @@ import {
   stringComparator,
   generateRandomLetters,
   simpleSwap,
-} from "comp-sci-maths-lib/dist/common";
+} from "@comp-sci-maths/lib/dist/common";
 
 import {
   SortStage,
@@ -12,12 +12,12 @@ import {
   SortStageType,
   SortObservation,
 } from "./types";
-import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
+import { NO_MATCH } from "@comp-sci-maths/lib/dist/algorithms/search/common";
 import { StringDataItem } from "../../../p5/Boid/types";
 import {
   NamedCustomisableSort,
   SortUtility,
-} from "comp-sci-maths-lib/dist/algorithms/sort/types";
+} from "@comp-sci-maths/lib/dist/algorithms/sort/types";
 
 interface Props {
   algorithm?: NamedCustomisableSort;

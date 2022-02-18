@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ProgramsById } from "./types";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 
 interface UseSavedPrograms {
   names: string[];

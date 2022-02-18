@@ -5,9 +5,9 @@ import {
   initialisePageRank,
   iteratePageRank,
   BLANK_PAGE_RANK_STATE,
-} from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
-import { PageRankState } from "comp-sci-maths-lib/dist/algorithms/pageRank/types";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+} from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
+import { PageRankState } from "@comp-sci-maths/lib/dist/algorithms/pageRank/types";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "../../../p5/Boid/types";
 
 interface Props {

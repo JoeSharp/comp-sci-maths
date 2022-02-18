@@ -1,6 +1,6 @@
 import React from "react";
 import useSavedGraph, { UseSavedGraph } from "./useSavedGraph";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "../../../p5/Boid/types";
 import useSketch, { UseSketch } from "../../../p5/useSketch";
 import GraphSketch from "../../../ComputerScience/DataStructures/GraphManager/GraphSketch";
@@ -21,21 +21,21 @@ const GraphPickerWithSketch: React.FunctionComponent<Props> = ({
   onSelectChange,
   refContainer,
 }) => (
-    <React.Fragment>
-      <div className="form-group">
-        <label>Graph</label>
-        <select className="form-control" value={value} onChange={onSelectChange}>
-          {names.map((name) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
-      </div>
+  <React.Fragment>
+    <div className="form-group">
+      <label>Graph</label>
+      <select className="form-control" value={value} onChange={onSelectChange}>
+        {names.map((name) => (
+          <option key={name} value={name}>
+            {name}
+          </option>
+        ))}
+      </select>
+    </div>
 
-      <div className="sketch mt-3" ref={refContainer} />
-    </React.Fragment>
-  );
+    <div className="sketch mt-3" ref={refContainer} />
+  </React.Fragment>
+);
 
 interface UsePicker {
   graphName: string;

@@ -1,6 +1,6 @@
 import simpleLogger from "./simpleLogger";
-import { StringReporter } from "comp-sci-maths-lib/dist/types";
-import { getPrimeFactorTree } from "comp-sci-maths-lib/dist/algorithms/primeNumbers/primeFactors";
+import { StringReporter } from "@comp-sci-maths/lib/dist/types";
+import { getPrimeFactorTree } from "@comp-sci-maths/lib/dist/algorithms/primeNumbers/primeFactors";
 
 const reportLog: StringReporter = (s) => simpleLogger.info(s);
 

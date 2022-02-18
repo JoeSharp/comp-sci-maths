@@ -1,7 +1,7 @@
 import { StringDataItem, Point } from "../../../p5/Boid/types";
 import Graph, {
   Edge,
-} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+} from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 
 export interface SavedGraphState {
   [name: string]: {
@@ -14,7 +14,7 @@ export interface GraphsById {
   [name: string]: Graph<StringDataItem>;
 }
 
-export interface PositionByVertex { 
+export interface PositionByVertex {
   [key: string]: Point;
 }
 

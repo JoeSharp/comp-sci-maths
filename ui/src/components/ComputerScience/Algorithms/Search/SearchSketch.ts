@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { NO_MATCH } from "comp-sci-maths-lib/dist/algorithms/search/common";
+import { NO_MATCH } from "@comp-sci-maths/lib/dist/algorithms/search/common";
 import { AbstractSketch } from "../../../p5/useSketch";
 
 import { DEFAULT_SEARCH_OBS, SearchObservation } from "./types";

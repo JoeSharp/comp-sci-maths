@@ -1,9 +1,9 @@
 import React from "react";
-import { depthFirstSearch, breadthFirstSearch } from "comp-sci-maths-lib/dist/";
-import { VisitFunction, StringGraphVertex } from "comp-sci-maths-lib/dist/types";
+import { depthFirstSearch, breadthFirstSearch } from "@comp-sci-maths/lib/dist/";
+import { VisitFunction, StringGraphVertex } from "@comp-sci-maths/lib/dist/types";
 
 import { BREADTH_FIRST_SEARCH, DEPTH_FIRST_SEARCH } from "./common";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 
 interface Props {
   algorithmName: string;

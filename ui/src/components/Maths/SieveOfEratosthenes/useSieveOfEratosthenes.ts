@@ -5,7 +5,7 @@ import { cloneDeep } from "lodash";
 import sieveOfEratosthenes, {
   PrimeCallbackArgs,
   PrimeCallback,
-} from "comp-sci-maths-lib/dist/algorithms/primeNumbers/sieveOfEratosthenes";
+} from "@comp-sci-maths/lib/dist/algorithms/primeNumbers/sieveOfEratosthenes";
 
 interface Props {
   limit: number;

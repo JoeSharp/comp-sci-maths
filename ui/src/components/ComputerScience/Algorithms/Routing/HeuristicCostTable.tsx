@@ -1,8 +1,8 @@
 import React from "react";
 import { HeuristicCostById } from "./types";
 import Table from "../../../Bootstrap/Table";
-import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 
 interface Props {
   graph: Graph<any>;

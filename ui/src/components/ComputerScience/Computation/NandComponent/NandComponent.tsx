@@ -6,7 +6,7 @@ import "./nand.css";
 import BusDisplay from "./BusDisplay";
 import BusModify from "./BusModify";
 import PinDisplay from "./PinDisplay";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 
 export const boolToBin = (v: Optional<boolean>): string => {
   if (v === true) return "1";

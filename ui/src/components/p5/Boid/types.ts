@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { IKeyWithValue } from "comp-sci-maths-lib/dist/types";
+import { IKeyWithValue } from "@comp-sci-maths/lib/dist/types";
 
 export interface AbstractBoid<T> {
   entity: T;

@@ -3,8 +3,8 @@ import {
   CpuTestInstructionType,
   CpuTestScript,
   CpuTestTickTockInstruction,
-} from "comp-sci-maths-lib/dist/computation/TestScripts/types";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+} from "@comp-sci-maths/lib/dist/computation/TestScripts/types";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 import React from "react";
 
 interface Props {

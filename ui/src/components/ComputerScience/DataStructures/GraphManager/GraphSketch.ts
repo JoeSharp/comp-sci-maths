@@ -1,6 +1,6 @@
 import p5 from "p5";
 import { AbstractSketch } from "../../../p5/useSketch";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 
 import { GraphSketchConfig } from "./GraphBuilder/types";
 import { DisplayDataItem } from "../../../p5/Boid/types";

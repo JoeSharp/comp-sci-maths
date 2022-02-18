@@ -1,7 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import Stack from "comp-sci-maths-lib/dist/dataStructures/stack/Stack";
+import Stack from "@comp-sci-maths/lib/dist/dataStructures/stack/Stack";
 
 import "./stack.css";
 import useSketch from "../../../p5/useSketch";

@@ -1,4 +1,4 @@
-import { arithmeticComparator } from "comp-sci-maths-lib/dist/common";
+import { arithmeticComparator } from "@comp-sci-maths/lib/dist/common";
 import React from "react";
 import Checkbox from "../../../Bootstrap/Checkbox";
 import useSketch from "../../../p5/useSketch";

@@ -1,7 +1,7 @@
 import React from "react";
-import { Chip, chipFactory, Clock } from "comp-sci-maths-lib/dist/index";
-import Nand from "comp-sci-maths-lib/dist/computation/nand/Logic/Nand";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Chip, chipFactory, Clock } from "@comp-sci-maths/lib/dist/index";
+import Nand from "@comp-sci-maths/lib/dist/computation/nand/Logic/Nand";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 import usePinValueHistory, { PinNamedValueHistory } from "./usePinValueHistory";
 
 interface Props {

@@ -1,4 +1,4 @@
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 import React from "react";
 import { boolToBin } from "./NandComponent";
 

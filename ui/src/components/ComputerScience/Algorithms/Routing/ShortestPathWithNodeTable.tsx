@@ -1,7 +1,7 @@
 import React from "react";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 import Table from "../../../Bootstrap/Table";
-import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
+import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
 import { DisplayDataItem } from "../../../p5/Boid/types";
 
 interface Item<DATA_ITEM extends DisplayDataItem<any>> {

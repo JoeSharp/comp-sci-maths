@@ -3,9 +3,9 @@ import React from "react";
 import {
   divisibilityRules,
   defaultNamedDivisibilityRule,
-} from "comp-sci-maths-lib/dist/algorithms/primeNumbers/divisibilityRules";
+} from "@comp-sci-maths/lib/dist/algorithms/primeNumbers/divisibilityRules";
 import { ControlledInput } from "../../../types";
-import { NamedDivisibilityRule } from "comp-sci-maths-lib/dist/types";
+import { NamedDivisibilityRule } from "@comp-sci-maths/lib/dist/types";
 
 interface Props extends ControlledInput<NamedDivisibilityRule> {
   className?: string;
@@ -20,7 +20,7 @@ const DivisibilityRulePicker: React.FunctionComponent<Props> = ({
     ({ target: { value } }) =>
       onChange(
         divisibilityRules.find(({ factor }) => factor.toString(10) === value) ||
-          defaultNamedDivisibilityRule
+        defaultNamedDivisibilityRule
       ),
     [onChange]
   );

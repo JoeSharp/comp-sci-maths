@@ -1,5 +1,5 @@
 import { createSimpleStringDataItem } from "../../../../p5/Boid/DataItemBoid";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "../../../../p5/Boid/types";
 import { PositionByVertex } from "../types";
 

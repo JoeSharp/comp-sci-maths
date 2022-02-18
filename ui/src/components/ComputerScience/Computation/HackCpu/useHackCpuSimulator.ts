@@ -2,7 +2,7 @@ import React from "react";
 import cogoToast from "cogo-toast";
 
 import { HackCpu } from "comp-sci-maths-lib";
-import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
+import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 import { LoadProgram } from "./types";
 
 interface UseHackCpuSimulator {

@@ -2,7 +2,7 @@ import React from "react";
 
 import Graph, {
   Edge,
-} from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+} from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "../../../../p5/Boid/types";
 
 interface Props {

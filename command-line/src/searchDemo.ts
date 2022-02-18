@@ -1,10 +1,10 @@
-import algorithms from "comp-sci-maths-lib/dist/algorithms/search";
+import algorithms from "@comp-sci-maths/lib/dist/algorithms/search";
 import {
   arithmeticComparator,
   generateRandomNumbers,
   objToString,
-} from "comp-sci-maths-lib/dist/common";
-import { SearchObserver } from "comp-sci-maths-lib/dist/types";
+} from "@comp-sci-maths/lib/dist/common";
+import { SearchObserver } from "@comp-sci-maths/lib/dist/types";
 import simpleLogger from './simpleLogger';
 
 const observe: SearchObserver = (

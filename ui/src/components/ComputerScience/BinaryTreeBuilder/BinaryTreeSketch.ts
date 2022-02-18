@@ -1,5 +1,5 @@
 import { AbstractSketch } from "../../p5/useSketch";
-import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
+import BinaryTree from "@comp-sci-maths/lib/dist/dataStructures/binaryTree/BinaryTree";
 import DataItemBoid from "../../p5/Boid/DataItemBoid";
 import p5 from "p5";
 import { createP5Vector } from "../../ComputerScience/Algorithms/Routing/GridRouting/useGridGraph";

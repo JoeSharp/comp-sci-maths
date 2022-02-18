@@ -7,7 +7,7 @@ import { StringDataItem } from "../../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "../../../../Bootstrap/Buttons/ButtonBar";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import Checkbox from '../../../../Bootstrap/Checkbox';
 
 interface Props {

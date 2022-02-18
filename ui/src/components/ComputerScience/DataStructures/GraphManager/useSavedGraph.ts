@@ -7,7 +7,7 @@ import {
   graphs as cannedGraphs,
   vertexPositionsByGraphName,
 } from "./cannedGraphs";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { StringDataItem } from "../../../p5/Boid/types";
 import {
   GraphsById,

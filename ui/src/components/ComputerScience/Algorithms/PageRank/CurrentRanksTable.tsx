@@ -1,6 +1,6 @@
 import React from "react";
 import { PageRanks } from "./types";
-import { roundTo2Dp } from "comp-sci-maths-lib/dist/algorithms/pageRank/pageRank";
+import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
 import Table from "../../../Bootstrap/Table";
 import { StringDataItem } from "../../../p5/Boid/types";
 

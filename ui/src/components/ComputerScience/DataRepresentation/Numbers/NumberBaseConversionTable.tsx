@@ -1,7 +1,7 @@
 import React from "react";
 
 import useConversionTable from "./useConversionTable";
-import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
+import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 
 interface Props {
   from: INumberBase;

@@ -2,10 +2,10 @@ import React from "react";
 import {
   getPrimeFactors,
   getPrimeFactorTree,
-} from "comp-sci-maths-lib/dist/algorithms/primeNumbers/primeFactors";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+} from "@comp-sci-maths/lib/dist/algorithms/primeNumbers/primeFactors";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { DisplayDataItem } from "../../p5/Boid/types";
-import { NumberGraphVertex } from "comp-sci-maths-lib/dist/types";
+import { NumberGraphVertex } from "@comp-sci-maths/lib/dist/types";
 
 export type PrimeFactorDataItem = DisplayDataItem<NumberGraphVertex>;
 

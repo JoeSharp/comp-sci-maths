@@ -2,7 +2,7 @@ import React from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
-import Queue from "comp-sci-maths-lib/dist/dataStructures/queue/Queue";
+import Queue from "@comp-sci-maths/lib/dist/dataStructures/queue/Queue";
 
 import "./queue.css";
 import useSketch from "../../../p5/useSketch";

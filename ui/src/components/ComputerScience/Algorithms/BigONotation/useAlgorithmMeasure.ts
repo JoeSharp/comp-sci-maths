@@ -1,7 +1,7 @@
 import {
   arithmeticComparator,
   generateRandomNumbers,
-} from "comp-sci-maths-lib/dist/common";
+} from "@comp-sci-maths/lib/dist/common";
 import React from "react";
 import useInterval from "../../../lib/useInterval";
 import { BigOMeasurements, MeasureProps } from "./types";
@@ -42,10 +42,10 @@ const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
         measurements[n] =
           state.iterations > 0
             ? Math.floor(
-                numberOfComparisons / (state.iterations + 1) +
-                  ((state.measurements[n] || 0) * state.iterations) /
-                    (state.iterations + 1)
-              )
+              numberOfComparisons / (state.iterations + 1) +
+              ((state.measurements[n] || 0) * state.iterations) /
+              (state.iterations + 1)
+            )
             : numberOfComparisons;
       }
       return {

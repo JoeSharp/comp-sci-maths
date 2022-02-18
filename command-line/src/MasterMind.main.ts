@@ -1,11 +1,11 @@
 import { MainFunction } from "./types";
 import simpleLogger from "simpleLogger";
-import MasterMind from "comp-sci-maths-lib/dist/fun/masterMind/MasterMind";
+import MasterMind from "@comp-sci-maths/lib/dist/fun/masterMind/MasterMind";
 import chalk from 'chalk';
-import Row from "comp-sci-maths-lib/dist/fun/masterMind/Row";
-import { CountByPin, Pin } from "comp-sci-maths-lib/dist/fun/masterMind/Pin";
+import Row from "@comp-sci-maths/lib/dist/fun/masterMind/Row";
+import { CountByPin, Pin } from "@comp-sci-maths/lib/dist/fun/masterMind/Pin";
 import PromptSync from 'prompt-sync';
-import { ROW_SIZE } from "comp-sci-maths-lib/dist/fun/masterMind/constants";
+import { ROW_SIZE } from "@comp-sci-maths/lib/dist/fun/masterMind/constants";
 
 const prompt = PromptSync();
 

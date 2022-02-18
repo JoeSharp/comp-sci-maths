@@ -1,4 +1,4 @@
-import { generateRandomLetters } from "comp-sci-maths-lib/dist/common";
+import { generateRandomLetters } from "@comp-sci-maths/lib/dist/common";
 import simpleLogger from 'simpleLogger'
 
 const letters = generateRandomLetters(5, { unique: true });

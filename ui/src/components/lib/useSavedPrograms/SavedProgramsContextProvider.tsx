@@ -8,7 +8,7 @@ import useLocalStorage, {
 import { programs as defaultPrograms } from "./cannedPrograms";
 import SavedProgramsContext from "./SavedProgramsContext";
 import { ProgramsById } from "./types";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 
 const SavedProgramsContextProvider: React.FunctionComponent = ({
   children,

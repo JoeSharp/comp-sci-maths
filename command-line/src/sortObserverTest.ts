@@ -2,10 +2,10 @@ import {
   generateRandomNumbers,
   arithmeticComparator,
   objToString,
-} from "comp-sci-maths-lib/dist/common";
+} from "@comp-sci-maths/lib/dist/common";
 
-import algorithms from "comp-sci-maths-lib/dist/algorithms/sort";
-import { SortObserver } from "comp-sci-maths-lib/dist/algorithms/sort/types";
+import algorithms from "@comp-sci-maths/lib/dist/algorithms/sort";
+import { SortObserver } from "@comp-sci-maths/lib/dist/algorithms/sort/types";
 
 import simpleLogger from './simpleLogger';
 

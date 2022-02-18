@@ -1,4 +1,4 @@
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import React from "react";
 import p5 from "p5";
 import { PointDataItem } from "../../../../p5/Boid//types";

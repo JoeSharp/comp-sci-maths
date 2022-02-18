@@ -1,4 +1,4 @@
-import { PositionVars } from "comp-sci-maths-lib/dist/types";
+import { PositionVars } from "@comp-sci-maths/lib/dist/types";
 
 export interface SearchObservation {
   stageName: string;

@@ -1,5 +1,5 @@
 {
-  "name": "comp-sci-maths-ui",
+  "name": "@comp-sci-maths/ui",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://joesharp.github.io/comp-sci-maths-ui/",
@@ -34,7 +34,8 @@
     "react-select": "4.3.0",
     "typescript": "^4.1.2",
     "uuid": "^8.3.0",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "@comp-sci-maths/lib": "10.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

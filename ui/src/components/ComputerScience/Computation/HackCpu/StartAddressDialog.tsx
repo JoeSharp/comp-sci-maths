@@ -1,5 +1,5 @@
 import React from "react";
-import { INumberBase } from "comp-sci-maths-lib/dist/dataRepresentation/numberBases/types";
+import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 
 import ModalDialog from "../../../Bootstrap/ModalDialog";
 import cogoToast from "cogo-toast";

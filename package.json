@@ -1,0 +1,18 @@
+{
+  "name": "comp-sci-maths",
+  "version": "1.0.0",
+  "description": "A collection of programs to explore data structures and algorithms from the OCR A Level in Computer Science",
+  "repository": "git@github.com-ratracejoe:JoeSharp/comp-sci-maths.git",
+  "author": "Joe Sharp <ratracejoe@hotmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "ui",
+    "lib",
+    "command-line"
+  ],
+  "scripts": {
+    "start": "yarn --cwd ui start",
+    "build": "yarn --cwd lib build"
+  }
+}

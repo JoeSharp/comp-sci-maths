@@ -1,5 +1,5 @@
 import React from "react";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { DisplayDataItem } from "../../../../p5/Boid/types";
 
 export interface Props<DATA_ITEM extends DisplayDataItem<any>> {

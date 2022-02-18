@@ -1,4 +1,4 @@
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { DisplayDataItem } from "../../../../p5/Boid/types";
 import { PositionByVertex } from "../types";
 

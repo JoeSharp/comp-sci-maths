@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import PriorityQueue, {
   PrioritisedItem,
-} from "comp-sci-maths-lib/dist/dataStructures/queue/PriorityQueue";
+} from "@comp-sci-maths/lib/dist/dataStructures/queue/PriorityQueue";
 import useListReducer from "../../../lib/useListReducer";
 
 import "./queue.css";

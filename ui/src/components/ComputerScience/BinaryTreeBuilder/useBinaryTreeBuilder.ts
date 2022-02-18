@@ -1,6 +1,6 @@
 import React from "react";
-import BinaryTree from "comp-sci-maths-lib/dist/dataStructures/binaryTree/BinaryTree";
-import { stringComparator } from "comp-sci-maths-lib/dist/common";
+import BinaryTree from "@comp-sci-maths/lib/dist/dataStructures/binaryTree/BinaryTree";
+import { stringComparator } from "@comp-sci-maths/lib/dist/common";
 
 export interface UseBinaryTreeBuilder {
   binaryTree: BinaryTree<string>;

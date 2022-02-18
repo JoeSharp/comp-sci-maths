@@ -1,12 +1,12 @@
-import algorithms from "comp-sci-maths-lib/dist/algorithms/sort";
-import { generateRandomNumbers } from "comp-sci-maths-lib/dist/common";
+import algorithms from "@comp-sci-maths/lib/dist/algorithms/sort";
+import { generateRandomNumbers } from "@comp-sci-maths/lib/dist/common";
 import {
   SplitObserver,
   JoinObserver,
   SplitList,
   PositionVars,
-} from "comp-sci-maths-lib/dist/types";
-import { SortObserver } from "comp-sci-maths-lib/dist/algorithms/sort/types";
+} from "@comp-sci-maths/lib/dist/types";
+import { SortObserver } from "@comp-sci-maths/lib/dist/algorithms/sort/types";
 import simpleLogger from './simpleLogger';
 
 algorithms

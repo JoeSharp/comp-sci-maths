@@ -1,7 +1,7 @@
 import { PositionByVertex } from "../types";
 import { createSimpleStringDataItem } from "../../../../p5/Boid/DataItemBoid";
 import { StringDataItem } from "../../../../p5/Boid/types";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 const createDataItem = (content: string) =>
   createSimpleStringDataItem("mc-1", content);
 

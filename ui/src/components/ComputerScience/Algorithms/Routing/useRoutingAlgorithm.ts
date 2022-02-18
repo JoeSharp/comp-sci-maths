@@ -1,20 +1,20 @@
 import React from "react";
-import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
+import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { cloneDeep } from "lodash";
 
 import {
   dijstraks,
   getPathTo,
-} from "comp-sci-maths-lib/dist/algorithms/routing/dijkstras";
+} from "@comp-sci-maths/lib/dist/algorithms/routing/dijkstras";
 import {
   ShortestPathTree,
   ObserverArgsWithPathFrom,
   HeuristicCostFunction,
   RoutingObserver,
-} from "comp-sci-maths-lib/dist/algorithms/routing/types";
+} from "@comp-sci-maths/lib/dist/algorithms/routing/types";
 import { HeuristicCostById } from "./types";
 import p5 from "p5";
-import { Optional } from "comp-sci-maths-lib/dist/types";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 import { DisplayDataItem } from "../../../p5/Boid/types";
 
 export interface Props<DATA_ITEM extends DisplayDataItem<any>> {
