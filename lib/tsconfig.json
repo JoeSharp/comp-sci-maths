@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
+    "rootDir": "src",
     "baseUrl": "./", /* Base directory to resolve non-absolute module names. */
   },
   "include": [

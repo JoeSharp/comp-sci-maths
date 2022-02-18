@@ -18,9 +18,6 @@ class NandTestRunner extends TestRunner<
   NandTestInstruction,
   NandTestScript
 > {
-  directory: string;
-  fileLoader: FileLoader;
-  testScript: NandTestScript;
   chip: Chip;
 
   constructor(chip: Chip, directory: string, fileLoader: FileLoader,) {
