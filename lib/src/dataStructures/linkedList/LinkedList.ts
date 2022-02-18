@@ -1,6 +1,6 @@
 import LinkedItem from "./LinkedItem";
-import { MatchFunction, Optional } from "types";
-import { ObservableVersioned } from "common";
+import { MatchFunction, Optional } from "../../types";
+import { ObservableVersioned } from "../../common";
 import { NO_MATCH } from "../../algorithms/search/common";
 
 export default class LinkedList<T> extends ObservableVersioned {

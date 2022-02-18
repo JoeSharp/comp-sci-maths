@@ -1,6 +1,6 @@
-import Graph from "dataStructures/graph/Graph";
-import { StringGraphVertex } from "types";
-import { getStringVertex } from "common";
+import Graph from "../../dataStructures/graph/Graph";
+import { StringGraphVertex } from "../../types";
+import { getStringVertex } from "../../common";
 
 export const vertexA = getStringVertex("A");
 export const vertexB = getStringVertex("B");

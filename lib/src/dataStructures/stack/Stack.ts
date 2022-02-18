@@ -1,4 +1,4 @@
-import { ILinearDataStructure, ObservableVersioned } from "common";
+import { ILinearDataStructure, ObservableVersioned } from "../../common";
 
 export default class Stack<T> extends ObservableVersioned implements ILinearDataStructure<T> {
   items: T[];

@@ -1,4 +1,4 @@
-import { pickRandom } from "common";
+import { pickRandom } from "../../common";
 
 const DOORS: number[] = [1, 2, 3];
 

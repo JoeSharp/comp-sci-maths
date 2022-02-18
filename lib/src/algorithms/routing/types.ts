@@ -1,8 +1,8 @@
-import { Optional, AnyGraphVertex } from "types";
+import { Optional, AnyGraphVertex } from "../../types";
 import PriorityQueue, {
   PrioritisedItem,
-} from "dataStructures/queue/PriorityQueue";
-import { Edge } from "dataStructures/graph/Graph";
+} from "../../dataStructures/queue/PriorityQueue";
+import { Edge } from "../../dataStructures/graph/Graph";
 
 export interface ShortestPathForNode<T> extends PrioritisedItem {
   cost: number;

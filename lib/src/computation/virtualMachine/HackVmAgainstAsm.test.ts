@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { IndexWindow } from "common";
+import { IndexWindow } from "../../common";
 import { vanillaFileLoader } from "../TestScripts/nand2tetris/nand2tetrisFileLoader";
 import { IHackVm } from "./HackVm";
 import HackVmAgainstAsm from "./HackVmAgainstAsm"

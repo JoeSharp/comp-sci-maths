@@ -1,12 +1,12 @@
-import BinaryBus from "computation/nand//BinaryBus";
-import Clock from "computation/nand/Clock";
+import BinaryBus from "../..//BinaryBus";
+import Clock from "../../Clock";
 import {
   generateRandomWord,
   PIN_ADDRESS,
   PIN_INPUT,
   PIN_LOAD,
   PIN_OUTPUT,
-} from "computation/nand/types";
+} from "../../types";
 import RAM8 from "./RAM8";
 
 interface TestData {

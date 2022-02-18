@@ -1,19 +1,19 @@
-import stripComment from "computation/stripComment";
-import { Optional } from "types";
+import stripComment from "../../../computation/stripComment";
+import { Optional } from "../../../types";
 import {
   parseRequiredFile,
   parseOutputFormat,
   parseOutputInstruction,
   isStartOfOutput,
-} from "computation/TestScripts/parseTestScripts";
-import { TestOutputFragment } from "computation/TestScripts/types";
+} from "../../TestScripts/parseTestScripts";
+import { TestOutputFragment } from "../../TestScripts/types";
 import {
   NandTestScript,
   NandTestInstruction,
   NandTestInstructionType,
   NandTestSetBus,
   NandTestSetPin,
-} from "computation/nand/NandTestScript/types";
+} from "./types";
 
 const EVAL_REGEX = /^\s*(eval(,|;))\s*$/;
 const SET_PIN_REGEX = /^(?:set\s(?<pin>[A-Za-z0-9]+)\s)(?<value>[0|1])(?:,|;)\s*(?:\/\/(?<comment>.*)){0,1}$/;

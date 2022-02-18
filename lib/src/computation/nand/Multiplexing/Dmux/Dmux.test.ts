@@ -1,5 +1,5 @@
-import BinaryPin from "computation/nand/BinaryPin";
-import { PIN_A, PIN_B, PIN_INPUT, PIN_SELECTOR } from "computation/nand/types";
+import BinaryPin from "../../BinaryPin";
+import { PIN_A, PIN_B, PIN_INPUT, PIN_SELECTOR } from "../../types";
 import Dmux from "./Dmux";
 
 /**

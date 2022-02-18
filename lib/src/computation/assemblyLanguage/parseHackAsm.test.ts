@@ -1,4 +1,4 @@
-import { generateLineRef } from "common";
+import { generateLineRef } from "../../common";
 import parseHackAsm from "./parseHackAsm";
 import {
   ComputeComputation,

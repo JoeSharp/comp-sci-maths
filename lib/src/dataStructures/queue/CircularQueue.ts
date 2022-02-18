@@ -1,4 +1,4 @@
-import { ObservableVersioned } from "common";
+import { ObservableVersioned } from "../../common";
 
 export default class CircularQueue<T> extends ObservableVersioned {
   frontPointer: number;

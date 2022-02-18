@@ -1,11 +1,11 @@
-import BinaryBus from "computation/nand//BinaryBus";
-import Clock from "computation/nand//Clock";
+import BinaryBus from "../..//BinaryBus";
+import Clock from "../..//Clock";
 import {
   generateRandomWord,
   PIN_INPUT,
   PIN_LOAD,
   PIN_OUTPUT,
-} from "computation/nand/types";
+} from "../../types";
 import Register from "./Register";
 
 describe("Register", () => {

@@ -1,8 +1,8 @@
 import breadthFirstSearch from "./breadthFirstSearch";
 import depthFirstSearch from "./depthFirstSearch";
-import Graph from "dataStructures/graph/Graph";
-import SimpleStringGraph from "dataStructures/graph/SimpleStringGraph";
-import { AnyGraphVertex, StringGraphVertex } from "types";
+import Graph from "../../dataStructures/graph/Graph";
+import SimpleStringGraph from "../../dataStructures/graph/SimpleStringGraph";
+import { AnyGraphVertex, StringGraphVertex } from "../../types";
 import createTestGraph, { vertexA, vertexB, vertexC, vertexD, vertexE, vertexF, vertexG } from "./createTestGraph";
 
 function checkTraversalContainsEverythingOnce<T extends AnyGraphVertex>(

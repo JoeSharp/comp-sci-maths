@@ -5,9 +5,9 @@ import {
   ComputeDestination,
   ComputeJump,
 } from "./types";
-import { Optional, RawLineRef } from "types";
+import { Optional, RawLineRef } from "../../types";
 import stripComment from "../stripComment";
-import { generateLineRef } from "common";
+import { generateLineRef } from "../../common";
 
 const LABEL_REGEX = /\((?<label>[_A-Za-z0-9\.]+)\)/;
 const A_INSTRUCTION_DIRECT_REGEX = /^@(?<address>[0-9]+)\s*(?:\/\/(?<comment>.*)){0,1}$/;

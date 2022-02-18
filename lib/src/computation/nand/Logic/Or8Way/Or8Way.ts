@@ -4,7 +4,7 @@
  */
 import Chip from "../../Chip";
 import Or from "../Or";
-import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT } from "../../types";
 import BinaryBus from "../../BinaryBus";
 
 //  CHIP Or8Way {

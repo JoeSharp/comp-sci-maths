@@ -1,7 +1,7 @@
 import sieveOfEratosthenes from "./sieveOfEratosthenes";
 import { isDivisibleBy, isPrime } from "./divisibilityRules";
-import Graph from "dataStructures/graph/Graph";
-import { NumberGraphVertex } from "types";
+import Graph from "../../dataStructures/graph/Graph";
+import { NumberGraphVertex } from "../../types";
 
 export function getPrimeFactors(value: number): number[] {
   const factors: number[] = [];

@@ -1,4 +1,4 @@
-import { generateLineRef } from "common";
+import { generateLineRef } from "../../common";
 import generateHackVm from "./generateHackVm"
 import { VMArithmeticOperation, VMInstructionType, VMSegment } from "./types"
 

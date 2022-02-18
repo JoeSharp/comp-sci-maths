@@ -4,10 +4,10 @@ import {
   binaryToBoolArray,
   booleanToBinArray,
   boolToBin,
-} from "dataRepresentation/numberBases/simpleBinary";
-import { PIN_A, PIN_B, PIN_INPUT, PIN_SELECTOR } from "computation/nand/types";
+} from "../../../../dataRepresentation/numberBases/simpleBinary";
+import { PIN_A, PIN_B, PIN_INPUT, PIN_SELECTOR } from "../../types";
 import { PIN_E, PIN_F, PIN_G, PIN_H } from "./Dmux8Way";
-import BinaryPin from "computation/nand/BinaryPin";
+import BinaryPin from "../../BinaryPin";
 
 interface TestCase {
   input: boolean;

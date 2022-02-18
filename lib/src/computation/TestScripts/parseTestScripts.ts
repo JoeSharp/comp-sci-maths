@@ -1,5 +1,5 @@
 import { boolToBin } from "../../dataRepresentation/numberBases/simpleBinary";
-import { Optional } from "types";
+import { Optional } from "../../types";
 import stripComment from "../stripComment";
 import { TestOutputFragment } from "./types";
 

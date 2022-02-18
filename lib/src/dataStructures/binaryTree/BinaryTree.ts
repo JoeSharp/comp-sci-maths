@@ -1,6 +1,5 @@
-import { Comparator } from "types";
-import { Optional } from "types";
-import { ObservableVersioned } from "common";
+import { Comparator, Optional } from "../../types";
+import { ObservableVersioned } from "../../common";
 
 export default class BinaryTree<T> extends ObservableVersioned {
   value: Optional<T>;

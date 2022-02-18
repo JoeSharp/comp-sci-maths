@@ -1,9 +1,9 @@
 import {
   binaryToBoolArray,
   booleanToBinArray,
-} from "dataRepresentation/numberBases/simpleBinary";
+} from "../../../../dataRepresentation/numberBases/simpleBinary";
 import BinaryBus from "../../BinaryBus";
-import { getTestName, PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+import { getTestName, PIN_INPUT, PIN_OUTPUT } from "../../types";
 import Inc16 from "./Inc16";
 
 interface TestCase {

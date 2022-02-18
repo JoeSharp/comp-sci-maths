@@ -2,10 +2,10 @@ import And16 from "./And16";
 import {
   binaryToBoolArray,
   booleanToBinArray,
-} from "dataRepresentation/numberBases/simpleBinary";
-import { PIN_OUTPUT, PIN_A, PIN_B } from "computation/nand/types";
-import BinaryBus from "computation/nand//BinaryBus";
-import loadTestChip from "computation/nand/HDL/loadTestChip";
+} from "../../../../dataRepresentation/numberBases/simpleBinary";
+import { PIN_OUTPUT, PIN_A, PIN_B } from "../../types";
+import BinaryBus from "../..//BinaryBus";
+import loadTestChip from "../../HDL/loadTestChip";
 
 interface TestCase {
   a: boolean[];

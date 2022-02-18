@@ -1,13 +1,13 @@
-import Chip from "computation/nand//Chip";
-import Mux from "computation/nand/Multiplexing/Mux";
+import Chip from "../..//Chip";
+import Mux from "../../Multiplexing/Mux";
 import {
   PIN_A,
   PIN_B,
   PIN_OUTPUT,
   PIN_SELECTOR,
   WORD_LENGTH,
-} from "computation/nand/types";
-import BinaryBus from "computation/nand//BinaryBus";
+} from "../../types";
+import BinaryBus from "../..//BinaryBus";
 
 /**
  * 16-bit multiplexor:

@@ -1,6 +1,6 @@
 import Graph from "./Graph";
 import SimpleStringGraph from "./SimpleStringGraph";
-import { getStringVertex } from "common";
+import { getStringVertex } from "../../common";
 
 test("Graph - Simple String", () => {
   const graph = new SimpleStringGraph()

@@ -3,9 +3,9 @@ import {
   binaryToBoolArray,
   booleanToBinArray,
   boolToBin,
-} from "dataRepresentation/numberBases/simpleBinary";
-import BinaryBus from "computation/nand//BinaryBus";
-import { PIN_OUTPUT, PIN_A, PIN_B, PIN_SELECTOR } from "computation/nand/types";
+} from "../../../../dataRepresentation/numberBases/simpleBinary";
+import BinaryBus from "../..//BinaryBus";
+import { PIN_OUTPUT, PIN_A, PIN_B, PIN_SELECTOR } from "../../types";
 
 interface TestCase {
   a: boolean[];

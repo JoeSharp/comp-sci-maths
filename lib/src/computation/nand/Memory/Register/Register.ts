@@ -1,7 +1,7 @@
-import BinaryBus from "computation/nand/BinaryBus";
-import Chip from "computation/nand/Chip";
-import Clock from "computation/nand/Clock";
-import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT, WORD_LENGTH } from "computation/nand/types";
+import BinaryBus from "../../BinaryBus";
+import Chip from "../../Chip";
+import Clock from "../../Clock";
+import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT, WORD_LENGTH } from "../../types";
 import Bit from "../Bit";
 
 /**

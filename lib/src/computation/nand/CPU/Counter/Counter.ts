@@ -10,7 +10,7 @@ import Inc16 from "../../Arithmetic/Inc16";
 import Chip from "../../Chip";
 import Clock from "../../Clock";
 import Register from "../../Memory/Register";
-import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT } from "../../types";
 
 class Counter extends Chip {
   incrementer: Inc16;

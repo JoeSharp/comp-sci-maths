@@ -9,9 +9,9 @@
 import Chip from "../../Chip";
 import { PIN_C, PIN_D } from "../Dmux4Way/Dmux4Way";
 import Mux16 from "../Mux16";
-import { PIN_A, PIN_B, PIN_OUTPUT, PIN_SELECTOR } from "computation/nand/types";
+import { PIN_A, PIN_B, PIN_OUTPUT, PIN_SELECTOR } from "../../types";
 import BinaryBus from "../../BinaryBus";
-import BinaryPin from "computation/nand/BinaryPin";
+import BinaryPin from "../../BinaryPin";
 
 //  CHIP Mux4Way16 {
 //     IN a[16], b[16], c[16], d[16], sel[2];

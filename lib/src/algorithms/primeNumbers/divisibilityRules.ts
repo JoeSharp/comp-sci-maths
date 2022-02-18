@@ -1,4 +1,4 @@
-import { StringReporter, NamedDivisibilityRule } from "types";
+import { StringReporter, NamedDivisibilityRule } from "../../types";
 
 /**
  * This function uses the mod operator to check if a number is divisible.

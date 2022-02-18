@@ -1,6 +1,6 @@
 import Mux from ".";
-import BinaryPin from "computation/nand/BinaryPin";
-import { PIN_A, PIN_B, PIN_OUTPUT, PIN_SELECTOR } from "computation/nand/types";
+import BinaryPin from "../../BinaryPin";
+import { PIN_A, PIN_B, PIN_OUTPUT, PIN_SELECTOR } from "../../types";
 
 interface MuxTestCase {
   a: boolean;

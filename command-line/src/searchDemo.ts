@@ -1,11 +1,11 @@
 import algorithms from "comp-sci-maths-lib/dist/algorithms/search";
 import {
-  simpleLogger,
   arithmeticComparator,
   generateRandomNumbers,
   objToString,
-} from "common";
-import { SearchObserver } from "types";
+} from "comp-sci-maths-lib/dist/common";
+import { SearchObserver } from "comp-sci-maths-lib/dist/types";
+import simpleLogger from './simpleLogger';
 
 const observe: SearchObserver = (
   stageName: string,

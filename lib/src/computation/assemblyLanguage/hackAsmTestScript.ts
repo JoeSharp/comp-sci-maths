@@ -10,8 +10,8 @@ import {
   CpuTestTickTockInstruction,
   CpuTestVmStepInstruction
 } from "../TestScripts/types";
-import { Optional } from "types";
-import Stack from "dataStructures/stack/Stack";
+import { Optional } from "../../types";
+import Stack from "../../dataStructures/stack/Stack";
 import { TestOutputFragment } from "../TestScripts/types";
 import { isStartOfOutput, parseOutputFormat, parseOutputInstruction, parseRequiredFile } from "../TestScripts/parseTestScripts";
 import stripComment from "../stripComment";

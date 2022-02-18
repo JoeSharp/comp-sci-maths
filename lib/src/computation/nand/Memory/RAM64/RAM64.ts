@@ -4,14 +4,14 @@
  * the in value is loaded into the memory location specified by address
  * (the loaded value will be emitted to out from the next time step onward).
  */
-import { PIN_F } from "computation/nand/CPU/ALU/ALU";
-import BinaryBus, { createPinArray } from "computation/nand/BinaryBus";
-import Chip from "computation/nand/Chip";
-import Clock from "computation/nand/Clock";
-import { PIN_C, PIN_D } from "computation/nand/Multiplexing/Dmux4Way/Dmux4Way";
-import Dmux8Way from "computation/nand/Multiplexing/Dmux8Way";
-import { PIN_E, PIN_G, PIN_H } from "computation/nand/Multiplexing/Dmux8Way/Dmux8Way";
-import Mux8Way16 from "computation/nand/Multiplexing/Mux8Way16";
+import { PIN_F } from "../../CPU/ALU/ALU";
+import BinaryBus, { createPinArray } from "../../BinaryBus";
+import Chip from "../../Chip";
+import Clock from "../../Clock";
+import { PIN_C, PIN_D } from "../../Multiplexing/Dmux4Way/Dmux4Way";
+import Dmux8Way from "../../Multiplexing/Dmux8Way";
+import { PIN_E, PIN_G, PIN_H } from "../../Multiplexing/Dmux8Way/Dmux8Way";
+import Mux8Way16 from "../../Multiplexing/Mux8Way16";
 import {
   PIN_A,
   PIN_ADDRESS,
@@ -21,8 +21,8 @@ import {
   PIN_OUTPUT,
   PIN_SELECTOR,
   WORD_LENGTH,
-} from "computation/nand/types";
-import RAM8 from "computation/nand/Memory/RAM8";
+} from "../../types";
+import RAM8 from "../../Memory/RAM8";
 
 //  CHIP RAM64 {
 //     IN in[16], load, address[6];

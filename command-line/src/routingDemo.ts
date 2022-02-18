@@ -3,7 +3,8 @@ import Graph from "comp-sci-maths-lib/dist/dataStructures/graph/Graph";
 
 import { dijstraks, getPathTo } from "comp-sci-maths-lib/dist/algorithms/routing/dijkstras";
 import { IKeyWithValue, StringGraphVertex } from "comp-sci-maths-lib/dist/types";
-import { simpleLogger, getStringVertex } from "comp-sci-maths-lib/dist/common";
+import { getStringVertex } from "comp-sci-maths-lib/dist/common";
+import simpleLogger from './simpleLogger';
 
 interface Point {
   x: number;

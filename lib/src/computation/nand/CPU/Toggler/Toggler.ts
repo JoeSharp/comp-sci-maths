@@ -2,7 +2,7 @@ import Chip from "../../Chip";
 import Clock from "../../Clock";
 import Not from "../../Logic/Not";
 import Bit from "../../Memory/Bit";
-import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT } from "../../types";
 
 class Toggler extends Chip {
   not: Not;

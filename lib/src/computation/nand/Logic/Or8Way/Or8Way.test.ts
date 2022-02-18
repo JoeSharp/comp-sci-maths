@@ -7,10 +7,10 @@
 import {
   binaryToBoolArray,
   booleanToBinArray,
-} from "dataRepresentation/numberBases/simpleBinary";
-import BinaryPin from "computation/nand/BinaryPin";
-import loadTestChip from "computation/nand/HDL/loadTestChip";
-import { PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+} from "../../../../dataRepresentation/numberBases/simpleBinary";
+import BinaryPin from "../../BinaryPin";
+import loadTestChip from "../../HDL/loadTestChip";
+import { PIN_INPUT, PIN_OUTPUT } from "../../types";
 import Or8Way from "./Or8Way";
 
 // |  00100110  |  1  |

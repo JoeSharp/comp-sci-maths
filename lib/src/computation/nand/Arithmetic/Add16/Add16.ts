@@ -2,13 +2,13 @@
  * Adds two 16-bit values.
  * The most significant carry bit is ignored.
  */
-import Chip from "computation/nand//Chip";
-import FullAdder from "computation/nand/Arithmetic/FullAdder";
-import HalfAdder from "computation/nand/Arithmetic/HalfAdder";
-import { PIN_CARRY, PIN_SUM } from "computation/nand/Arithmetic/HalfAdder/HalfAdder";
-import { PIN_A, PIN_B, PIN_OUTPUT } from "computation/nand/types";
-import { PIN_C } from "computation/nand//Multiplexing/Dmux4Way/Dmux4Way";
-import BinaryBus from "computation/nand//BinaryBus";
+import Chip from "../../Chip";
+import FullAdder from "../FullAdder";
+import HalfAdder from "../HalfAdder";
+import { PIN_CARRY, PIN_SUM } from "../HalfAdder/HalfAdder";
+import { PIN_A, PIN_B, PIN_OUTPUT } from "../../types";
+import { PIN_C } from "../../Multiplexing/Dmux4Way/Dmux4Way";
+import BinaryBus from "../../BinaryBus";
 
 //  CHIP Add16 {
 //     IN a[16], b[16];

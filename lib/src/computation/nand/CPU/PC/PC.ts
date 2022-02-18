@@ -20,7 +20,7 @@ import {
   PIN_OUTPUT,
   PIN_SELECTOR,
   ZERO_WORD,
-} from "computation/nand/types";
+} from "../../types";
 
 export const PIN_INCREMENT = "inc";
 export const PIN_RESET = "reset";

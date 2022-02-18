@@ -1,5 +1,5 @@
-import { Optional } from "types";
-import { NO_OP } from "computation/TestScripts/types";
+import { Optional } from "../../../types";
+import { NO_OP } from "../../../computation/TestScripts/types";
 
 export class BinaryPin {
   lastOutput: Optional<boolean>;

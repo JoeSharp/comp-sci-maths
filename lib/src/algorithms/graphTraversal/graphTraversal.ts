@@ -1,6 +1,6 @@
-import { AnyGraphVertex, Producer, VisitFunction } from "types";
-import { ILinearDataStructure } from "common";
-import Graph from "dataStructures/graph/Graph";
+import { AnyGraphVertex, Producer, VisitFunction } from "../../types";
+import { ILinearDataStructure } from "../../common";
+import Graph from "../../dataStructures/graph/Graph";
 
 /**
  * Breadth first and Depth first traversals have a common shape.

@@ -1,6 +1,6 @@
-import BinaryPin from "computation/nand/BinaryPin";
+import BinaryPin from "../../BinaryPin";
 import Clock from "../../Clock";
-import { PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_INPUT, PIN_OUTPUT } from "../../types";
 import DataFlipFlop from "./DataFlipFlop";
 
 describe("D-Type Flip Flop", () => {

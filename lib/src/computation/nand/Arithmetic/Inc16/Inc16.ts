@@ -2,9 +2,9 @@
  * 16-bit incrementer:
  * out = in + 1 (arithmetic addition)
  */
-import Add16 from "computation/nand/Arithmetic/Add16";
-import Chip from "computation/nand/Chip";
-import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+import Add16 from "../Add16";
+import Chip from "../../Chip";
+import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT } from "../../types";
 
 //  CHIP Inc16 {
 //     IN in[16];

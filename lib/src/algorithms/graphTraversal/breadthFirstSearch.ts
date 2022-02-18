@@ -1,4 +1,4 @@
-import Queue from "dataStructures/queue/Queue";
-import graphTraversal from "algorithms/graphTraversal/graphTraversal";
+import Queue from "../../dataStructures/queue/Queue";
+import graphTraversal from "./graphTraversal";
 
 export default graphTraversal(() => new Queue<string>());

@@ -1,4 +1,4 @@
-import { Optional } from "types";
+import { Optional } from "../../types";
 import { nand2tetrisFileLoader } from "../TestScripts/nand2tetris/nand2tetrisFileLoader";
 import { CpuTestSetOutput, isOutputRam } from "../TestScripts/types";
 

@@ -1,5 +1,4 @@
-import { Comparator, PositionVars, SplitObserver, JoinObserver } from "types";
-
+import { Comparator, PositionVars, SplitObserver, JoinObserver } from "../../types";
 
 
 export type SortObserver<T> = (

@@ -1,7 +1,7 @@
-import { booleanToBinArray } from "dataRepresentation/numberBases/simpleBinary";
-import BinaryBus from "computation/nand/BinaryBus";
-import Clock from "computation/nand/Clock";
-import { PIN_OUTPUT } from "computation/nand/types";
+import { booleanToBinArray } from "../../../../dataRepresentation/numberBases/simpleBinary";
+import BinaryBus from "../../BinaryBus";
+import Clock from "../../Clock";
+import { PIN_OUTPUT } from "../../types";
 import Counter from "./Counter";
 
 describe("Counter", () => {

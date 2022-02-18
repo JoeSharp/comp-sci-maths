@@ -1,5 +1,5 @@
-import { Optional, AnyGraphVertex } from "types";
-import { ObservableVersioned } from "common";
+import { Optional, AnyGraphVertex } from "../../types";
+import { ObservableVersioned } from "../../common";
 
 /**
  * This class encapsulates a weighted directional graph.

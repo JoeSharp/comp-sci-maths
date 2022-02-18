@@ -1,4 +1,4 @@
-import { Consumer, ToString } from "types";
+import { Consumer, ToString } from "../../types";
 
 class Tree<T> {
     value: T;

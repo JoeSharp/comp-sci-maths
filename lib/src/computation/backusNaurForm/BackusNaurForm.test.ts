@@ -1,5 +1,5 @@
-import Tree from "dataStructures/tree";
-import { Optional } from "types";
+import Tree from "../../dataStructures/tree";
+import { Optional } from "../../types";
 import BackusNaurForm from "./BackusNaurForm";
 import { MatchPart } from "./types";
 

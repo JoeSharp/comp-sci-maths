@@ -1,4 +1,4 @@
-import { arithmeticComparator } from "common";
+import { arithmeticComparator } from "../../common";
 import BinaryTree from "./BinaryTree";
 
 export default class BinaryTreeNumber extends BinaryTree<number> {

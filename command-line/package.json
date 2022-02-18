@@ -10,14 +10,14 @@
     "start": "node"
   },
   "devDependencies": {
+    "@types/node": "^17.0.18",
+    "@types/prompt-sync": "^4.1.1",
     "tslint": "^6.1.3",
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@types/node": "^17.0.18",
-    "@types/prompt-sync": "^4.1.1",
+    "@types/yargs": "^17.0.8",
     "chalk": "^5.0.0",
-    "comp-sci-maths-lib": "file:../lib",
     "prompt-sync": "^4.2.0",
     "winston": "^3.6.0",
     "yargs": "^17.3.1"

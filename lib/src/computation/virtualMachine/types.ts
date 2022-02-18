@@ -1,4 +1,4 @@
-import { LineReference } from "types";
+import { LineReference } from "../../types";
 
 export enum VMInstructionType {
     arithmetic,

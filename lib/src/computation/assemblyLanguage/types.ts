@@ -1,4 +1,4 @@
-import { LineReference } from "types";
+import { LineReference } from "../../types";
 
 export const ASM_FILE_EXTENSION = '.asm';
 

@@ -1,4 +1,4 @@
-import { Optional } from "types";
+import { Optional } from "../../types";
 
 export const binaryToNumber = (binary: boolean[]): number =>
   binary

@@ -9,7 +9,7 @@ import {
   divisibilityRules,
 } from "./divisibilityRules";
 import { getPrimeFactors, getPrimeFactorTree } from "./primeFactors";
-import { StringReporter } from "types";
+import { StringReporter } from "../../types";
 
 test("Is Prime", () => {
   expect(isPrime(9)).toBeFalsy();

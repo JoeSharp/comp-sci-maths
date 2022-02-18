@@ -1,5 +1,5 @@
-import { generateLineRef } from "common";
-import { LineReference, Optional, RawLineRef } from "types";
+import { generateLineRef } from "../../common";
+import { Optional, RawLineRef } from "../../types";
 import stripComment from "../stripComment";
 import { VMArithmeticOperation, VMInstruction, VMInstructionType, VMSegment } from "./types";
 

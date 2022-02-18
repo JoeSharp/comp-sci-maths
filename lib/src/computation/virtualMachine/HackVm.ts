@@ -26,10 +26,10 @@ import {
 } from './types';
 import MemorySegmentStatic from "./MemorySegments/MemorySegmentStatic";
 import MemorySegmentTemp from "./MemorySegments/MemorySegmentTemp";
-import { generateLineRef, IndexWindow } from "common";
+import { generateLineRef, IndexWindow } from "../../common";
 import generateHackVm from "./generateHackVm";
 import RAMSimulator, { IMemory } from "../assemblyLanguage/RAMSimulator";
-import Stack from "dataStructures/stack/Stack";
+import Stack from "../../dataStructures/stack/Stack";
 
 export interface IHackVm {
     loadProgram(...sourceFiles: VMSourceFile[]): void;

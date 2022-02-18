@@ -1,4 +1,4 @@
-import { generateRandomNumber } from "common";
+import { generateRandomNumber } from "../../common";
 import ActivationFunction from "./ActivationFunction";
 import TrainingTest from "./TrainingTest";
 

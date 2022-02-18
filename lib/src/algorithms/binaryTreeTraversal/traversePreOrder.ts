@@ -1,5 +1,5 @@
-import BinaryTree from "dataStructures/binaryTree/BinaryTree";
-import { VisitFunction } from "types";
+import BinaryTree from "../../dataStructures/binaryTree/BinaryTree";
+import { VisitFunction } from "../../types";
 
 function traversePreOrder<T>(tree: BinaryTree<T>, visit: VisitFunction<T>) {
   if (!!tree.value) {

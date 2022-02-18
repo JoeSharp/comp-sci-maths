@@ -1,5 +1,5 @@
-import { getStringVertex } from "common";
-import { StringGraphVertex } from "types";
+import { getStringVertex } from "../../common";
+import { StringGraphVertex } from "../../types";
 import Graph from "./Graph";
 
 /**

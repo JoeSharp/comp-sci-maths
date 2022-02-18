@@ -1,9 +1,9 @@
-import BinaryPin from "computation/nand/BinaryPin";
+import BinaryPin from "../../BinaryPin";
 import Clock from "../../Clock";
-import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT } from "../../types";
 import Bit from "./Bit";
-import SimpleCounter from 'computation/nand/SimpleCounter';
-import loadTestChip from "computation/nand/HDL/loadTestChip";
+import SimpleCounter from '../../SimpleCounter';
+import loadTestChip from "../../HDL/loadTestChip";
 
 describe("D-Type Flip Flop", () => {
   const nandCounter = new SimpleCounter();

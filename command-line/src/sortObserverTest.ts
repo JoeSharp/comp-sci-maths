@@ -1,5 +1,4 @@
 import {
-  simpleLogger,
   generateRandomNumbers,
   arithmeticComparator,
   objToString,
@@ -7,6 +6,8 @@ import {
 
 import algorithms from "comp-sci-maths-lib/dist/algorithms/sort";
 import { SortObserver } from "comp-sci-maths-lib/dist/algorithms/sort/types";
+
+import simpleLogger from './simpleLogger';
 
 const observe: SortObserver<number> = (
   stageName: string,

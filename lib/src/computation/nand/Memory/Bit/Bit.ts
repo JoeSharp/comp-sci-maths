@@ -5,9 +5,9 @@
  */
 
 import DataFlipFlop from "../DataFlipFlop";
-import Mux from "computation/nand//Multiplexing/Mux";
-import Clock from "computation/nand//Clock";
-import Chip from "computation/nand//Chip";
+import Mux from "../..//Multiplexing/Mux";
+import Clock from "../..//Clock";
+import Chip from "../..//Chip";
 import {
   PIN_A,
   PIN_B,
@@ -15,7 +15,7 @@ import {
   PIN_LOAD,
   PIN_OUTPUT,
   PIN_SELECTOR,
-} from "computation/nand/types";
+} from "../../types";
 
 // CHIP Bit {
 //     IN in, load;

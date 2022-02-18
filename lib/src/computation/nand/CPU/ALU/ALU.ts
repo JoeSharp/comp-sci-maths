@@ -8,13 +8,13 @@
  * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
  * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
  */
-import Add16 from "computation/nand/Arithmetic/Add16";
-import Chip from "computation/nand/Chip";
-import Mux16 from "computation/nand/Multiplexing/Mux16";
-import Not from "computation/nand/Logic/Not";
-import Not16 from "computation/nand/Logic/Not16";
-import Or from "computation/nand/Logic/Or";
-import Or8Way from "computation/nand/Logic/Or8Way";
+import Add16 from "../../Arithmetic/Add16";
+import Chip from "../../Chip";
+import Mux16 from "../../Multiplexing/Mux16";
+import Not from "../../Logic/Not";
+import Not16 from "../../Logic/Not16";
+import Or from "../../Logic/Or";
+import Or8Way from "../../Logic/Or8Way";
 import {
   PIN_A,
   PIN_B,
@@ -22,8 +22,8 @@ import {
   PIN_OUTPUT,
   PIN_SELECTOR,
   WORD_LENGTH,
-} from "computation/nand/types";
-import And16 from "computation/nand/Logic/And16";
+} from "../../types";
+import And16 from "../../Logic/And16";
 
 // Implementation: the ALU logic manipulates the x and y inputs
 // and operates on the resulting values, as follows:

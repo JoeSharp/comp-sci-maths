@@ -1,6 +1,6 @@
 import { FileLoader, ScriptParser, TestOutputFragment, TestScript, TestSourceFile } from "./types";
-import Stack from "dataStructures/stack/Stack";
-import { Optional } from "types";
+import Stack from "../../dataStructures/stack/Stack";
+import { Optional } from "../../types";
 import { formatString } from "./parseTestScripts";
 import { readdirSync } from "fs";
 

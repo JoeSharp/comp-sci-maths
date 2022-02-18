@@ -1,8 +1,8 @@
-import BinaryPin from "computation/nand/BinaryPin";
+import BinaryPin from "../../BinaryPin";
 import Chip from "../../Chip";
 import Clock, { IClocked } from "../../Clock";
 
-import { PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_INPUT, PIN_OUTPUT } from "../../types";
 
 class DataFlipFlop extends Chip implements IClocked {
   value: boolean;

@@ -3,9 +3,9 @@
 // |   0   |   1   |   1   |   0   |
 // |   1   |   0   |   1   |   0   |
 // |   1   |   1   |   0   |   1   |
-import BinaryPin from "computation/nand/BinaryPin";
-import { getTestName, PIN_A, PIN_B } from "computation/nand/types";
-import HalfAdder, { PIN_CARRY, PIN_SUM } from "computation/nand/Arithmetic/HalfAdder/HalfAdder";
+import BinaryPin from "../../BinaryPin";
+import { getTestName, PIN_A, PIN_B } from "../../types";
+import HalfAdder, { PIN_CARRY, PIN_SUM } from "../HalfAdder/HalfAdder";
 
 interface TestCase {
   a: boolean;

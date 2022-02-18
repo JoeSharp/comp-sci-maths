@@ -1,4 +1,4 @@
-import Queue from "dataStructures/queue/Queue";
+import Queue from "../../dataStructures/queue/Queue";
 import CardDeck from "./CardDeck";
 import CardGamePlayer from "./CardGamePlayer";
 

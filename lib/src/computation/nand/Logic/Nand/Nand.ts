@@ -1,7 +1,7 @@
-import BinaryPin from "computation/nand/BinaryPin";
-import Chip from "computation/nand/Chip";
+import BinaryPin from "../../BinaryPin";
+import Chip from "../../Chip";
 
-import { PIN_A, PIN_B, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_A, PIN_B, PIN_OUTPUT } from "../../types";
 
 class Nand extends Chip {
   a: BinaryPin;

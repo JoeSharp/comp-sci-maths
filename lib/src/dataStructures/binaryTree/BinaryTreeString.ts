@@ -1,4 +1,4 @@
-import { stringComparator } from "common";
+import { stringComparator } from "../../common";
 import BinaryTree from "./BinaryTree";
 
 export default class BinaryTreeStrings extends BinaryTree<string> {

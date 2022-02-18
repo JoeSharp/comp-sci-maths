@@ -1,9 +1,9 @@
-import { SplitList } from "types";
+import { SplitList } from "../../types";
 import {
   emptyObserver,
   anyComparator,
   ROOT_RECURSION_KEY,
-} from "common";
+} from "../../common";
 import { SortUtility } from "./types";
 
 function mergeSortR<T>(

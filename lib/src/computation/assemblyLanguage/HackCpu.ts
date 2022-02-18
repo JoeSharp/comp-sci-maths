@@ -1,4 +1,4 @@
-import { IndexWindow, } from "common";
+import { IndexWindow, } from "../../common";
 import parseHackAsm from "./parseHackAsm";
 import generateHackAsm from "./generateHackAsm";
 import RAMSimulator, { IMemory } from "./RAMSimulator";

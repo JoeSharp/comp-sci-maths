@@ -2,9 +2,9 @@
 // class HashTable(Generic[T]):
 // __data: List[Optional[LinkedItem]]
 import { createHash } from 'crypto';
-import { defaultEqualityCheck } from 'common';
+import { defaultEqualityCheck } from '../../common';
 import { NO_MATCH } from '../../algorithms/search/common';
-import { EqualityCheck } from 'types';
+import { EqualityCheck } from '../../types';
 
 import LinkedList from "../linkedList/LinkedList";
 

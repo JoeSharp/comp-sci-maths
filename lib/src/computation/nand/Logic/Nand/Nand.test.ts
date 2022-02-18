@@ -1,8 +1,8 @@
-import { PIN_A, PIN_B, PIN_OUTPUT, TwoInOneOutTestCase } from "computation/nand/types";
+import { PIN_A, PIN_B, PIN_OUTPUT, TwoInOneOutTestCase } from "../../types";
 
 import Nand from ".";
-import BinaryPin from "computation/nand/BinaryPin";
-import loadTestChip from "computation/nand/HDL/loadTestChip";
+import BinaryPin from "../../BinaryPin";
+import loadTestChip from "../../HDL/loadTestChip";
 import NandNested from "./NandNested";
 
 const NAND_TEST_CASES: TwoInOneOutTestCase[] = [

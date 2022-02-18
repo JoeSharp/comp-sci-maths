@@ -1,4 +1,3 @@
-import BinaryTree from "./BinaryTree";
 import BinaryTreeString from "./BinaryTreeString";
 import BinaryTreeNumber from "./BinaryTreeNumber";
 

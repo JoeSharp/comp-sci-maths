@@ -3,11 +3,11 @@ import {
   iteratePageRank,
   extractPageRank,
 } from "./pageRank";
-import Graph from "dataStructures/graph/Graph";
+import Graph from "../../dataStructures/graph/Graph";
 import { PageRankState } from "./types";
-import { StringGraphVertex } from "types";
-import { getStringVertex } from "common";
-import percentageError from "maths/percentageError";
+import { StringGraphVertex } from "../../types";
+import { getStringVertex } from "../../common";
+import percentageError from "../../maths/percentageError";
 
 test("Page Rank", () => {
   const vertexA = getStringVertex("A");

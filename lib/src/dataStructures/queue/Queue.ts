@@ -1,5 +1,5 @@
 import LinkedList from "../linkedList/LinkedList";
-import { ILinearDataStructure, ObservableVersioned } from "common";
+import { ILinearDataStructure, ObservableVersioned } from "../../common";
 
 export default class Queue<T> extends ObservableVersioned implements ILinearDataStructure<T> {
   items: LinkedList<T>;

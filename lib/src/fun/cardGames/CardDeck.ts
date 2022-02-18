@@ -1,4 +1,4 @@
-import { fisherYatesShuffle, getAllEnumValues } from "common";
+import { fisherYatesShuffle, getAllEnumValues } from "../../common";
 import Card, { Suit, Value } from "./Card";
 import CardStack from "./CardStack";
 

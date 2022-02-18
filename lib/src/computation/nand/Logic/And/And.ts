@@ -2,7 +2,7 @@ import Chip from "../../Chip";
 
 import Nand from "../Nand";
 import Not from "../Not";
-import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT } from "../../types";
 
 /**
  * And gate:

@@ -1,6 +1,6 @@
-import { PageRanks, PageRankState } from "algorithms/pageRank/types";
-import Graph from "dataStructures/graph/Graph";
-import { AnyGraphVertex } from "types";
+import { PageRanks, PageRankState } from "../../algorithms/pageRank/types";
+import Graph from "../../dataStructures/graph/Graph";
+import { AnyGraphVertex } from "../../types";
 
 const MAX_ITERATIONS = 20;
 

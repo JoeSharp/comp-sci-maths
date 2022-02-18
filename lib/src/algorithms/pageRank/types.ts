@@ -1,5 +1,5 @@
-import Graph from "dataStructures/graph/Graph";
-import { AnyGraphVertex } from "types";
+import Graph from "../../dataStructures/graph/Graph";
+import { AnyGraphVertex } from "../../types";
 
 export interface PageRanks {
   [s: string]: number;

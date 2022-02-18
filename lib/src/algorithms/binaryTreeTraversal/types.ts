@@ -1,4 +1,4 @@
-import BinaryTree from "dataStructures/binaryTree/BinaryTree";
+import BinaryTree from "../../dataStructures/binaryTree/BinaryTree";
 
 export type BinaryTreeTraversal<T> = (
   tree: BinaryTree<T>,

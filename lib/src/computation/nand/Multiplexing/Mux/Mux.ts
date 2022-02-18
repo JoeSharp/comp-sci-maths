@@ -1,8 +1,8 @@
-import And from "computation/nand/Logic/And";
-import Chip from "computation/nand/Chip";
-import Not from "computation/nand/Logic/Not";
-import Or from "computation/nand/Logic/Or";
-import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT, PIN_SELECTOR } from "computation/nand/types";
+import And from "../../Logic/And";
+import Chip from "../../Chip";
+import Not from "../../Logic/Not";
+import Or from "../../Logic/Or";
+import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT, PIN_SELECTOR } from "../../types";
 
 /**
  * Multiplexor:

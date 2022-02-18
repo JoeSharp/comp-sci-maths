@@ -1,10 +1,10 @@
 /**
  * Computes the sum of two bits.
  */
-import And from "computation/nand/Logic/And";
-import Chip from "computation/nand/Chip";
-import { PIN_A, PIN_B, PIN_OUTPUT } from "computation/nand/types";
-import Xor from "computation/nand/Logic/Xor";
+import And from "../../Logic/And";
+import Chip from "../../Chip";
+import { PIN_A, PIN_B, PIN_OUTPUT } from "../../types";
+import Xor from "../../Logic/Xor";
 
 //  CHIP HalfAdder {
 //     IN a, b;    // 1-bit inputs

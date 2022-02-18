@@ -1,7 +1,7 @@
-import { PIN_INPUT, PIN_OUTPUT, WORD_LENGTH } from "computation/nand/types";
-import Not from "computation/nand/Logic/Not";
-import Chip from "computation/nand/Chip";
-import BinaryBus from "computation/nand/BinaryBus";
+import { PIN_INPUT, PIN_OUTPUT, WORD_LENGTH } from "../../types";
+import Not from "../../Logic/Not";
+import Chip from "../../Chip";
+import BinaryBus from "../../BinaryBus";
 /**
  * 16-bit Not:
  * for i=0..15: out[i] = not in[i]

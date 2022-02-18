@@ -1,13 +1,13 @@
-import { PIN_C, PIN_D } from "computation/nand/Multiplexing/Dmux4Way/Dmux4Way";
-import { binaryToBoolArray } from "dataRepresentation/numberBases/simpleBinary";
+import { PIN_C, PIN_D } from "../../Multiplexing/Dmux4Way/Dmux4Way";
+import { binaryToBoolArray } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import {
   PIN_A,
   PIN_B,
   PIN_OUTPUT,
   PIN_SELECTOR,
-} from "computation/nand/types";
-import Mux4Way16 from "computation/nand/Multiplexing/Mux4Way16";
-import BinaryBus from "computation/nand/BinaryBus";
+} from "../../types";
+import Mux4Way16 from "../../Multiplexing/Mux4Way16";
+import BinaryBus from "../../BinaryBus";
 
 interface TestCase {
   a: string;

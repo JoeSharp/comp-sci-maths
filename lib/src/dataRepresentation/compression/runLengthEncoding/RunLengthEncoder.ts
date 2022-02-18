@@ -1,5 +1,5 @@
-import { EqualityCheck } from 'types'
-import { defaultEqualityCheck } from 'common';
+import { EqualityCheck } from '../../../types'
+import { defaultEqualityCheck } from '../../../common';
 
 /**
  * A class the execute run length encoding on a building input.

@@ -1,9 +1,9 @@
-import Queue from "dataStructures/queue/Queue";
-import Stack from "dataStructures/stack/Stack";
-import Graph from "dataStructures/graph/Graph";
-import LinkedList from "dataStructures/linkedList/LinkedList";
-import { ILinearDataStructure } from "common";
-import { Producer } from "types";
+import Queue from "../../dataStructures/queue/Queue";
+import Stack from "../../dataStructures/stack/Stack";
+import Graph from "../../dataStructures/graph/Graph";
+import LinkedList from "../../dataStructures/linkedList/LinkedList";
+import { ILinearDataStructure } from "../../common";
+import { Producer } from "../../types";
 
 class ManualGraphTraversal {
     linearDataStructureFactory: Producer<ILinearDataStructure<LinkedList<string>>>;

@@ -1,6 +1,6 @@
-import * as logger from 'winston';
+import simpleLogger from "simpleLogger";
 
-logger.info('Hello HDL')
+simpleLogger.info('Hello HDL')
 
 const codeLine = "Nand(a=notA, b=notB, out=out);"
 const funky = 'boo'
@@ -9,10 +9,10 @@ const codeLineRegex = /(?<chip_name>[A-Za-z]+)\((?<parameters>([a-zA-Z]+=[a-zA-Z
 
 const found = codeLine.match(codeLineRegex);
 
-logger.info(JSON.stringify(found));
+simpleLogger.info(JSON.stringify(found));
 
-logger.info(JSON.stringify(found.groups));
+simpleLogger.info(JSON.stringify(found.groups));
 
 const found2 = funky.match(codeLineRegex);
-logger.info('Found 2' + JSON.stringify(found2));
+simpleLogger.info('Found 2' + JSON.stringify(found2));
 

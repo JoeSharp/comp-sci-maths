@@ -1,4 +1,4 @@
-import { anyComparator, emptyObserver, simpleSwap } from "common";
+import { anyComparator, emptyObserver, simpleSwap } from "../../common";
 import { SortUtility } from "./types";
 
 function insertionSort<T>(

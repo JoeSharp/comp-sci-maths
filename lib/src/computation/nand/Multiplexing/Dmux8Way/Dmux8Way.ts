@@ -5,13 +5,13 @@
  *                            etc.
  *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
  */
-import And from "computation/nand/Logic/And";
-import Chip from "computation/nand/Chip";
+import And from "../../Logic/And";
+import Chip from "../../Chip";
 import Dmux4Way from "../Dmux4Way";
 import { PIN_C, PIN_D } from "../Dmux4Way/Dmux4Way";
-import Not from "computation/nand/Logic/Not";
-import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT, PIN_SELECTOR } from "computation/nand/types";
-import BinaryBus, { createPinArray } from "computation/nand/BinaryBus";
+import Not from "../../Logic/Not";
+import { PIN_A, PIN_B, PIN_INPUT, PIN_OUTPUT, PIN_SELECTOR } from "../../types";
+import BinaryBus, { createPinArray } from "../../BinaryBus";
 
 //  CHIP DMux8Way {
 //     IN in, sel[3];

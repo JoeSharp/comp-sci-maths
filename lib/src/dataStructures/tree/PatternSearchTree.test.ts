@@ -1,4 +1,4 @@
-import { defaultEqualityCheck } from "common";
+import { defaultEqualityCheck } from "../../common";
 import PatternSearchTree from "./PatternSearchTree"
 
 

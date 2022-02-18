@@ -1,6 +1,6 @@
 import LinkedList from "../linkedList/LinkedList";
-import { MatchFunction } from "types";
-import { ObservableVersioned } from "common";
+import { MatchFunction } from "../../types";
+import { ObservableVersioned } from "../../common";
 
 export interface PrioritisedItem {
   priority: number;

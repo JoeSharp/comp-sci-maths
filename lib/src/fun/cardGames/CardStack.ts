@@ -1,4 +1,4 @@
-import Stack from "dataStructures/stack/Stack";
+import Stack from "../../dataStructures/stack/Stack";
 import Card from "./Card";
 
 class CardStack {

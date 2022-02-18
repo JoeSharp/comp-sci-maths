@@ -1,4 +1,4 @@
-import { EqualityCheck, Optional, ToString } from "types";
+import { EqualityCheck, Optional, ToString } from "../../types";
 import Tree from "./Tree";
 
 interface TreeCount<F> {

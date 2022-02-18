@@ -1,6 +1,7 @@
-import { simpleLogger } from "comp-sci-maths-lib/dist/common";
 import { divisibilityRules } from "comp-sci-maths-lib/dist/algorithms/primeNumbers/divisibilityRules";
 import { StringReporter } from "comp-sci-maths-lib/dist/types";
+
+import simpleLogger from "simpleLogger";
 
 const reportLog: StringReporter = (s) => simpleLogger.info(s);
 

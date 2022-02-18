@@ -1,10 +1,10 @@
 import {
   binaryToBoolArray,
   booleanToBinArray,
-} from "dataRepresentation/numberBases/simpleBinary";
-import BinaryBus from "computation/nand/BinaryBus";
-import BinaryPin from "computation/nand/BinaryPin";
-import { getTestName, PIN_OUTPUT } from "computation/nand/types";
+} from "../../../../dataRepresentation/numberBases/simpleBinary";
+import BinaryBus from "../../BinaryBus";
+import BinaryPin from "../../BinaryPin";
+import { getTestName, PIN_OUTPUT } from "../../types";
 import ALU, {
   PIN_F,
   PIN_NG,

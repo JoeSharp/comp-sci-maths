@@ -1,12 +1,12 @@
 /**
  * Computes the sum of three bits.
  */
-import Chip from "computation/nand/Chip";
-import HalfAdder from "computation/nand/Arithmetic/HalfAdder";
-import { PIN_CARRY, PIN_SUM } from "computation/nand/Arithmetic/HalfAdder/HalfAdder";
-import Or from "computation/nand/Logic/Or";
-import { PIN_A, PIN_B, PIN_OUTPUT } from "computation/nand/types";
-import { PIN_C } from "computation/nand/Multiplexing/Dmux4Way/Dmux4Way";
+import Chip from "../../Chip";
+import HalfAdder from "../HalfAdder";
+import { PIN_CARRY, PIN_SUM } from "../HalfAdder/HalfAdder";
+import Or from "../../Logic/Or";
+import { PIN_A, PIN_B, PIN_OUTPUT } from "../../types";
+import { PIN_C } from "../../Multiplexing/Dmux4Way/Dmux4Way";
 
 //  CHIP FullAdder {
 //     IN a, b, c;  // 1-bit inputs

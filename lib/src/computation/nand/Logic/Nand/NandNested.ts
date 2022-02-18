@@ -1,5 +1,5 @@
 import Chip from "../../Chip";
-import { PIN_A, PIN_B, PIN_OUTPUT } from "computation/nand/types";
+import { PIN_A, PIN_B, PIN_OUTPUT } from "../../types";
 import Nand from "./Nand";
 
 class NandNested extends Chip {

@@ -1,9 +1,9 @@
 import { ShortestPathTree, ObserverArgs } from "./types";
-import Graph from "dataStructures/graph/Graph";
+import Graph from "../../dataStructures/graph/Graph";
 
 import { dijstraks, getPathTo } from "./dijkstras";
-import { getStringVertex } from "common";
-import { StringGraphVertex } from "types";
+import { getStringVertex } from "../../common";
+import { StringGraphVertex } from "../../types";
 
 const vertexA = getStringVertex("A");
 const vertexB = getStringVertex("B");

@@ -1,5 +1,5 @@
-import PriorityQueue from "dataStructures/queue/PriorityQueue";
-import Graph, { Edge } from "dataStructures/graph/Graph";
+import PriorityQueue from "../../dataStructures/queue/PriorityQueue";
+import Graph, { Edge } from "../../dataStructures/graph/Graph";
 import {
   ShortestPathTree,
   ShortestPathWithNode,
@@ -9,8 +9,8 @@ import {
   EdgeWithCost,
   EdgeCurrentWeightCalcType,
 } from "./types";
-import { emptyObserver } from "common";
-import { AnyGraphVertex } from "types";
+import { emptyObserver } from "../../common";
+import { AnyGraphVertex } from "../../types";
 
 /**
  * Calls the walkPath generator function and puts all the nodes into an array, returns the array.

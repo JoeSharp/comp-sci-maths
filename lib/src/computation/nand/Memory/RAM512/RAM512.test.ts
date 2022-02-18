@@ -1,5 +1,5 @@
-import BinaryBus from "computation/nand/BinaryBus";
-import Clock from "computation/nand/Clock";
+import BinaryBus from "../../BinaryBus";
+import Clock from "../../Clock";
 import {
   generateRandomBinary,
   generateRandomWord,
@@ -7,7 +7,7 @@ import {
   PIN_INPUT,
   PIN_LOAD,
   PIN_OUTPUT,
-} from "computation/nand/types";
+} from "../../types";
 import RAM512 from "./RAM512";
 
 describe("RAM4K", () => {

@@ -5,7 +5,7 @@ import compileVmStatement, { generateFunctionLabel } from './compileVmStatement'
 import { SYSTEM_INIT_FUNCTION_NAME, VMInstructionType, VM_FILE_EXTENSION } from './types';
 import parseHackAsm from '../assemblyLanguage/parseHackAsm';
 import { CpuInstructionType } from '../assemblyLanguage/types';
-import { generateLineRef } from 'common';
+import { generateLineRef } from '../../common';
 
 const isLoadedLine = (a: string) => {
     const asm = parseHackAsm(a);

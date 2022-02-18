@@ -1,4 +1,4 @@
-import { Optional } from "types";
+import { Optional } from "../../types";
 
 export default class LinkedItem<T> {
   value: T;

@@ -1,7 +1,7 @@
 import sortAlgorithms from ".";
-import { generateRandomNumbers } from "common";
+import { generateRandomNumbers } from "../../common";
 import { SortObserver } from "./types";
-import { PositionVars } from "types";
+import { PositionVars } from "../../types";
 
 sortAlgorithms.forEach(({ name, sort }) => {
   test(`Sort Numbers (monitored): ${name}`, () => {

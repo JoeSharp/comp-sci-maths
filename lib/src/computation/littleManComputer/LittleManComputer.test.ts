@@ -1,5 +1,5 @@
-import { generateRandomNumber } from "common";
-import Queue from "dataStructures/queue/Queue";
+import { generateRandomNumber } from "../../common";
+import Queue from "../../dataStructures/queue/Queue";
 import LittleManComputer, { StdIO } from "./LittleManComputer";
 import { loadLMCProgram } from "./lmcProgramLoader";
 

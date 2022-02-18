@@ -1,7 +1,7 @@
-import Queue from "dataStructures/queue/Queue";
-import Tree from "dataStructures/tree";
-import { Optional } from "types";
-import { Rule, MatchPart, RulePart, matchPartToString } from "./types";
+import Queue from "../../dataStructures/queue/Queue";
+import Tree from "../../dataStructures/tree";
+import { Optional } from "../../types";
+import { Rule, MatchPart, RulePart } from "./types";
 
 /*
     An instance of this class can be used to store a set of rules for a particular BNF definition.

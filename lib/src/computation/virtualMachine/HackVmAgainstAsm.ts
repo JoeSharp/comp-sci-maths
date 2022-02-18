@@ -7,7 +7,7 @@ import { CpuInstruction, CpuInstructionType } from "../assemblyLanguage/types";
 import { IMemory } from "../assemblyLanguage/RAMSimulator";
 import generateHackAsm from "../assemblyLanguage/generateHackAsm";
 import generateHackVm from "./generateHackVm";
-import { IndexWindow } from "common";
+import { IndexWindow } from "../../common";
 
 const getStepDebugString = (vmLine: VMInstruction,
     asmLineCount: number,

@@ -1,8 +1,8 @@
 import And from "./And";
 
-import { PIN_A, PIN_B, PIN_OUTPUT, TwoInOneOutTestCase } from "computation/nand/types";
-import BinaryPin from "computation/nand/BinaryPin";
-import loadTestChip from "computation/nand//HDL/loadTestChip";
+import { PIN_A, PIN_B, PIN_OUTPUT, TwoInOneOutTestCase } from "../../types";
+import BinaryPin from "../../BinaryPin";
+import loadTestChip from "../..//HDL/loadTestChip";
 
 const AND_TEST_CASES: TwoInOneOutTestCase[] = [
   {

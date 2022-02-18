@@ -5,7 +5,7 @@ import And from "../Logic/And";
 import Or from "../Logic/Or";
 import Xor from "../Logic/Xor";
 import Not from "../Logic/Not";
-import { Producer } from "types";
+import { Producer } from "../../../types";
 
 interface ChipTest {
   testFile: string;

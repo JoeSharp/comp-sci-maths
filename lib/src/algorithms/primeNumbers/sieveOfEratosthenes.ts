@@ -1,4 +1,4 @@
-import { emptyObserver } from "common";
+import { emptyObserver } from "../../common";
 
 export interface MarkedNumber {
   value: number;

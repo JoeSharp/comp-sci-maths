@@ -1,4 +1,4 @@
-import { binaryToNumber } from "dataRepresentation/numberBases/simpleBinary";
+import { binaryToNumber } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import BinaryBus from "../../BinaryBus";
 import Clock from "../../Clock";
 import {
@@ -6,7 +6,7 @@ import {
   PIN_INPUT,
   PIN_LOAD,
   PIN_OUTPUT,
-} from "computation/nand/types";
+} from "../../types";
 import PC, { PIN_INCREMENT, PIN_RESET } from "./PC";
 
 describe("Program Counter", () => {

@@ -1,7 +1,7 @@
 import Not from ".";
-import BinaryPin from "computation/nand/BinaryPin";
-import loadTestChip from "computation/nand/HDL/loadTestChip";
-import { PIN_INPUT, PIN_OUTPUT } from "computation/nand/types";
+import BinaryPin from "../../BinaryPin";
+import loadTestChip from "../../HDL/loadTestChip";
+import { PIN_INPUT, PIN_OUTPUT } from "../../types";
 
 describe("NOT", () => {
   const nandReceiver = new BinaryPin();

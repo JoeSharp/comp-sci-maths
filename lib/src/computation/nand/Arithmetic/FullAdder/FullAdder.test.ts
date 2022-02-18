@@ -1,8 +1,8 @@
-import { PIN_CARRY, PIN_SUM } from "computation/nand/Arithmetic/HalfAdder/HalfAdder";
-import { getTestName, PIN_A, PIN_B } from "computation/nand/types";
-import FullAdder from "computation/nand/Arithmetic/FullAdder";
-import { PIN_C } from "computation/nand//Multiplexing/Dmux4Way/Dmux4Way";
-import BinaryPin from "computation/nand/BinaryPin";
+import { PIN_CARRY, PIN_SUM } from "../HalfAdder/HalfAdder";
+import { getTestName, PIN_A, PIN_B } from "../../types";
+import FullAdder from "../FullAdder";
+import { PIN_C } from "../../Multiplexing/Dmux4Way/Dmux4Way";
+import BinaryPin from "../../BinaryPin";
 
 // |   a   |   b   |   c   |  sum  | carry |
 // |   0   |   0   |   0   |   0   |   0   |

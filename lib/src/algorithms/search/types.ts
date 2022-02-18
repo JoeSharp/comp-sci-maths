@@ -1,4 +1,4 @@
-import { Comparator } from "types";
+import { Comparator } from "../../types";
 
 export type GenericSearchFunction = <T>(
   inputList: T[],

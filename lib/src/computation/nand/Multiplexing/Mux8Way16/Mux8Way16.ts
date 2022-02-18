@@ -3,7 +3,7 @@ import { PIN_C, PIN_D } from "../Dmux4Way/Dmux4Way";
 import { PIN_E, PIN_F, PIN_G, PIN_H } from "../Dmux8Way/Dmux8Way";
 import Mux16 from "../Mux16";
 import Mux4Way16 from "../Mux4Way16";
-import { PIN_A, PIN_B, PIN_OUTPUT, PIN_SELECTOR } from "computation/nand/types";
+import { PIN_A, PIN_B, PIN_OUTPUT, PIN_SELECTOR } from "../../types";
 import BinaryBus, { createPinArray } from "../../BinaryBus";
 
 /**

@@ -1,4 +1,4 @@
-import { PIN_A, PIN_B, PIN_OUTPUT, WORD_LENGTH } from "computation/nand/types";;
+import { PIN_A, PIN_B, PIN_OUTPUT, WORD_LENGTH } from "../../types";;
 import And from "../And";
 import Chip from "../../Chip";
 import BinaryBus from "../../BinaryBus";
