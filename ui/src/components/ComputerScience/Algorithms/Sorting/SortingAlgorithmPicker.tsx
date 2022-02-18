@@ -1,6 +1,6 @@
 import React from "react";
 
-import algorithms from "comp-sci-maths-lib/dist/algorithms/sort/monitoredSortAlgorithms";
+import algorithms from "comp-sci-maths-lib/dist/algorithms/sort";
 import { ControlledInput } from "../../../../types";
 import { NamedCustomisableSort } from "comp-sci-maths-lib/dist/algorithms/sort/types";
 

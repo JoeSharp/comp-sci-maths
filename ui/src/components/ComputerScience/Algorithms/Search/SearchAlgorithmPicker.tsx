@@ -1,6 +1,6 @@
 import React from "react";
 
-import algorithms from "comp-sci-maths-lib/dist/algorithms/search/monitoredSearch";
+import algorithms from "comp-sci-maths-lib/dist/algorithms/search";
 import { NamedSearch } from "comp-sci-maths-lib/dist/types";
 import { ControlledInput } from "../../../../types";
 
