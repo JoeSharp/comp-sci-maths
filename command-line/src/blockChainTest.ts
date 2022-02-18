@@ -1,7 +1,7 @@
 import simpleLogger from "simpleLogger"
-import Chain from 'comp-sci-maths-lib/dist/dataStructures/blockchain/Chain'
-import PeerNode from 'comp-sci-maths-lib/dist/dataStructures/blockchain/PeerNode';
-import { topXNibblesAreZero } from 'comp-sci-maths-lib/dist/dataStructures/blockchain/MerkleTree/hashTest'
+import Chain from '@comp-sci-maths/lib/dist/dataStructures/blockchain/Chain'
+import PeerNode from '@comp-sci-maths/lib/dist/dataStructures/blockchain/PeerNode';
+import { topXNibblesAreZero } from '@comp-sci-maths/lib/dist/dataStructures/blockchain/MerkleTree/hashTest'
 
 const topThreeNibblesAreZero = topXNibblesAreZero(3);
 

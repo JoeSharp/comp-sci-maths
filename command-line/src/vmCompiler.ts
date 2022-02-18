@@ -1,7 +1,7 @@
 import simpleLogger from 'simpleLogger';
 import { writeFileSync } from 'fs';
 import yargs from 'yargs';
-import compileVmDirectory from 'comp-sci-maths-lib/dist/computation/virtualMachine/compileVmDirectory';
+import compileVmDirectory from '@comp-sci-maths/lib/dist/computation/virtualMachine/compileVmDirectory';
 import { MainFunction } from 'types';
 
 interface CompileVm {
