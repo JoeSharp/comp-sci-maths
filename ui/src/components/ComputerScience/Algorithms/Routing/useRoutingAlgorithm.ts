@@ -3,7 +3,7 @@ import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import { cloneDeep } from "lodash";
 
 import {
-  dijstraks,
+  dijkstras,
   getPathTo,
 } from "@comp-sci-maths/lib/dist/algorithms/routing/dijkstras";
 import {
@@ -116,7 +116,7 @@ const useRoutingAlgorithm = <DATA_ITEM extends DisplayDataItem<any>>({
     };
     const shortestPathTree: ShortestPathTree<DATA_ITEM> =
       (sourceNode !== undefined && destinationNode !== undefined)
-        ? dijstraks({
+        ? dijkstras({
           graph,
           sourceNodeKey: sourceNode.key,
           destinationNodeKey: destinationNode.key,

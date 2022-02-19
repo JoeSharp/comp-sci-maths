@@ -96,7 +96,7 @@ export const emptyHeuristic: HeuristicCostFunction<any> = () => 0;
  * @param {function} observer // Allows the caller to monitor the steps of the algorithm.
  * @returns Shortest Path Tree { [node] : {cost: number, viaNode: string} }
  */
-function dijstraks<T extends AnyGraphVertex>({
+function dijkstras<T extends AnyGraphVertex>({
   graph,
   sourceNodeKey,
   destinationNodeKey,
@@ -205,4 +205,4 @@ function dijstraks<T extends AnyGraphVertex>({
   return shortestPathTree;
 }
 
-export { dijstraks, getPathTo, walkPath };
+export { dijkstras, getPathTo, walkPath };

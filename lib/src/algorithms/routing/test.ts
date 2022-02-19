@@ -1,7 +1,7 @@
 import { ShortestPathTree, ObserverArgs } from "./types";
 import Graph from "../../dataStructures/graph/Graph";
 
-import { dijstraks, getPathTo } from "./dijkstras";
+import { dijkstras, getPathTo } from "./dijkstras";
 import { getStringVertex } from "../../common";
 import { StringGraphVertex } from "../../types";
 
@@ -25,7 +25,7 @@ test("Routing Algorithms - Dead End", () => {
     .addBiDirectionalEdge(vertexB, vertexC)
     .addBiDirectionalEdge(vertexE, vertexD);
 
-  const shortestPathTree = dijstraks({
+  const shortestPathTree = dijkstras({
     graph: myGraph,
     sourceNodeKey: vertexA.key,
     destinationNodeKey: vertexD.key,
@@ -87,7 +87,7 @@ test("Routing Algorithms - A*", () => {
     .addBiDirectionalEdge(vertexJ, vertexK, 4);
 
   const observations: ObserverArgs<StringGraphVertex>[] = [];
-  const shortestPathTreeStoE: ShortestPathTree<StringGraphVertex> = dijstraks({
+  const shortestPathTreeStoE: ShortestPathTree<StringGraphVertex> = dijkstras({
     graph: myGraph,
     sourceNodeKey: vertexS.key,
     destinationNodeKey: vertexE.key,
@@ -124,7 +124,7 @@ test("Routing Algorithms - Dijkstra", () => {
     .addBiDirectionalEdge(vertexH, vertexI, 7);
 
   const viaNode = vertexA;
-  const shortestPathTreeAll: ShortestPathTree<StringGraphVertex> = dijstraks({
+  const shortestPathTreeAll: ShortestPathTree<StringGraphVertex> = dijkstras({
     graph: myGraph,
     sourceNodeKey: viaNode.key,
   });
@@ -163,7 +163,7 @@ test("Routing Algorithms - Dijkstra", () => {
 
   // Do the same thing again, but only find the route to one node
   // It should come up with the same answer, but will make no attempt to route 'every node'
-  const shortestPathTree4only: ShortestPathTree<StringGraphVertex> = dijstraks(
+  const shortestPathTree4only: ShortestPathTree<StringGraphVertex> = dijkstras(
     {
       graph: myGraph,
       sourceNodeKey: viaNode.key,

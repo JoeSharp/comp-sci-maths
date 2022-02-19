@@ -1,7 +1,7 @@
 import { ShortestPathTree, ObserverArgs } from "@comp-sci-maths/lib/dist/algorithms/routing/types";
 import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 
-import { dijstraks, getPathTo } from "@comp-sci-maths/lib/dist/algorithms/routing/dijkstras";
+import { dijkstras, getPathTo } from "@comp-sci-maths/lib/dist/algorithms/routing/dijkstras";
 import { IKeyWithValue, StringGraphVertex } from "@comp-sci-maths/lib/dist/types";
 import { getStringVertex } from "@comp-sci-maths/lib/dist/common";
 import simpleLogger from './simpleLogger';
@@ -76,7 +76,7 @@ function testGrid() {
   const destinationNode = getPointGraphVertex(columns - 1, rows - 1);
   const observations: ObserverArgs<PointGraphVertex>[] = [];
 
-  const shortestPathTree: ShortestPathTree<PointGraphVertex> = dijstraks({
+  const shortestPathTree: ShortestPathTree<PointGraphVertex> = dijkstras({
     graph: myGraph,
     sourceNodeKey: sourceNode.key,
     destinationNodeKey: destinationNode.key,
@@ -129,7 +129,7 @@ function testBrokenPath() {
     .addBiDirectionalEdge(vertexE, vertexD);
   const observations: ObserverArgs<StringGraphVertex>[] = [];
 
-  const shortestPathTree = dijstraks({
+  const shortestPathTree = dijkstras({
     graph: myGraph,
     sourceNodeKey: vertexA.key,
     destinationNodeKey: vertexD.key,

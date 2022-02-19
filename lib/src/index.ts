@@ -39,7 +39,7 @@ import {
   extractPageRank,
   roundTo2Dp,
 } from "./algorithms/pageRank/pageRank";
-import { dijstraks, getPathTo, walkPath } from "./algorithms/routing/dijkstras";
+import { dijkstras, getPathTo, walkPath } from "./algorithms/routing/dijkstras";
 import binarySearch from "./algorithms/search/binarySearch";
 import linearSearch from "./algorithms/search/linearSearch";
 import { HackCpu, HackCpuTestRunner, RAMSimulator } from "./computation/assemblyLanguage";
@@ -85,7 +85,7 @@ export {
   binarySearch,
   linearSearch,
   // Routing Algorithms
-  dijstraks,
+  dijkstras,
   getPathTo,
   walkPath,
   // Data Representation
