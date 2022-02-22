@@ -39,3 +39,9 @@ export const getInitialLinearStructureState = <T>(capacity: number = DEFAULT_CAP
     lastResult: null,
     lastMessage: LinearDataStructureMessages.newStructure
 })
+
+export const linearStructureError = <STATE extends LinearStructureState<any>>(state: STATE, lastMessage: LinearDataStructureMessages): STATE => ({
+    ...state,
+    lastMessage,
+    lastResult: null
+})

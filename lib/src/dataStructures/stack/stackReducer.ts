@@ -3,7 +3,8 @@ import {
     LinearStructureAction,
     LinearStructureState,
     DEFAULT_CAPACITY,
-    getInitialLinearStructureState
+    getInitialLinearStructureState,
+    linearStructureError
 } from "../Queue/linearDataStructure";
 
 export interface StackState<T> extends LinearStructureState<T> {
@@ -15,13 +16,13 @@ export const getInitialStackState = <T>(capacity: number = DEFAULT_CAPACITY): St
     stackPointer: 0,
 })
 
+export const isStackEmpty = ({ stackPointer }: StackState<any>): boolean => stackPointer === 0;
+export const isStackFull = ({ stackPointer, capacity }: StackState<any>): boolean => stackPointer === capacity;
+
+
 export const stackPush = <T>(state: StackState<T>, value: T): StackState<T> => {
-    if (state.stackPointer === state.capacity) {
-        return {
-            ...state,
-            lastResult: null,
-            lastMessage: LinearDataStructureMessages.full
-        }
+    if (isStackFull(state)) {
+        return linearStructureError(state, LinearDataStructureMessages.full);
     }
 
     const contents = [...state.contents];
@@ -36,12 +37,8 @@ export const stackPush = <T>(state: StackState<T>, value: T): StackState<T> => {
 }
 
 export const stackPop = <T>(state: StackState<T>): StackState<T> => {
-    if (state.stackPointer === 0) {
-        return {
-            ...state,
-            lastResult: null,
-            lastMessage: LinearDataStructureMessages.empty
-        }
+    if (isStackEmpty(state)) {
+        return linearStructureError(state, LinearDataStructureMessages.empty);
     }
 
     // Locate the item
@@ -56,11 +53,8 @@ export const stackPop = <T>(state: StackState<T>): StackState<T> => {
 }
 
 export const stackPeek = <T>(state: StackState<T>): StackState<T> => {
-    if (state.stackPointer === 0) {
-        return {
-            ...state,
-            lastMessage: LinearDataStructureMessages.empty
-        }
+    if (isStackEmpty(state)) {
+        return linearStructureError(state, LinearDataStructureMessages.empty);
     }
 
     return {
@@ -77,7 +71,7 @@ export const stackPeek = <T>(state: StackState<T>): StackState<T> => {
  * @param action The action to undertake
  * @returns The new state after the action is attempted
  */
-const stackReducer = <T>(state: StackState<T>, action: LinearStructureAction<T>) => {
+export const stackReducer = <T>(state: StackState<T>, action: LinearStructureAction<T>) => {
     switch (action.type) {
         case 'push': return stackPush(state, action.value);
         case 'pop': return stackPop(state);

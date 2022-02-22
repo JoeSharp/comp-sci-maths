@@ -3,7 +3,8 @@ import {
     LinearStructureAction,
     LinearStructureState,
     DEFAULT_CAPACITY,
-    getInitialLinearStructureState
+    getInitialLinearStructureState,
+    linearStructureError
 } from "./linearDataStructure";
 
 export interface QueueState<T> extends LinearStructureState<T> {
@@ -19,13 +20,12 @@ export const getInitialQueueState = <T>(capacity: number = DEFAULT_CAPACITY): Qu
     rear: 0,
 })
 
+export const isQueueEmpty = ({ front }: QueueState<any>): boolean => front === FRONT_IF_EMPTY;
+export const isQueueFull = ({ front, rear }: QueueState<any>): boolean => front === rear;
+
 export const queuePush = <T>(state: QueueState<T>, value: T): QueueState<T> => {
-    if (state.front === state.rear) {
-        return {
-            ...state,
-            lastResult: null,
-            lastMessage: LinearDataStructureMessages.full
-        }
+    if (isQueueFull(state)) {
+        return linearStructureError(state, LinearDataStructureMessages.full);
     }
 
     const contents = [...state.contents];
@@ -52,12 +52,8 @@ export const queuePush = <T>(state: QueueState<T>, value: T): QueueState<T> => {
 }
 
 export const queuePop = <T>(state: QueueState<T>): QueueState<T> => {
-    if (state.front === FRONT_IF_EMPTY) {
-        return {
-            ...state,
-            lastResult: null,
-            lastMessage: LinearDataStructureMessages.empty
-        }
+    if (isQueueEmpty(state)) {
+        return linearStructureError(state, LinearDataStructureMessages.empty);
     }
 
     // Locate the item
@@ -82,11 +78,8 @@ export const queuePop = <T>(state: QueueState<T>): QueueState<T> => {
 }
 
 export const queuePeek = <T>(state: QueueState<T>): QueueState<T> => {
-    if (state.front === FRONT_IF_EMPTY) {
-        return {
-            ...state,
-            lastMessage: LinearDataStructureMessages.empty
-        }
+    if (isQueueEmpty(state)) {
+        return linearStructureError(state, LinearDataStructureMessages.empty);
     }
 
     return {
@@ -103,7 +96,7 @@ export const queuePeek = <T>(state: QueueState<T>): QueueState<T> => {
  * @param action The action to undertake
  * @returns The new state after the action is attempted
  */
-const queueReducer = <T>(state: QueueState<T>, action: LinearStructureAction<T>) => {
+export const queueReducer = <T>(state: QueueState<T>, action: LinearStructureAction<T>) => {
     switch (action.type) {
         case 'push': return queuePush(state, action.value);
         case 'pop': return queuePop(state);
