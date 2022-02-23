@@ -4,9 +4,10 @@ export enum LinearDataStructureMessages {
     newStructure = 'New Data Structure Created',
     full = 'Structure was Full',
     empty = 'Structure was Empty',
-    popped = 'Item Popped',
-    pushed = 'Item Pushed',
-    peeked = 'Item Peeked'
+    removed = 'Item Removed',
+    added = 'Item Added',
+    peeked = 'Item Peeked',
+    notFound = 'Item Not Found'
 }
 
 interface LinearStructureActionPush<T> {

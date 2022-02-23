@@ -41,7 +41,7 @@ interface LinkedListAppendAction<T> {
 
 interface LinkedListRemoveAction {
     type: 'remove',
-    index: number
+    logicalIndex: number
 }
 
 interface LinkedListRemoveMatchAction<T> {
@@ -52,7 +52,7 @@ interface LinkedListRemoveMatchAction<T> {
 
 interface LinkedListInsertAction<T> {
     type: 'insert',
-    index: number,
+    logicalIndex: number,
     value: T
 }
 
@@ -71,18 +71,18 @@ export const isListFull = ({ capacity, nextFree, freeNodes }: LinkedListState<an
  * @param logicalIndex The logical index of the item we traverse up to
  * @returns The indexes of the items as they appear in the underlyling array
  */
-export const linkedListGetPhysicalIndexes = <T>(state: LinkedListState<T>,
-    logicalIndex: Optional<number> = undefined): number[] => {
+export const linkedListTraverse = <T>(state: LinkedListState<T>,
+    stop: (logicalIndex: number, physicalIndex: number) => boolean = () => false): number[] => {
     const indexes: number[] = [];
 
     if (isListEmpty(state)) return indexes;
 
     let currLogicalIndex = 0;
-    let ptr = state.start;
-    while (ptr !== INVALID_PTR && (logicalIndex === undefined || currLogicalIndex <= logicalIndex)) {
-        indexes.push(ptr);
-        const itemTest = state.contents[ptr];
-        ptr = itemTest.nextPtr;
+    let currPhysicalIndex = state.start;
+    while (currPhysicalIndex !== INVALID_PTR && !stop(currLogicalIndex, currPhysicalIndex)) {
+        indexes.push(currPhysicalIndex);
+        const itemTest = state.contents[currPhysicalIndex];
+        currPhysicalIndex = itemTest.nextPtr;
 
         currLogicalIndex++;
     }
@@ -97,44 +97,55 @@ export const linkedListGetPhysicalIndexes = <T>(state: LinkedListState<T>,
  * @returns 
  */
 export const linkedListGet = <T>(state: LinkedListState<T>, logicalIndex: number): Optional<T> => {
-    const itemIndexes = linkedListGetPhysicalIndexes(state, logicalIndex);
-    return itemIndexes.length >= logicalIndex ? state.contents[itemIndexes[logicalIndex]].value : undefined;
+    let physicalIndex = INVALID_PTR;
+    linkedListTraverse(state, (currLogicalIndex, currPhysicalIndex) => {
+        if (currLogicalIndex === logicalIndex) {
+            physicalIndex = currPhysicalIndex;
+            return true;
+        }
+
+        return false;
+    });
+    return physicalIndex !== INVALID_PTR ? state.contents[physicalIndex].value : undefined;
 }
 
 export const linkedListGetAll = <T>(state: LinkedListState<T>): T[] => {
-    return linkedListGetPhysicalIndexes(state)
+    return linkedListTraverse(state)
         .map(index => state.contents[index])
         .map(({ value }) => value);
 }
 
 export const linkedListGetStoreIndex = <T>(state: LinkedListState<T>): {
-    storeIndex: number | undefined,
+    newPhysicalIndex: number | undefined,
     nextFree: number,
     freeNodes: StackState<number>
 } => {
-    let storeIndex = INVALID_PTR;
+    let newPhysicalIndex = INVALID_PTR;
     let freeNodes = state.freeNodes;
     let nextFree = state.nextFree;
     if (isStackEmpty(state.freeNodes)) {
         // If our 'next free' pointer is still within range
         if (nextFree < state.capacity) {
-            storeIndex = nextFree;
+            newPhysicalIndex = nextFree;
             nextFree += 1;
         }
     } else {
         // Just pull an item off the stack
         freeNodes = stackPop(freeNodes);
-        storeIndex = freeNodes.lastResult;
+        newPhysicalIndex = freeNodes.lastResult;
     }
 
     return {
-        storeIndex,
+        newPhysicalIndex,
         nextFree,
         freeNodes
     }
 }
 
-export const linkedListAppend = <T>(state: LinkedListState<T>, value: T): LinkedListState<T> => {
+export const linkedListAppend = <T>(
+    state: LinkedListState<T>,
+    value: T
+): LinkedListState<T> => {
     let contents = [...state.contents];
     let start = state.start;
     const newItem: LinkedListItem<T> = {
@@ -143,26 +154,26 @@ export const linkedListAppend = <T>(state: LinkedListState<T>, value: T): Linked
     }
 
     // Find the last item in the logical list
-    const indexes = linkedListGetPhysicalIndexes(state);
+    const indexes = linkedListTraverse(state);
     let lastItem: Optional<LinkedListItem<T>> = indexes.length > 0 ?
         state.contents[indexes[indexes.length - 1]] : undefined;
 
     const {
-        storeIndex,
+        newPhysicalIndex,
         nextFree,
         freeNodes
     } = linkedListGetStoreIndex(state)
 
     // The structure is full, can this ever happen?
-    if (storeIndex === INVALID_PTR) {
+    if (newPhysicalIndex === INVALID_PTR) {
         return linearStructureError(state, LinearDataStructureMessages.full);
     }
 
-    contents[storeIndex] = newItem;
+    contents[newPhysicalIndex] = newItem;
     if (lastItem !== undefined) {
-        lastItem.nextPtr = storeIndex;
+        lastItem.nextPtr = newPhysicalIndex;
     } else {
-        start = storeIndex;
+        start = newPhysicalIndex;
     }
 
     return {
@@ -172,23 +183,19 @@ export const linkedListAppend = <T>(state: LinkedListState<T>, value: T): Linked
         freeNodes,
         nextFree,
         lastResult: newItem,
-        lastMessage: LinearDataStructureMessages.pushed
+        lastMessage: LinearDataStructureMessages.added
     };
 }
 
-export const linkedListRemoveMatch = <T>(state: LinkedListState<T>, match: MatchFunction<T>): LinkedListState<T> => {
-
-    return state;
-}
-
-export const linkedListRemove = <T>(state: LinkedListState<T>, logicalIndex: number): LinkedListState<T> => {
-    if (isListEmpty(state)) return linearStructureError(state, LinearDataStructureMessages.empty);
+export const linkedListRemoveLogicalIndex = <T>(state: LinkedListState<T>,
+    logicalIndex: number,
+    physicalIndexes: number[]
+): LinkedListState<T> => {
+    const physicalIndex = physicalIndexes[logicalIndex];
 
     let contents = [...state.contents];
     let start = state.start;
     let freeNodes = state.freeNodes;
-    const physicalIndexes = linkedListGetPhysicalIndexes(state, logicalIndex);
-    const physicalIndex = physicalIndexes[logicalIndex];
 
     if (logicalIndex === 0) {
         // If we are removing the start of the list
@@ -201,28 +208,108 @@ export const linkedListRemove = <T>(state: LinkedListState<T>, logicalIndex: num
 
     // Clear out that item in the contents
     freeNodes = stackPush(freeNodes, physicalIndex);
+    const lastResult = contents[physicalIndex];
     contents[physicalIndex] = undefined;
 
     return {
         ...state,
         contents,
         start,
-        freeNodes
+        freeNodes,
+        lastResult,
+        lastMessage: LinearDataStructureMessages.removed
     };
 }
 
-export const linkedListInsert = <T>(state: LinkedListState<T>, index: number, value: T): LinkedListState<T> => {
+export const linkedListRemoveMatch = <T>(state: LinkedListState<T>, match: MatchFunction<T>): LinkedListState<T> => {
+    if (isListEmpty(state)) return linearStructureError(state, LinearDataStructureMessages.empty);
 
-    return state;
+    let logicalIndex = INVALID_PTR;
+    let physicalIndex = INVALID_PTR;
+
+    const physicalIndexes = linkedListTraverse(state, (currLogicalIndex, currPhysicalIndex) => {
+        if (match(state.contents[currPhysicalIndex].value)) {
+            logicalIndex = currLogicalIndex;
+            physicalIndex = currPhysicalIndex;
+            return true; // We can stop traversing
+        }
+
+        // Keep looking
+        return false;
+    });
+
+    if (logicalIndex === INVALID_PTR || physicalIndex === INVALID_PTR) return linearStructureError(state, LinearDataStructureMessages.notFound)
+
+    // Push the last physical index on.
+    physicalIndexes.push(physicalIndex);
+
+    return linkedListRemoveLogicalIndex(state, logicalIndex, physicalIndexes);
+}
+
+export const linkedListRemove = <T>(state: LinkedListState<T>, logicalIndex: number): LinkedListState<T> => {
+    if (isListEmpty(state)) return linearStructureError(state, LinearDataStructureMessages.empty);
+    const physicalIndexes = linkedListTraverse(state, (currLogicalIndex,) => currLogicalIndex > logicalIndex);
+    return linkedListRemoveLogicalIndex(state, logicalIndex, physicalIndexes);
+}
+
+export const linkedListInsert = <T>(state: LinkedListState<T>, logicalIndex: number, value: T): LinkedListState<T> => {
+    // Make copies of those state items likely to change
+    let start = state.start;
+    let contents = [...state.contents];
+    const newItem: LinkedListItem<T> = {
+        value,
+        nextPtr: INVALID_PTR
+    }
+
+    // Find somewhere to put the new item
+    const {
+        newPhysicalIndex,
+        nextFree,
+        freeNodes
+    } = linkedListGetStoreIndex(state);
+
+    // The structure is full, can this ever happen?
+    if (newPhysicalIndex === INVALID_PTR) {
+        return linearStructureError(state, LinearDataStructureMessages.full);
+    }
+
+    // Are we inserting at start?
+    if (logicalIndex === 0) {
+        newItem.nextPtr = state.start;
+        start = newPhysicalIndex;
+    } else {
+        const physicalIndexes = linkedListTraverse(state, (currLogicalIndex,) => currLogicalIndex > logicalIndex);
+
+        // Do we have enough items?
+        if (physicalIndexes.length <= logicalIndex) return linearStructureError(state, LinearDataStructureMessages.notFound);
+
+        // Where is the previous item held?
+        const physicalIndex = physicalIndexes[physicalIndexes.length - 2];
+
+        newItem.nextPtr = contents[physicalIndex].nextPtr;
+        contents[physicalIndex].nextPtr = newPhysicalIndex;
+    }
+
+    // Place the item in the physical list
+    contents[newPhysicalIndex] = newItem;
+
+    return {
+        ...state,
+        contents,
+        nextFree,
+        freeNodes,
+        lastResult: newItem,
+        lastMessage: LinearDataStructureMessages.added
+    }
 }
 
 
 export const linkedListReducer = <T>(state: LinkedListState<T>, action: LinkedListAction<T>): LinkedListState<T> => {
     switch (action.type) {
         case "append": return linkedListAppend(state, action.value);
-        case "remove": return linkedListRemove(state, action.index);
+        case "remove": return linkedListRemove(state, action.logicalIndex);
         case "removeMatch": return linkedListRemoveMatch(state, action.match);
-        case "insert": return linkedListInsert(state, action.index, action.value);
+        case "insert": return linkedListInsert(state, action.logicalIndex, action.value);
     }
 }
 

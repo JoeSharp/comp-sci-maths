@@ -32,7 +32,7 @@ export const stackPush = <T>(state: StackState<T>, value: T): StackState<T> => {
         ...state,
         contents,
         stackPointer: state.stackPointer + 1,
-        lastMessage: LinearDataStructureMessages.pushed
+        lastMessage: LinearDataStructureMessages.added
     }
 }
 
@@ -48,7 +48,7 @@ export const stackPop = <T>(state: StackState<T>): StackState<T> => {
         ...state,
         stackPointer: state.stackPointer - 1,
         lastResult,
-        lastMessage: LinearDataStructureMessages.popped
+        lastMessage: LinearDataStructureMessages.removed
     }
 }
 

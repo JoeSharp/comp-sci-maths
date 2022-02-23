@@ -47,7 +47,7 @@ export const queuePush = <T>(state: QueueState<T>, value: T): QueueState<T> => {
         contents,
         front,
         rear,
-        lastMessage: LinearDataStructureMessages.pushed
+        lastMessage: LinearDataStructureMessages.added
     }
 }
 
@@ -73,7 +73,7 @@ export const queuePop = <T>(state: QueueState<T>): QueueState<T> => {
         ...state,
         front,
         lastResult,
-        lastMessage: LinearDataStructureMessages.popped
+        lastMessage: LinearDataStructureMessages.removed
     }
 }
 

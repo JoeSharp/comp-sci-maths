@@ -68,7 +68,7 @@ describe("Queue (functional implementation)", () => {
         queueState = queueReducer(queueState, { type: 'push', value: 1 });
         queueState = queueReducer(queueState, { type: 'push', value: 9 });
         queueState = queueReducer(queueState, { type: 'push', value: 13 });
-        expect(queueState.lastMessage).toBe(LinearDataStructureMessages.pushed);
+        expect(queueState.lastMessage).toBe(LinearDataStructureMessages.added);
         queueState = queueReducer(queueState, { type: 'push', value: 12 });
         expect(queueState.lastMessage).toBe(LinearDataStructureMessages.full);
 

@@ -25,34 +25,53 @@ describe("Linked List (Functional)", () => {
         myList = linkedListReducer(myList, { type: 'append', value: 'Indigo' }); // Joe, Kate, Tom, Indigo
         myList = linkedListReducer(myList, { type: 'append', value: 'Kirsten' }); // Joe, Kate, Tom, Indigo, Kirsten
 
-        myList = linkedListReducer(myList, { type: 'remove', index: 1 }) // Kate
-        myList = linkedListReducer(myList, { type: 'remove', index: 3 }) // Kirsten
+        myList = linkedListReducer(myList, { type: 'remove', logicalIndex: 1 }) // Kate
+        myList = linkedListReducer(myList, { type: 'remove', logicalIndex: 3 }) // Kirsten
 
         const itemsGotIndividually = Array(3).fill(null).map((_, i) => linkedListGet(myList, i));
         expect(itemsGotIndividually).toStrictEqual(["Joe", "Tom", "Indigo"]);
     })
 
-    test.skip("All Usages", () => {
+    test("Append and Remove Match", () => {
         let myList = getInitialLinkedListState();
 
         myList = linkedListReducer(myList, { type: 'append', value: 'Joe' }); // Joe
         myList = linkedListReducer(myList, { type: 'append', value: 'Kate' }); // Joe, Kate
-        myList = linkedListReducer(myList, { type: 'insert', index: 1, value: 'Indigo' }); // Joe, Indigo, Kate
-        myList = linkedListReducer(myList, { type: 'insert', index: 1, value: 'Tom' }); // Joe, Tom, Indigo, Kate
+        myList = linkedListReducer(myList, { type: 'append', value: 'Tom' }); // Joe, Kate, Tom
+        myList = linkedListReducer(myList, { type: 'append', value: 'Indigo' }); // Joe, Kate, Tom, Indigo
+        myList = linkedListReducer(myList, { type: 'append', value: 'Kirsten' }); // Joe, Kate, Tom, Indigo, Kirsten
+
+        myList = linkedListReducer(myList, { type: 'removeMatch', match: (d) => d === "Kate" })
+        myList = linkedListReducer(myList, { type: 'removeMatch', match: (d) => d === "Tom" })
+
+        const itemsGotIndividually = Array(3).fill(null).map((_, i) => linkedListGet(myList, i));
+        expect(itemsGotIndividually).toStrictEqual(["Joe", "Indigo", "Kirsten"]);
+    })
+
+    test("All Usages", () => {
+        let myList = getInitialLinkedListState();
+
+        myList = linkedListReducer(myList, { type: 'append', value: 'Joe' }); // Joe
+        myList = linkedListReducer(myList, { type: 'append', value: 'Kate' }); // Joe, Kate
+        myList = linkedListReducer(myList, { type: 'insert', logicalIndex: 1, value: 'Indigo' }); // Joe, Indigo, Kate
+        myList = linkedListReducer(myList, { type: 'insert', logicalIndex: 1, value: 'Tom' }); // Joe, Tom, Indigo, Kate
+
         myList = linkedListReducer(myList, { type: 'append', value: 'Kirsten' }); // Joe, Tom, Indigo, Kate, Kirsten
 
         const items = linkedListGetAll(myList);
         expect(items).toStrictEqual(["Joe", "Tom", "Indigo", "Kate", "Kirsten"]);
 
-        myList = linkedListReducer(myList, { type: 'remove', index: 2 });
-        expect(myList.lastResult).toBe("Indigo");
+        myList = linkedListReducer(myList, { type: 'remove', logicalIndex: 2 });
+        expect(myList.lastResult).toBeDefined();
+        expect(myList.lastResult.value).toBe("Indigo");
         const get2 = linkedListGet(myList, 2);
-        expect(get2).toBe("Kate");
+        expect(get2).toBe("Kate"); // Joe, Tom, Kate, Kirsten
 
         myList = linkedListReducer(myList, { type: 'removeMatch', match: (i) => i === "Tom" });
-        expect(myList.lastResult).toBe("Tom");
+        expect(myList.lastResult).toBeDefined();
+        expect(myList.lastResult.value).toBe("Tom");
         const get2Again = linkedListGet(myList, 2);
-        expect(get2Again).toBe("Kirsten");
+        expect(get2Again).toBe("Kirsten");  // Joe, Kate, Kirsten
 
         // Check that iteration works
         const asArr = linkedListGetAll(myList);
