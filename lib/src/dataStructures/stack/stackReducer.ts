@@ -5,7 +5,7 @@ import {
     DEFAULT_CAPACITY,
     getInitialLinearStructureState,
     linearStructureError
-} from "../Queue/linearDataStructure";
+} from "../queue/linearDataStructure";
 
 export interface StackState<T> extends LinearStructureState<T> {
     stackPointer: number;
