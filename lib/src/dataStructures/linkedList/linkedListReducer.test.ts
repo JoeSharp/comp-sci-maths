@@ -1,7 +1,7 @@
 import linkedListReducer, { getInitialLinkedListState, linkedListGet, linkedListGetAll } from "./linkedListReducer";
 
 describe("Linked List (Functional)", () => {
-    test.only("Just Append", () => {
+    test("Just Append", () => {
         let myList = getInitialLinkedListState();
 
         myList = linkedListReducer(myList, { type: 'append', value: 'Joe' }); // Joe
@@ -12,9 +12,27 @@ describe("Linked List (Functional)", () => {
         const items = linkedListGetAll(myList);
         expect(items).toStrictEqual(["Joe", "Kate", "Tom", "Indigo"]);
 
+        const itemsGotIndividually = Array(4).fill(null).map((_, i) => linkedListGet(myList, i));
+        expect(itemsGotIndividually).toStrictEqual(["Joe", "Kate", "Tom", "Indigo"]);
     })
 
-    test("Normal Use", () => {
+    test("Append and Remove at index", () => {
+        let myList = getInitialLinkedListState();
+
+        myList = linkedListReducer(myList, { type: 'append', value: 'Joe' }); // Joe
+        myList = linkedListReducer(myList, { type: 'append', value: 'Kate' }); // Joe, Kate
+        myList = linkedListReducer(myList, { type: 'append', value: 'Tom' }); // Joe, Kate, Tom
+        myList = linkedListReducer(myList, { type: 'append', value: 'Indigo' }); // Joe, Kate, Tom, Indigo
+        myList = linkedListReducer(myList, { type: 'append', value: 'Kirsten' }); // Joe, Kate, Tom, Indigo, Kirsten
+
+        myList = linkedListReducer(myList, { type: 'remove', index: 1 }) // Kate
+        myList = linkedListReducer(myList, { type: 'remove', index: 3 }) // Kirsten
+
+        const itemsGotIndividually = Array(3).fill(null).map((_, i) => linkedListGet(myList, i));
+        expect(itemsGotIndividually).toStrictEqual(["Joe", "Tom", "Indigo"]);
+    })
+
+    test.skip("All Usages", () => {
         let myList = getInitialLinkedListState();
 
         myList = linkedListReducer(myList, { type: 'append', value: 'Joe' }); // Joe
