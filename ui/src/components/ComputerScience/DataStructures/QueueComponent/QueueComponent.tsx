@@ -12,7 +12,7 @@ import ButtonBar, {
   Props as ButtonBarProps,
 } from "../../../Bootstrap/Buttons/ButtonBar";
 
-const StackComponent: React.FunctionComponent = () => {
+const QueueComponent: React.FunctionComponent = () => {
   const queue = React.useRef<Queue<NumberDataItem>>(new Queue());
 
   const [items, setItems] = React.useState<NumberDataItem[]>([]);
@@ -109,4 +109,4 @@ const StackComponent: React.FunctionComponent = () => {
   );
 };
 
-export default StackComponent;
+export default QueueComponent;

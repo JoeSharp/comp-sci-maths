@@ -66,7 +66,7 @@ export const stackPeek = <T>(state: StackState<T>): StackState<T> => {
 
 /**
  * Implements a simple Stack (FIFO) in a purely functional style.
- * 
+ *
  * @param state The current state of the Stack.
  * @param action The action to undertake
  * @returns The new state after the action is attempted
