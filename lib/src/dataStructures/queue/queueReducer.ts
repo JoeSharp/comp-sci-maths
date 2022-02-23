@@ -91,7 +91,7 @@ export const queuePeek = <T>(state: QueueState<T>): QueueState<T> => {
 
 /**
  * Implements a simple Queue (FIFO) in a purely functional style.
- * 
+ *
  * @param state The current state of the queue.
  * @param action The action to undertake
  * @returns The new state after the action is attempted

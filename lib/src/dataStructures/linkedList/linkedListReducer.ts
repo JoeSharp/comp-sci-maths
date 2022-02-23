@@ -66,7 +66,7 @@ export const isListFull = ({ capacity, nextFree, freeNodes }: LinkedListState<an
 /**
  * Retrieve the indexes of the list items up to the specified index.
  * This is the main function that traverses the pointers through the logical list.
- * 
+ *
  * @param state The current linked list state
  * @param logicalIndex The logical index of the item we traverse up to
  * @returns The indexes of the items as they appear in the underlyling array
@@ -91,10 +91,10 @@ export const linkedListTraverse = <T>(state: LinkedListState<T>,
 }
 
 /**
- * 
+ *
  * @param state The current linked list state
  * @param logicalIndex The index within the logical list of the item we are looking for
- * @returns 
+ * @returns
  */
 export const linkedListGet = <T>(state: LinkedListState<T>, logicalIndex: number): Optional<T> => {
     let physicalIndex = INVALID_PTR;
@@ -146,7 +146,7 @@ export const linkedListAppend = <T>(
     state: LinkedListState<T>,
     value: T
 ): LinkedListState<T> => {
-    let contents = [...state.contents];
+    const contents = [...state.contents];
     let start = state.start;
     const newItem: LinkedListItem<T> = {
         value,
@@ -155,7 +155,7 @@ export const linkedListAppend = <T>(
 
     // Find the last item in the logical list
     const indexes = linkedListTraverse(state);
-    let lastItem: Optional<LinkedListItem<T>> = indexes.length > 0 ?
+    const lastItem: Optional<LinkedListItem<T>> = indexes.length > 0 ?
         state.contents[indexes[indexes.length - 1]] : undefined;
 
     const {
@@ -193,7 +193,7 @@ export const linkedListRemoveLogicalIndex = <T>(state: LinkedListState<T>,
 ): LinkedListState<T> => {
     const physicalIndex = physicalIndexes[logicalIndex];
 
-    let contents = [...state.contents];
+    const contents = [...state.contents];
     let start = state.start;
     let freeNodes = state.freeNodes;
 
@@ -255,7 +255,7 @@ export const linkedListRemove = <T>(state: LinkedListState<T>, logicalIndex: num
 export const linkedListInsert = <T>(state: LinkedListState<T>, logicalIndex: number, value: T): LinkedListState<T> => {
     // Make copies of those state items likely to change
     let start = state.start;
-    let contents = [...state.contents];
+    const contents = [...state.contents];
     const newItem: LinkedListItem<T> = {
         value,
         nextPtr: INVALID_PTR
