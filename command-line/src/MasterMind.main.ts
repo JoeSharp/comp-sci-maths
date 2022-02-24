@@ -1,13 +1,11 @@
 import { MainFunction } from "./types";
-import simpleLogger from "simpleLogger";
+import simpleLogger from "./simpleLogger";
 import MasterMind from "@comp-sci-maths/lib/dist/fun/masterMind/MasterMind";
 import chalk from 'chalk';
 import Row from "@comp-sci-maths/lib/dist/fun/masterMind/Row";
 import { CountByPin, Pin } from "@comp-sci-maths/lib/dist/fun/masterMind/Pin";
-import PromptSync from 'prompt-sync';
+import simplePrompt from "./simplePrompt";
 import { ROW_SIZE } from "@comp-sci-maths/lib/dist/fun/masterMind/constants";
-
-const prompt = PromptSync();
 
 const COLOURS = [chalk.red, chalk.blue, chalk.green, chalk.yellow, chalk.magenta, chalk.white]
 
@@ -32,7 +30,7 @@ const main: MainFunction = (args: string[]) => {
     while (mastermind.gameContinues()) {
         simpleLogger.info(boardToString(mastermind));
         simpleLogger.info("Key of Colours: " + keyToString());
-        const guessRaw = prompt("Enter your selection as a 4-digit number (no spaces): ");
+        const guessRaw = simplePrompt("Enter your selection as a 4-digit number (no spaces): ");
         try {
             if (guessRaw === 'quit') return;
             if (guessRaw.length !== 4) throw new Error('Invalid length of input');

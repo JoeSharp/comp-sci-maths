@@ -1,5 +1,5 @@
-import { MainFunction } from "types";
-import simpleLogger from "simpleLogger";
+import { MainFunction } from "./types";
+import simpleLogger from "./simpleLogger";
 import MonteCarloPi from "@comp-sci-maths/lib/dist/fun/monteCarloPi/MonteCarloPi";
 import percentageError from "@comp-sci-maths/lib/dist/maths/percentageError";
 

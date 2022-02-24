@@ -9,7 +9,7 @@ import simpleLogger from './simpleLogger';
 
 const observe: SearchObserver = (
   stageName: string,
-  positionVars: { [k: string]: number }
+  positionVars: { [k: string]: number } = {}
 ) => {
   simpleLogger.info(
     `Observing ${stageName}, Position Vars: ${objToString(positionVars)}`

@@ -1,5 +1,5 @@
-import simplePrompt from 'simplePrompt';
-import simpleLogger from 'simpleLogger';
+import simplePrompt from './simplePrompt';
+import simpleLogger from './simpleLogger';
 import { MainFunction } from "./types";
 import CardDeck from "@comp-sci-maths/lib/dist/fun/cardGames/CardDeck";
 import CardStack from "@comp-sci-maths/lib/dist/fun/cardGames/CardStack";

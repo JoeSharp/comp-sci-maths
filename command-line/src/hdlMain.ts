@@ -1,4 +1,4 @@
-import simpleLogger from "simpleLogger";
+import simpleLogger from "./simpleLogger";
 
 simpleLogger.info('Hello HDL')
 
@@ -11,7 +11,7 @@ const found = codeLine.match(codeLineRegex);
 
 simpleLogger.info(JSON.stringify(found));
 
-simpleLogger.info(JSON.stringify(found.groups));
+simpleLogger.info(JSON.stringify(found !== null ? found.groups : {}));
 
 const found2 = funky.match(codeLineRegex);
 simpleLogger.info('Found 2' + JSON.stringify(found2));
