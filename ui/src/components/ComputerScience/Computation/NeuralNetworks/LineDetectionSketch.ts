@@ -1,10 +1,10 @@
 import { AbstractSketch } from "../../../p5/useSketch";
-import Perceptron from 'comp-sci-maths-lib/dist/computation/neuralNetwork/Perceptron';
-import { coordinateTester } from 'comp-sci-maths-lib/dist/computation/neuralNetwork/trainingTests';
-import { signActivationFn } from 'comp-sci-maths-lib/dist/computation/neuralNetwork/activationFunctions';
+import Perceptron from '@comp-sci-maths/lib/dist/computation/neuralNetwork/Perceptron';
+import { coordinateTester } from '@comp-sci-maths/lib/dist/computation/neuralNetwork/trainingTests';
+import { signActivationFn } from '@comp-sci-maths/lib/dist/computation/neuralNetwork/activationFunctions';
 import p5 from "p5";
 import TrainingTest, { TrainingTestGenerator } from "@comp-sci-maths/lib/dist/computation/neuralNetwork/TrainingTest";
-import { Queue } from "comp-sci-maths-lib";
+import { Queue } from "@comp-sci-maths/lib";
 
 const WIDTH = 600;
 const HEIGHT = 600;

@@ -1,6 +1,6 @@
 import React from "react";
 import { ControlledInput } from "../../../../types";
-import { chipFactory } from "comp-sci-maths-lib";
+import { chipFactory } from "@comp-sci-maths/lib";
 
 interface Props extends ControlledInput<string> {
   className?: string;

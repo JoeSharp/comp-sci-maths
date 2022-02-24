@@ -7,7 +7,6 @@ import PriorityQueue, {
 } from "@comp-sci-maths/lib/dist/dataStructures/queue/PriorityQueue";
 import useListReducer from "../../../lib/useListReducer";
 
-import "./queue.css";
 import useSketch from "../../../p5/useSketch";
 import { ArraySketchNumber } from "./ArraySketch";
 import { NumberDataItem, DisplayDataItem } from "../../../p5/Boid/types";

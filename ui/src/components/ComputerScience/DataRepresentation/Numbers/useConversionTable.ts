@@ -3,7 +3,7 @@ import {
   denaryInteger as denaryRaw,
   binaryInteger as binaryRaw,
   hexadecimalInteger as hexadecimalRaw,
-} from "comp-sci-maths-lib";
+} from "@comp-sci-maths/lib";
 
 const denary = denaryRaw.withWidth(1);
 const binary = binaryRaw.withWidth(4);

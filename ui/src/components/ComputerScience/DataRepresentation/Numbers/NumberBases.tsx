@@ -6,7 +6,7 @@ import {
   binaryInteger,
   hexadecimalInteger,
   denaryInteger as denaryRaw,
-} from "comp-sci-maths-lib";
+} from "@comp-sci-maths/lib";
 import useStreakCounter from "../../../lib/useStreakCounter";
 import ProgressBar from "../../../Bootstrap/ProgressBar";
 import NumberBaseConversionTable from "./NumberBaseConversionTable";

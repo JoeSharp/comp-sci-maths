@@ -57,7 +57,11 @@ export const queuePop = <T>(state: QueueState<T>): QueueState<T> => {
     }
 
     // Locate the item
-    const lastResult = state.contents[state.front];
+    const contents = [...state.contents]
+    const lastResult = contents[state.front];
+
+    // Clear this spot in the array, not technically necessary but it looks nicer on the UI
+    contents[state.front] = undefined;
 
     // Iterate the front of the queue
     let front = state.front;
@@ -71,6 +75,7 @@ export const queuePop = <T>(state: QueueState<T>): QueueState<T> => {
 
     return {
         ...state,
+        contents,
         front,
         lastResult,
         lastMessage: LinearDataStructureMessages.removed
@@ -96,11 +101,12 @@ export const queuePeek = <T>(state: QueueState<T>): QueueState<T> => {
  * @param action The action to undertake
  * @returns The new state after the action is attempted
  */
-export const queueReducer = <T>(state: QueueState<T>, action: LinearStructureAction<T>) => {
+export const queueReducer = <T>(state: QueueState<T>, action: LinearStructureAction<T>): QueueState<T> => {
     switch (action.type) {
         case 'push': return queuePush(state, action.value);
         case 'pop': return queuePop(state);
         case 'peek': return queuePeek(state);
+        case 'reset': return getInitialQueueState();
     }
 }
 

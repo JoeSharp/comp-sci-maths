@@ -42,10 +42,15 @@ export const stackPop = <T>(state: StackState<T>): StackState<T> => {
     }
 
     // Locate the item
-    const lastResult = state.contents[state.stackPointer - 1];
+    const contents = [...state.contents];
+    const lastResult = contents[state.stackPointer - 1];
+
+    // Clear this spot in the array, not technically necessary but it looks nicer on the UI
+    contents[state.stackPointer - 1] = undefined;
 
     return {
         ...state,
+        contents,
         stackPointer: state.stackPointer - 1,
         lastResult,
         lastMessage: LinearDataStructureMessages.removed
@@ -71,11 +76,12 @@ export const stackPeek = <T>(state: StackState<T>): StackState<T> => {
  * @param action The action to undertake
  * @returns The new state after the action is attempted
  */
-export const stackReducer = <T>(state: StackState<T>, action: LinearStructureAction<T>) => {
+export const stackReducer = <T>(state: StackState<T>, action: LinearStructureAction<T>): StackState<T> => {
     switch (action.type) {
         case 'push': return stackPush(state, action.value);
         case 'pop': return stackPop(state);
         case 'peek': return stackPeek(state);
+        case 'reset': return getInitialStackState();
     }
 }
 

@@ -16,12 +16,12 @@ import {
 
 const INVALID_PTR = -1;
 
-interface LinkedListItem<T> {
+export interface LinkedListItem<T> {
     value: T;
     nextPtr: number;
 }
 
-interface LinkedListState<T> extends LinearStructureState<LinkedListItem<T>> {
+export interface LinkedListState<T> extends LinearStructureState<LinkedListItem<T>> {
     freeNodes: StackState<number>;
     start: number;
     nextFree: number;
@@ -56,8 +56,15 @@ interface LinkedListInsertAction<T> {
     value: T
 }
 
-export type LinkedListAction<T> = LinkedListAppendAction<T> | LinkedListRemoveMatchAction<T> | LinkedListRemoveAction | LinkedListInsertAction<T>;
+interface LinkedListResetAction {
+    type: 'reset'
+}
 
+export type LinkedListAction<T> = LinkedListAppendAction<T> |
+    LinkedListRemoveMatchAction<T> |
+    LinkedListRemoveAction |
+    LinkedListInsertAction<T> |
+    LinkedListResetAction;
 
 export const isListEmpty = ({ start }: LinkedListState<any>): boolean => start === INVALID_PTR;
 export const isListFull = ({ capacity, nextFree, freeNodes }: LinkedListState<any>): boolean =>
@@ -295,6 +302,7 @@ export const linkedListInsert = <T>(state: LinkedListState<T>, logicalIndex: num
 
     return {
         ...state,
+        start,
         contents,
         nextFree,
         freeNodes,
@@ -310,6 +318,7 @@ export const linkedListReducer = <T>(state: LinkedListState<T>, action: LinkedLi
         case "remove": return linkedListRemove(state, action.logicalIndex);
         case "removeMatch": return linkedListRemoveMatch(state, action.match);
         case "insert": return linkedListInsert(state, action.logicalIndex, action.value);
+        case "reset": return getInitialLinkedListState();
     }
 }
 

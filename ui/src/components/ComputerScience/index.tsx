@@ -16,6 +16,7 @@ import {
 
 import { page as binaryTreePage } from "./DataStructures/BinaryTreeComponent";
 import { page as graphPage } from "./DataStructures/GraphManager";
+import { page as linkedListPage } from "./DataStructures/LinkedList";
 import { page as stackPage } from "./DataStructures/StackComponent";
 import { queuePage, priorityQueuePage } from "./DataStructures/QueueComponent";
 
@@ -52,6 +53,7 @@ const dataStructurePages = [
   stackPage,
   queuePage,
   priorityQueuePage,
+  linkedListPage,
 ];
 
 const dataRepresentationPages = [

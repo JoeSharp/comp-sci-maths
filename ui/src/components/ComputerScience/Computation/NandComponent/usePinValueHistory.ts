@@ -1,5 +1,5 @@
-import { Chip } from 'comp-sci-maths-lib';
-import { Optional } from 'comp-sci-maths-lib/dist/types';
+import { Chip } from "@comp-sci-maths/lib";
+import { Optional } from "@comp-sci-maths/lib/dist/types";
 import React from 'react';
 
 interface Props {

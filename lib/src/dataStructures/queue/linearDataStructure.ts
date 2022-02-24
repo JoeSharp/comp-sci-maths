@@ -1,5 +1,3 @@
-import { Optional } from "../../types";
-
 export enum LinearDataStructureMessages {
     newStructure = 'New Data Structure Created',
     full = 'Structure was Full',
@@ -23,10 +21,17 @@ interface LinearStructureActionPeek {
     type: 'peek'
 }
 
-export type LinearStructureAction<T> = LinearStructureActionPush<T> | LinearStructureActionPop | LinearStructureActionPeek;
+interface LinearStructureActionReset {
+    type: 'reset'
+}
+
+export type LinearStructureAction<T> = LinearStructureActionPush<T> |
+    LinearStructureActionPop |
+    LinearStructureActionPeek |
+    LinearStructureActionReset;
 
 export interface LinearStructureState<T> {
-    contents: Optional<T>[];
+    contents: (T | null)[];
     capacity: number,
     lastResult: T | null;
     lastMessage: LinearDataStructureMessages;

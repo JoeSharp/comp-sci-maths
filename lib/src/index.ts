@@ -14,10 +14,13 @@ import Graph from "./dataStructures/graph/Graph";
 import SimpleStringGraph from "./dataStructures/graph/SimpleStringGraph";
 import LinkedItem from "./dataStructures/linkedList/LinkedItem";
 import LinkedList from "./dataStructures/linkedList/LinkedList";
+import linkedListReducer from "./dataStructures/linkedList/linkedListReducer";
 import PriorityQueue from "./dataStructures/queue/PriorityQueue";
 import CircularQueue from "./dataStructures/queue/CircularQueue";
 import Queue from "./dataStructures/queue/Queue";
+import queueReducer from "./dataStructures/queue/queueReducer";
 import Stack from "./dataStructures/stack/Stack";
+import stackReducer from "./dataStructures/stack/stackReducer";
 import GameOfLife from "./fun/gameOfLife/GameOfLife";
 import {
   binaryInteger,
@@ -56,11 +59,14 @@ export {
   Graph,
   SimpleStringGraph,
   Stack,
+  stackReducer,
   Queue,
+  queueReducer,
   PriorityQueue,
   CircularQueue,
   LinkedList,
   LinkedItem,
+  linkedListReducer,
   BinaryTree,
   BinaryTreeString,
   BinaryTreeNumber,
