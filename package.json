@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "start": "yarn --cwd ui start",
-    "build": "yarn --cwd lib build"
+    "build": "yarn --cwd lib build",
+    "deploy": "gh-pages -d ui/build"
   }
 }

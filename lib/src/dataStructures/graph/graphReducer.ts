@@ -56,7 +56,7 @@ export interface GraphState<T> {
 
 /**
  * Retrieve a vertex from the graph
- * 
+ *
  * @param state The graph state
  * @param asString The vertex as a string
  * @returns The original vertex value, if found
@@ -66,7 +66,7 @@ export const getVertex = <T>({ toString, vertices }: GraphState<T>, asString: st
 
 /**
  * Retrieve the edge that exists between the two given vertices
- * 
+ *
  * @param state The graph state
  * @param from The from vertex
  * @param to The to vertex
@@ -102,7 +102,7 @@ export const getEdgeWeight = <T>(state: GraphState<T>, from: T, to: T): number =
 
 /**
  * Create a new graph state.
- * 
+ *
  * @param toString A function that can convert the given type to a string
  * @param areVerticesEqual A function that can compare two vertices
  * @returns An empty graph state.
@@ -119,7 +119,7 @@ export const createInitialState = <T>(
 
 /**
  * Add a vertex to the graph.
- * 
+ *
  * @param state Current graph state
  * @param vertex The vertex to add
  * @returns new graph state after changes
@@ -133,7 +133,7 @@ export const graphAddVertex = <T>(state: GraphState<T>, vertex: T): GraphState<T
 });
 
 /**
- * 
+ *
  * @param state Current graph state
  * @param vertex The vertex to remove
  * @returns new graph state after changes
@@ -153,10 +153,10 @@ export const graphRemoveVertex = <T>(state: GraphState<T>, vertex: T): GraphStat
 })
 
 /**
- * 
+ *
  * @param state Current graph state
- * @param from 
- * @param to 
+ * @param from
+ * @param to
  * @returns new graph state after changes
  */
 export const graphRemoveEdge = <T>(state: GraphState<T>, from: T, to: T): GraphState<T> => ({
@@ -170,11 +170,11 @@ export const graphRemoveEdge = <T>(state: GraphState<T>, from: T, to: T): GraphS
 })
 
 /**
- * 
+ *
  * @param state Current graph state
- * @param from 
- * @param to 
- * @param weight 
+ * @param from
+ * @param to
+ * @param weight
  * @returns new graph state after changes
  */
 export const graphAddUnidirectionalEdge = <T>(
@@ -201,11 +201,11 @@ export const graphAddUnidirectionalEdge = <T>(
 });
 
 /**
- * 
+ *
  * @param state Current graph state
- * @param from 
- * @param to 
- * @param weight 
+ * @param from
+ * @param to
+ * @param weight
  * @returns new graph state after changes
  */
 export const graphAddBidirectionalEdge = <T>(
@@ -235,9 +235,9 @@ export const graphAddBidirectionalEdge = <T>(
 });
 
 /**
- * 
+ *
  * @param state Current graph state
- * @param action 
+ * @param action
  * @returns new graph state after changes
  */
 export const graphReducer = <T>(state: GraphState<T>, action: GraphAction<T>): GraphState<T> => {
