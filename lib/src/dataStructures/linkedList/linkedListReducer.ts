@@ -14,7 +14,7 @@ import {
     StackState
 } from "../stack/stackReducer";
 
-const INVALID_PTR = -1;
+export const INVALID_PTR = -1;
 
 export interface LinkedListItem<T> {
     value: T;
@@ -79,14 +79,14 @@ export const isListFull = ({ capacity, nextFree, freeNodes }: LinkedListState<an
  * @returns The indexes of the items as they appear in the underlyling array
  */
 export const linkedListTraverse = <T>(state: LinkedListState<T>,
-    stop: (logicalIndex: number, physicalIndex: number) => boolean = () => false): number[] => {
+    stop: (item: LinkedListItem<T>, logicalIndex: number, physicalIndex: number) => boolean = () => false): number[] => {
     const indexes: number[] = [];
 
     if (isListEmpty(state)) return indexes;
 
     let currLogicalIndex = 0;
     let currPhysicalIndex = state.start;
-    while (currPhysicalIndex !== INVALID_PTR && !stop(currLogicalIndex, currPhysicalIndex)) {
+    while (currPhysicalIndex !== INVALID_PTR && !stop(state.contents[currPhysicalIndex], currLogicalIndex, currPhysicalIndex)) {
         indexes.push(currPhysicalIndex);
         const itemTest = state.contents[currPhysicalIndex];
         currPhysicalIndex = itemTest.nextPtr;
@@ -103,9 +103,9 @@ export const linkedListTraverse = <T>(state: LinkedListState<T>,
  * @param logicalIndex The index within the logical list of the item we are looking for
  * @returns
  */
-export const linkedListGet = <T>(state: LinkedListState<T>, logicalIndex: number): Optional<T> => {
+export const linkedListGet = <T>(state: LinkedListState<T>, logicalIndex: number): Optional<LinkedListItem<T>> => {
     let physicalIndex = INVALID_PTR;
-    linkedListTraverse(state, (currLogicalIndex, currPhysicalIndex) => {
+    linkedListTraverse(state, (_, currLogicalIndex, currPhysicalIndex) => {
         if (currLogicalIndex === logicalIndex) {
             physicalIndex = currPhysicalIndex;
             return true;
@@ -113,7 +113,7 @@ export const linkedListGet = <T>(state: LinkedListState<T>, logicalIndex: number
 
         return false;
     });
-    return physicalIndex !== INVALID_PTR ? state.contents[physicalIndex].value : undefined;
+    return physicalIndex !== INVALID_PTR ? state.contents[physicalIndex] : undefined;
 }
 
 export const linkedListGetAll = <T>(state: LinkedListState<T>): T[] => {
@@ -234,7 +234,7 @@ export const linkedListRemoveMatch = <T>(state: LinkedListState<T>, match: Match
     let logicalIndex = INVALID_PTR;
     let physicalIndex = INVALID_PTR;
 
-    const physicalIndexes = linkedListTraverse(state, (currLogicalIndex, currPhysicalIndex) => {
+    const physicalIndexes = linkedListTraverse(state, (_, currLogicalIndex, currPhysicalIndex) => {
         if (match(state.contents[currPhysicalIndex].value)) {
             logicalIndex = currLogicalIndex;
             physicalIndex = currPhysicalIndex;
@@ -255,7 +255,7 @@ export const linkedListRemoveMatch = <T>(state: LinkedListState<T>, match: Match
 
 export const linkedListRemove = <T>(state: LinkedListState<T>, logicalIndex: number): LinkedListState<T> => {
     if (isListEmpty(state)) return linearStructureError(state, LinearDataStructureMessages.empty);
-    const physicalIndexes = linkedListTraverse(state, (currLogicalIndex,) => currLogicalIndex > logicalIndex);
+    const physicalIndexes = linkedListTraverse(state, (_, currLogicalIndex) => currLogicalIndex > logicalIndex);
     return linkedListRemoveLogicalIndex(state, logicalIndex, physicalIndexes);
 }
 
@@ -285,7 +285,7 @@ export const linkedListInsert = <T>(state: LinkedListState<T>, logicalIndex: num
         newItem.nextPtr = state.start;
         start = newPhysicalIndex;
     } else {
-        const physicalIndexes = linkedListTraverse(state, (currLogicalIndex,) => currLogicalIndex > logicalIndex);
+        const physicalIndexes = linkedListTraverse(state, (_, currLogicalIndex,) => currLogicalIndex > logicalIndex);
 
         // Do we have enough items?
         if (physicalIndexes.length <= logicalIndex) return linearStructureError(state, LinearDataStructureMessages.notFound);

@@ -16,7 +16,6 @@ import LinkedItem from "./dataStructures/linkedList/LinkedItem";
 import LinkedList from "./dataStructures/linkedList/LinkedList";
 import linkedListReducer from "./dataStructures/linkedList/linkedListReducer";
 import PriorityQueue from "./dataStructures/queue/PriorityQueue";
-import CircularQueue from "./dataStructures/queue/CircularQueue";
 import Queue from "./dataStructures/queue/Queue";
 import queueReducer from "./dataStructures/queue/queueReducer";
 import Stack from "./dataStructures/stack/Stack";
@@ -63,7 +62,6 @@ export {
   Queue,
   queueReducer,
   PriorityQueue,
-  CircularQueue,
   LinkedList,
   LinkedItem,
   linkedListReducer,

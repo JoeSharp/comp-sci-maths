@@ -1,4 +1,3 @@
-import CircularQueue from "./CircularQueue";
 import PriorityQueue, { PrioritisedItem } from "./PriorityQueue";
 import Queue from "./Queue";
 
@@ -69,36 +68,4 @@ describe("Queue (OOP)", () => {
     expect(g).toEqual({ name: "Chris", priority: 7 });
     expect(h).toEqual({ name: "Nina", priority: 4 });
   });
-
-  test("Circular Queue", () => {
-    const myCQ = new CircularQueue<number>(5);
-    myCQ.enqueue(5);
-    myCQ.enqueue(7);
-    myCQ.enqueue(10);
-    const a = myCQ.dequeue();
-    myCQ.enqueue(13);
-    myCQ.enqueue(54);
-    const b = myCQ.dequeue();
-    myCQ.enqueue(2);
-    const c = myCQ.dequeue();
-    myCQ.enqueue(6);
-    const d = myCQ.dequeue();
-    myCQ.enqueue(19);
-    const e = myCQ.dequeue();
-    myCQ.enqueue(27);
-    myCQ.enqueue(28);
-    const f = myCQ.dequeue();
-    const g = myCQ.dequeue();
-    const h = myCQ.dequeue();
-
-    expect(a).toBe(5);
-    expect(b).toBe(7);
-    expect(c).toBe(10);
-    expect(d).toBe(13);
-    expect(e).toBe(54);
-    expect(f).toBe(2);
-    expect(g).toBe(6);
-    expect(h).toBe(19);
-  });
-
 })
