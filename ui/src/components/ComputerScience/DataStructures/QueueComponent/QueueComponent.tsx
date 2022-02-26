@@ -7,13 +7,12 @@ import {
 } from "@comp-sci-maths/lib/dist/dataStructures/queue/queueReducer";
 
 import LinearDataStructureComponent from "./LinearDataStructureComponent";
-import { LinearStructureAction } from "@comp-sci-maths/lib/dist/dataStructures/queue/linearDataStructure";
 
-const INITIAL_STATE: QueueState<number> = getInitialQueueState<number>();
+const INITIAL_STATE: QueueState<string> = getInitialQueueState<string>();
 
 const QueueComponent: React.FunctionComponent = () => {
   const [state, dispatch] = React.useReducer(
-    queueReducer as React.Reducer<QueueState<number>, LinearStructureAction<number>>,
+    queueReducer,
     INITIAL_STATE
   );
   const { front, rear } = state;
@@ -23,7 +22,7 @@ const QueueComponent: React.FunctionComponent = () => {
   ]), [front, rear])
 
   return <LinearDataStructureComponent
-    state={state as QueueState<number>}
+    state={state as QueueState<string>}
     dispatch={dispatch}
     specificProps={specificProps} />
 };

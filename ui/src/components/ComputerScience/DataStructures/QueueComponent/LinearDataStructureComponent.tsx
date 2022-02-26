@@ -11,17 +11,20 @@ import ButtonBar, {
 import LDSDisplayTables, { Props as LDSProps } from './LDSDisplayTables';
 
 import "./linearDataStructure.css";
+import { loremIpsum } from 'lorem-ipsum';
 
 interface Props extends LDSProps {
-    dispatch: (action: LinearStructureAction<number>) => void;
+    dispatch: (action: LinearStructureAction<string | number>) => void;
 }
+
+const generateWord = () => loremIpsum({ units: 'word', count: 1 });
 
 const LinearDataStructureComponent: React.FunctionComponent<Props> = (
     { dispatch, ...lds }) => {
-    const [newItem, setNewItem] = React.useState<number>(0);
+    const [newItem, setNewItem] = React.useState<string>(generateWord());
 
     const onNewItemChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-        ({ target: { value } }) => setNewItem(parseInt(value)),
+        ({ target: { value } }) => setNewItem(value),
         [setNewItem]
     );
 
@@ -31,7 +34,7 @@ const LinearDataStructureComponent: React.FunctionComponent<Props> = (
 
     const onEnqueue = React.useCallback(() => {
         dispatch({ type: 'push', value: newItem })
-        setNewItem(newItem + 1);
+        setNewItem(generateWord());
     }, [newItem, setNewItem, dispatch]);
 
     const onDequeue = React.useCallback(() => {
@@ -69,7 +72,6 @@ const LinearDataStructureComponent: React.FunctionComponent<Props> = (
                     <input
                         className="form-control"
                         value={newItem}
-                        type="number"
                         onChange={onNewItemChange}
                     />
                 </div>

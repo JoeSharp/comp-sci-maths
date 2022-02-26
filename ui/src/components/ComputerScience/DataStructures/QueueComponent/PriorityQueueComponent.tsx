@@ -1,91 +1,47 @@
 import React from "react";
 
-import { v4 as uuidv4 } from "uuid";
+import { loremIpsum } from 'lorem-ipsum';
 
-import PriorityQueue, {
+import {
+  priorityQueueReducer,
+  getInitialPriorityQueueState,
   PrioritisedItem,
-} from "@comp-sci-maths/lib/dist/dataStructures/queue/PriorityQueue";
-import useListReducer from "../../../lib/useListReducer";
+} from "@comp-sci-maths/lib/dist/dataStructures/queue/priorityQueueReducer";
 
-import useSketch from "../../../p5/useSketch";
-import { ArraySketchNumber } from "./ArraySketch";
-import { NumberDataItem, DisplayDataItem } from "../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "../../../Bootstrap/Buttons/ButtonBar";
+import LinkedListDisplayComponent from "../LinkedList/LinkedListDisplayComponent";
+import { LinkedListState } from "@comp-sci-maths/lib/dist/dataStructures/linkedList/linkedListReducer";
 
-interface PrioritisedNumberDataItem
-  extends DisplayDataItem<number>,
-  PrioritisedItem { }
+const INITIAL_STATE = getInitialPriorityQueueState<PrioritisedItem<string>>();
+
+const generateWord = () => loremIpsum({ units: 'word', count: 1 });
 
 const StackComponent: React.FunctionComponent = () => {
-  const queue = React.useRef<PriorityQueue<PrioritisedNumberDataItem>>(
-    new PriorityQueue()
-  );
+  const [state, dispatch] = React.useReducer(priorityQueueReducer, INITIAL_STATE);
 
-  const [items, setItems] = React.useState<NumberDataItem[]>([]);
-  const [newItem, setNewItem] = React.useState<number>(0);
+  const [newItem, setNewItem] = React.useState<string>(generateWord());
   const [newPriority, setNewPriority] = React.useState<number>(1);
 
-  const {
-    items: poppedItems,
-    addItem: addPoppedItem,
-    clearItems: clearPoppedItems,
-  } = useListReducer<NumberDataItem>();
-
   const onNewItemChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setNewItem(parseInt(value)),
+    ({ target: { value } }) => setNewItem(value),
     [setNewItem]
   );
 
   const onNewPriorityChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setNewPriority(parseInt(value)),
+    ({ target: { value } }) => setNewPriority(parseInt(value, 10)),
     [setNewPriority]
   );
 
-  const updateItems = React.useCallback(
-    () => setItems(queue.current.items.toArray()),
-    [setItems]
-  );
-
-  const onReset = React.useCallback(() => {
-    setItems([]);
-    clearPoppedItems();
-    setNewItem(0);
-  }, [setNewItem, setItems, clearPoppedItems]);
+  const onReset = React.useCallback(() => dispatch({ type: 'reset' }), []);
 
   const onEnqueue = React.useCallback(() => {
-    queue.current.enqueue({
-      key: uuidv4(),
-      label: `${newItem} p${newPriority}`,
-      value: newItem,
-      priority: newPriority,
-    });
-    setNewItem(newItem + 1);
-    updateItems();
-  }, [newItem, newPriority, setNewItem, updateItems]);
+    dispatch({ type: 'enqueue', value: newItem, priority: newPriority })
+    setNewItem(generateWord());
+  }, [newItem, newPriority, setNewItem]);
 
-  const onDequeue = React.useCallback(() => {
-    try {
-      addPoppedItem(queue.current.dequeue());
-      updateItems();
-    } catch (e) {
-    }
-  }, [updateItems, addPoppedItem]);
-
-  const { updateConfig, refContainer } = useSketch(ArraySketchNumber);
-
-  React.useEffect(
-    () =>
-      updateConfig({
-        dataItems: items,
-        lastRetrievedItem: poppedItems.reduce<NumberDataItem | null>(
-          (_, curr) => curr,
-          null
-        ),
-      }),
-    [poppedItems, items, updateConfig]
-  );
+  const onDequeue = React.useCallback(() => dispatch({ type: 'dequeue' }), []);
 
   const buttonBarProps: ButtonBarProps = React.useMemo(
     () => ({
@@ -118,7 +74,6 @@ const StackComponent: React.FunctionComponent = () => {
           <input
             className="form-control"
             value={newItem}
-            type="number"
             onChange={onNewItemChange}
           />
         </div>
@@ -132,10 +87,11 @@ const StackComponent: React.FunctionComponent = () => {
           />
         </div>
       </form>
-
       <ButtonBar {...buttonBarProps} />
 
-      <div ref={refContainer} />
+      <LinkedListDisplayComponent
+        itemToString={({ value, priority }: PrioritisedItem<string>) => `${value} - ${priority}`}
+        linkedListState={state as LinkedListState<PrioritisedItem<string>>} />
     </div>
   );
 };

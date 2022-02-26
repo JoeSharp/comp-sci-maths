@@ -12,20 +12,13 @@ import {
 import ButtonBar, {
     Props as ButtonBarProps,
 } from "../../../Bootstrap/Buttons/ButtonBar";
-import LDSDisplayTables from '../QueueComponent/LDSDisplayTables';
+import LinkedListDisplayComponent from './LinkedListDisplayComponent';
+import { defaultToString } from '@comp-sci-maths/lib/dist/common';
 
 const INITIAL_STATE = getInitialLinkedListState<string>();
 
 const LinkedListComponent: React.FunctionComponent = () => {
-    const [{
-        capacity,
-        contents,
-        freeNodes,
-        lastMessage,
-        lastResult,
-        nextFree,
-        start
-    }, dispatch] = React.useReducer(
+    const [state, dispatch] = React.useReducer(
         linkedListReducer as React.Reducer<LinkedListState<string>, LinkedListAction<string>>,
         INITIAL_STATE
     );
@@ -91,11 +84,6 @@ const LinkedListComponent: React.FunctionComponent = () => {
         [onAppend, onInsert, onRemove, onReset]
     );
 
-    const { stackPointer } = freeNodes;
-    const freeNodesSpecificProps = React.useMemo(() => ([
-        { name: 'Stack Pointer', value: stackPointer },
-    ]), [stackPointer])
-
     return (
         <div>
             <form>
@@ -114,7 +102,7 @@ const LinkedListComponent: React.FunctionComponent = () => {
                         value={logicalIndex}
                         type="number"
                         min={0}
-                        max={capacity}
+                        max={state.capacity}
                         onChange={onLogicalIndexChange}
                     />
                 </div>
@@ -122,63 +110,7 @@ const LinkedListComponent: React.FunctionComponent = () => {
 
             <ButtonBar {...buttonBarProps} />
 
-            <div className='linearDataStructureItems'>
-                <table className='table table-striped'>
-                    <thead>
-                        <tr>
-                            <td>Index</td>
-                            <td>Value</td>
-                            <td>Next Ptr</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {contents.map((item, i) => (
-                            <tr key={i}>
-                                <td>{i}</td>
-                                <td>{item !== null ? item.value : ''}</td>
-                                <td>{item !== null ? item.nextPtr : ''}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-
-                <table className='table table-striped'>
-                    <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>Value</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Next Free</td>
-                            <td>{nextFree}</td>
-                        </tr>
-                        <tr>
-                            <td>Start</td>
-                            <td>{start}</td>
-                        </tr>
-                        <tr>
-                            <td>Capacity</td>
-                            <td>{capacity}</td>
-                        </tr>
-                        <tr>
-                            <td>Last Result</td>
-                            <td>{lastResult !== null ? lastResult.value : ''}</td>
-                        </tr>
-                        <tr>
-                            <td>Last Message</td>
-                            <td>{lastMessage}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div>
-                <h2>Queue of Free Nodes</h2>
-
-                <LDSDisplayTables state={freeNodes} specificProps={freeNodesSpecificProps} />
-            </div>
+            <LinkedListDisplayComponent itemToString={defaultToString} linkedListState={state} />
         </div>
     );
 }

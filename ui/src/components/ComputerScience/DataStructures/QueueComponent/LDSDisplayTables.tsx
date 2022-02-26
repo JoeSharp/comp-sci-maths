@@ -5,10 +5,10 @@ import {
 } from "@comp-sci-maths/lib/dist/dataStructures/queue/linearDataStructure";
 
 export interface Props {
-    state: LinearStructureState<number>;
+    state: LinearStructureState<string | number>;
     specificProps?: {
         name: string,
-        value: number
+        value: string | number
     }[]
 }
 

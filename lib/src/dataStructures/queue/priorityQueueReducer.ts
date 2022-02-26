@@ -88,3 +88,5 @@ export const priorityQueueReducer = <T>(state: PriorityQueueState<T>, action: Pr
         case 'reset': return getInitialLinkedListState();
     }
 }
+
+export default priorityQueueReducer;

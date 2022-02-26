@@ -6,13 +6,12 @@ import {
   StackState
 } from "@comp-sci-maths/lib/dist/dataStructures/stack/stackReducer";
 import LinearDataStructureComponent from "../QueueComponent/LinearDataStructureComponent";
-import { LinearStructureAction } from "@comp-sci-maths/lib/dist/dataStructures/queue/linearDataStructure";
 
 const INITIAL_STATE: StackState<number> = getInitialStackState<number>();
 
 const StackComponent: React.FunctionComponent = () => {
   const [state, dispatch] = React.useReducer(
-    stackReducer as React.Reducer<StackState<number>, LinearStructureAction<number>>,
+    stackReducer,
     INITIAL_STATE
   );
   const { stackPointer } = state;
