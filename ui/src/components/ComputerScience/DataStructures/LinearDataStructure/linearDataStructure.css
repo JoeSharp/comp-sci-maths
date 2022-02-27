@@ -1,5 +1,35 @@
 .linearDataStructureItems {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.linearDataStructureItems>table {
+  margin: 2rem;
+}
+
+.data-table {}
+
+.data-table th {
+  background-color: black;
+  color: white;
+}
+
+.data-table td {
+  padding: 0.5rem;
+  vertical-align: bottom;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #bbff94;
+}
+
+.data-table tr:nth-child(odd) {
+  background-color: #85fc40;
+}
+
+.data-table .highlighted {
+  background-color: darkblue !important;
+  color: white !important;
 }

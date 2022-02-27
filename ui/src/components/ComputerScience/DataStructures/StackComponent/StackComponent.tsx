@@ -15,14 +15,14 @@ const StackComponent: React.FunctionComponent = () => {
     INITIAL_STATE
   );
   const { stackPointer } = state;
-  const specificProps = React.useMemo(() => ([
+  const namedIndices = React.useMemo(() => ([
     { name: 'Stack Pointer', value: stackPointer }
   ]), [stackPointer])
 
   return <LinearDataStructureEditor
     state={state as StackState<number>}
     dispatch={dispatch}
-    specificProps={specificProps} />
+    namedIndices={namedIndices} />
 };
 
 export default StackComponent;

@@ -16,7 +16,7 @@ const QueueComponent: React.FunctionComponent = () => {
     INITIAL_STATE
   );
   const { front, rear } = state;
-  const specificProps = React.useMemo(() => ([
+  const namedIndices = React.useMemo(() => ([
     { name: 'Front', value: front },
     { name: 'Rear', value: rear }
   ]), [front, rear])
@@ -26,7 +26,7 @@ const QueueComponent: React.FunctionComponent = () => {
     popOperationName="Dequeue"
     state={state as QueueState<string>}
     dispatch={dispatch}
-    specificProps={specificProps} />
+    namedIndices={namedIndices} />
 };
 
 export default QueueComponent;

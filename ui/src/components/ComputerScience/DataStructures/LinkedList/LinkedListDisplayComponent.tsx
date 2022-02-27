@@ -18,7 +18,7 @@ const LinkedListDisplayComponent = <T extends any>({ itemToString, linkedListSta
     freeNodes }
 }: Props<T>) => {
     const { stackPointer } = freeNodes;
-    const freeNodesSpecificProps = React.useMemo(() => ([
+    const freeNodesNamedIndices = React.useMemo(() => ([
         { name: 'Stack Pointer', value: stackPointer },
     ]), [stackPointer])
 
@@ -78,7 +78,7 @@ const LinkedListDisplayComponent = <T extends any>({ itemToString, linkedListSta
         <div>
             <h2>Queue of Free Nodes</h2>
 
-            <LinearDataStructureDisplay state={freeNodes} specificProps={freeNodesSpecificProps} />
+            <LinearDataStructureDisplay state={freeNodes} namedIndices={freeNodesNamedIndices} />
         </div>
     </React.Fragment>
 };

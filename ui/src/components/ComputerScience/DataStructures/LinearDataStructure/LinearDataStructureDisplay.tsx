@@ -6,25 +6,34 @@ import {
 
 export interface Props {
     state: LinearStructureState<string | number>;
-    specificProps?: {
+    namedIndices?: {
         name: string,
-        value: string | number
+        value: number
     }[]
 }
 
+const DEFAULT_HIGHLIGHTED_ROW = -1;
+
 const LinearDataStructureDisplay: React.FunctionComponent<Props> = ({
     state: { contents, capacity, lastResult, lastMessage },
-    specificProps = []
+    namedIndices = []
 }) => {
+    const [highlightedRow, setHighlightedRow] = React.useState<number>(DEFAULT_HIGHLIGHTED_ROW);
+
+    const namedIndicesWithHandlers = React.useMemo(() => namedIndices.map(({ name, value }) => ({
+        name,
+        value,
+        onClick: () => setHighlightedRow(highlightedRow === value ? DEFAULT_HIGHLIGHTED_ROW : value)
+    })), [namedIndices, highlightedRow, setHighlightedRow])
 
     return (<div className='linearDataStructureItems'>
-        <table className='table table-striped'>
+        <table className='data-table'>
             <thead>
-                <tr><td>Index</td><td>Value</td></tr>
+                <tr><th>Index</th><th>Value</th></tr>
             </thead>
             <tbody>
                 {contents.map((value, i) => (
-                    <tr key={i}>
+                    <tr key={i} className={i === highlightedRow ? 'highlighted' : ''}>
                         <td>{i}</td>
                         <td>{value}</td>
                     </tr>
@@ -32,16 +41,16 @@ const LinearDataStructureDisplay: React.FunctionComponent<Props> = ({
             </tbody>
         </table>
 
-        <table className='table table-striped'>
+        <table className='data-table'>
             <thead>
                 <tr>
-                    <td>Name</td>
-                    <td>Value</td>
+                    <th>Name</th>
+                    <th>Value</th>
                 </tr>
             </thead>
             <tbody>
-                {specificProps.map(({ name, value }) => (
-                    <tr key={name}>
+                {namedIndicesWithHandlers.map(({ name, value, onClick }) => (
+                    <tr key={name} onClick={onClick}>
                         <td>{name}</td>
                         <td>{value}</td>
                     </tr>
