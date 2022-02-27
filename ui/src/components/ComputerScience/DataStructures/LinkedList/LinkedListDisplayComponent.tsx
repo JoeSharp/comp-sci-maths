@@ -1,7 +1,7 @@
 import { LinkedListState } from '@comp-sci-maths/lib/dist/dataStructures/linkedList/linkedListReducer';
 import { ToString } from '@comp-sci-maths/lib/dist/types';
 import React from 'react';
-import LDSDisplayTables from '../QueueComponent/LDSDisplayTables';
+import LinearDataStructureDisplay from '../LinearDataStructure/LinearDataStructureDisplay';
 
 interface Props<T> {
     linkedListState: LinkedListState<T>;
@@ -78,7 +78,7 @@ const LinkedListDisplayComponent = <T extends any>({ itemToString, linkedListSta
         <div>
             <h2>Queue of Free Nodes</h2>
 
-            <LDSDisplayTables state={freeNodes} specificProps={freeNodesSpecificProps} />
+            <LinearDataStructureDisplay state={freeNodes} specificProps={freeNodesSpecificProps} />
         </div>
     </React.Fragment>
 };

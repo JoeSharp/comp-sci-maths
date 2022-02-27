@@ -1,4 +1,4 @@
-import { HackCpu } from "@comp-sci-maths/lib";
+import { HackCpu } from "@comp-sci-maths/lib/dist";
 import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 import React from "react";
 

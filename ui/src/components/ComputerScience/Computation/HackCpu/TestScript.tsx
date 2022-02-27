@@ -1,4 +1,4 @@
-import { HackCpuTestRunner } from "@comp-sci-maths/lib";
+import { HackCpuTestRunner } from "@comp-sci-maths/lib/dist";
 import React from "react";
 import Button from "../../../Bootstrap/Buttons/Button";
 import Tabs, { Tab, useTabs } from "../../../Bootstrap/Tabs/Tabs";

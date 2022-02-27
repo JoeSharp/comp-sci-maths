@@ -1,4 +1,4 @@
-import { Chip } from "@comp-sci-maths/lib";
+import { Chip } from "@comp-sci-maths/lib/dist";
 import { Optional } from "@comp-sci-maths/lib/dist/types";
 import React from 'react';
 

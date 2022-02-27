@@ -5,7 +5,7 @@ import {
   stackReducer,
   StackState
 } from "@comp-sci-maths/lib/dist/dataStructures/stack/stackReducer";
-import LinearDataStructureComponent from "../QueueComponent/LinearDataStructureComponent";
+import LinearDataStructureEditor from "../LinearDataStructure/LinearDataStructureEditor";
 
 const INITIAL_STATE: StackState<number> = getInitialStackState<number>();
 
@@ -19,7 +19,7 @@ const StackComponent: React.FunctionComponent = () => {
     { name: 'Stack Pointer', value: stackPointer }
   ]), [stackPointer])
 
-  return <LinearDataStructureComponent
+  return <LinearDataStructureEditor
     state={state as StackState<number>}
     dispatch={dispatch}
     specificProps={specificProps} />

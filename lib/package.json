@@ -1,5 +1,5 @@
 {
-  "name": "@comp-sci-maths/lib",
+  "name": "@comp-sci-maths/lib/dist",
   "version": "10.3.0",
   "description": "Collection of Algorithms and Data Structures Learnt During Secondary Education in Computer Science and Maths",
   "main": "dist/comp-sci-maths-lib.js",

@@ -5,7 +5,7 @@ import {
   signed16bitBinary,
   denaryInteger,
   signed16bitHex,
-} from "@comp-sci-maths/lib";
+} from "@comp-sci-maths/lib/dist";
 import { INumberBase } from "@comp-sci-maths/lib/dist/dataRepresentation/numberBases/types";
 
 const NUMBER_BASES: INumberBase[] = [

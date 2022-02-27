@@ -8,19 +8,29 @@ import ButtonBar, {
     Props as ButtonBarProps,
 } from "../../../Bootstrap/Buttons/ButtonBar";
 
-import LDSDisplayTables, { Props as LDSProps } from './LDSDisplayTables';
+import LinearDataStructureDisplay,
+{
+    Props as LinearDataStructureDisplayProps
+} from './LinearDataStructureDisplay';
 
 import "./linearDataStructure.css";
 import { loremIpsum } from 'lorem-ipsum';
 
-interface Props extends LDSProps {
+interface Props extends LinearDataStructureDisplayProps {
+    pushOperationName?: string;
+    popOperationName?: string;
     dispatch: (action: LinearStructureAction<string | number>) => void;
 }
 
 const generateWord = () => loremIpsum({ units: 'word', count: 1 });
 
-const LinearDataStructureComponent: React.FunctionComponent<Props> = (
-    { dispatch, ...lds }) => {
+const LinearDataStructureEditor: React.FunctionComponent<Props> = (
+    {
+        dispatch,
+        pushOperationName = 'Push',
+        popOperationName = 'Pop',
+        ...lds
+    }) => {
     const [newItem, setNewItem] = React.useState<string>(generateWord());
 
     const onNewItemChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
@@ -32,12 +42,12 @@ const LinearDataStructureComponent: React.FunctionComponent<Props> = (
         dispatch({ type: 'reset' })
     }, [dispatch]);
 
-    const onEnqueue = React.useCallback(() => {
+    const onPush = React.useCallback(() => {
         dispatch({ type: 'push', value: newItem })
         setNewItem(generateWord());
     }, [newItem, setNewItem, dispatch]);
 
-    const onDequeue = React.useCallback(() => {
+    const onPop = React.useCallback(() => {
         dispatch({ type: 'pop' })
     }, [dispatch]);
 
@@ -45,13 +55,13 @@ const LinearDataStructureComponent: React.FunctionComponent<Props> = (
         () => ({
             buttons: [
                 {
-                    text: "Enqueue",
-                    onClick: onEnqueue,
+                    text: pushOperationName,
+                    onClick: onPush,
                     styleType: "primary",
                 },
                 {
-                    text: "Dequeue",
-                    onClick: onDequeue,
+                    text: popOperationName,
+                    onClick: onPop,
                     styleType: "primary",
                 },
                 {
@@ -61,7 +71,7 @@ const LinearDataStructureComponent: React.FunctionComponent<Props> = (
                 },
             ],
         }),
-        [onEnqueue, onDequeue, onReset]
+        [pushOperationName, popOperationName, onPush, onPop, onReset]
     );
 
     return (
@@ -79,9 +89,9 @@ const LinearDataStructureComponent: React.FunctionComponent<Props> = (
 
             <ButtonBar {...buttonBarProps} />
 
-            <LDSDisplayTables {...lds} />
+            <LinearDataStructureDisplay {...lds} />
         </div>
     );
 }
 
-export default LinearDataStructureComponent;
+export default LinearDataStructureEditor;

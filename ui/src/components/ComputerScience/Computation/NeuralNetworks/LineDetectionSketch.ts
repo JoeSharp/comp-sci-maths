@@ -4,7 +4,7 @@ import { coordinateTester } from '@comp-sci-maths/lib/dist/computation/neuralNet
 import { signActivationFn } from '@comp-sci-maths/lib/dist/computation/neuralNetwork/activationFunctions';
 import p5 from "p5";
 import TrainingTest, { TrainingTestGenerator } from "@comp-sci-maths/lib/dist/computation/neuralNetwork/TrainingTest";
-import { Queue } from "@comp-sci-maths/lib";
+import { Queue } from "@comp-sci-maths/lib/dist";
 
 const WIDTH = 600;
 const HEIGHT = 600;

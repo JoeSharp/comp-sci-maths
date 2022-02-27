@@ -18,7 +18,7 @@
   "dependencies": {
     "@types/yargs": "^17.0.8",
     "chalk": "^5.0.0",
-    "@comp-sci-maths/lib": "10.3.0",
+    "@comp-sci-maths/lib/dist": "10.3.0",
     "prompt-sync": "^4.2.0",
     "winston": "^3.6.0",
     "yargs": "^17.3.1"

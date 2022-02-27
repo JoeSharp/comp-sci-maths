@@ -12,9 +12,10 @@ export interface Props {
     }[]
 }
 
-const LDSDisplayTables: React.FunctionComponent<Props> = (
-    { state: { contents, capacity, lastResult, lastMessage }, specificProps = [] }
-) => {
+const LinearDataStructureDisplay: React.FunctionComponent<Props> = ({
+    state: { contents, capacity, lastResult, lastMessage },
+    specificProps = []
+}) => {
 
     return (<div className='linearDataStructureItems'>
         <table className='table table-striped'>
@@ -62,4 +63,4 @@ const LDSDisplayTables: React.FunctionComponent<Props> = (
     </div>)
 }
 
-export default LDSDisplayTables;
+export default LinearDataStructureDisplay;

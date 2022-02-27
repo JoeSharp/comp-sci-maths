@@ -6,7 +6,7 @@ import {
   getInitialQueueState
 } from "@comp-sci-maths/lib/dist/dataStructures/queue/queueReducer";
 
-import LinearDataStructureComponent from "./LinearDataStructureComponent";
+import LinearDataStructureEditor from "../LinearDataStructure/LinearDataStructureEditor";
 
 const INITIAL_STATE: QueueState<string> = getInitialQueueState<string>();
 
@@ -21,7 +21,9 @@ const QueueComponent: React.FunctionComponent = () => {
     { name: 'Rear', value: rear }
   ]), [front, rear])
 
-  return <LinearDataStructureComponent
+  return <LinearDataStructureEditor
+    pushOperationName="Enqueue"
+    popOperationName="Dequeue"
     state={state as QueueState<string>}
     dispatch={dispatch}
     specificProps={specificProps} />
