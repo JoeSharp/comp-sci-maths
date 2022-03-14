@@ -1,17 +1,15 @@
-import { StringDataItem, Point } from "../../../p5/Boid/types";
-import Graph, {
-  Edge,
-} from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import { Point } from "../../../p5/Boid/types";
+import { GraphState, Edge } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 export interface SavedGraphState {
   [name: string]: {
-    vertices: StringDataItem[];
-    edges: Edge<StringDataItem>[];
+    vertices: string[];
+    edges: Edge<string>[];
   };
 }
 
 export interface GraphsById {
-  [name: string]: Graph<StringDataItem>;
+  [name: string]: GraphState<string>;
 }
 
 export interface PositionByVertex {

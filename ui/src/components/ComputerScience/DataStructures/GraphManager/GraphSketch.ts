@@ -1,26 +1,23 @@
 import p5 from "p5";
 import { AbstractSketch } from "../../../p5/useSketch";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import { createInitialState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 import { GraphSketchConfig } from "./GraphBuilder/types";
-import { DisplayDataItem } from "../../../p5/Boid/types";
 import DataItemBoid from "../../../p5/Boid/DataItemBoid";
 import { createP5Vector } from "../../Algorithms/Routing/GridRouting/useGridGraph";
 
 const WIDTH = 500;
 const HEIGHT = 300;
 
-const getDefaultConfig = (): GraphSketchConfig<any> => ({
-  graph: new Graph(),
+const getDefaultConfig = (): GraphSketchConfig => ({
+  graph: createInitialState(),
   vertexPositions: {},
   physicsEnabled: false,
 });
 
-class GraphSketch<
-  DATA_ITEM extends DisplayDataItem<any>
-  > extends AbstractSketch<GraphSketchConfig<DATA_ITEM>> {
+class GraphSketch extends AbstractSketch<GraphSketchConfig> {
   boids: {
-    [id: string]: DataItemBoid<DATA_ITEM>;
+    [id: string]: DataItemBoid<string>;
   };
 
   colours: {
@@ -41,44 +38,44 @@ class GraphSketch<
     this.borderColours = {};
   }
 
-  setColour(vertex: DATA_ITEM, colour: string) {
-    this.colours[vertex.key] = colour;
+  setColour(vertex: string, colour: string) {
+    this.colours[vertex] = colour;
   }
 
-  setBorderColour(vertex: DATA_ITEM, borderColour: string) {
-    this.borderColours[vertex.key] = borderColour;
+  setBorderColour(vertex: string, borderColour: string) {
+    this.borderColours[vertex] = borderColour;
   }
 
-  setBorderWeight(vertex: DATA_ITEM, borderWeight: number) {
-    this.borderWeights[vertex.key] = borderWeight;
+  setBorderWeight(vertex: string, borderWeight: number) {
+    this.borderWeights[vertex] = borderWeight;
   }
 
-  getBoid(vertex: DATA_ITEM): DataItemBoid<DATA_ITEM> | undefined {
-    return this.boids[vertex.key];
+  getBoid(vertex: string): DataItemBoid<string> | undefined {
+    return this.boids[vertex];
   }
 
-  getOrCreateBoid(s: p5, vertex: DATA_ITEM): DataItemBoid<DATA_ITEM> {
-    let boid = this.boids[vertex.key];
+  getOrCreateBoid(s: p5, vertex: string): DataItemBoid<string> {
+    let boid = this.boids[vertex];
     if (!boid) {
-      let storedPosition = (this.config.vertexPositions || {})[vertex.key] || {
+      let storedPosition = (this.config.vertexPositions || {})[vertex] || {
         x: s.random(0, s.width),
         y: s.random(0, s.height),
       };
 
-      boid = new DataItemBoid<DATA_ITEM>({
+      boid = new DataItemBoid<string>({
         entity: vertex,
-        label: vertex.label,
+        label: vertex,
         radius: !!s ? s.width / 12 : 5,
         position: !!s
           ? s.createVector(storedPosition.x, storedPosition.y)
           : createP5Vector(0, 0),
       });
-      this.boids[vertex.key] = boid;
+      this.boids[vertex] = boid;
     }
 
-    boid.colour = this.colours[vertex.key] || "red";
-    boid.borderWeight = this.borderWeights[vertex.key] || 1;
-    boid.borderColour = this.borderColours[vertex.key] || "black";
+    boid.colour = this.colours[vertex] || "red";
+    boid.borderWeight = this.borderWeights[vertex] || 1;
+    boid.borderColour = this.borderColours[vertex] || "black";
 
     return boid;
   }
@@ -123,17 +120,17 @@ class GraphSketch<
       } = that.config;
 
       // Get the list of boids in this sketch based on the vertex IDs
-      const boidsInSketch: DataItemBoid<DATA_ITEM>[] = vertices.map((v) =>
+      const boidsInSketch: DataItemBoid<string>[] = vertices.map((v) =>
         that.getOrCreateBoid(s, v)
       );
-      const boidIdsInSketch: string[] = vertices.map((v) => v.key);
+      const boidIdsInSketch: string[] = vertices;
 
       // Get the list of boid edges
       const boidEdges = edges
         .filter(
           ({ from, to }) =>
-            boidIdsInSketch.includes(from.key) &&
-            boidIdsInSketch.includes(to.key)
+            boidIdsInSketch.includes(from) &&
+            boidIdsInSketch.includes(to)
         )
         .map(({ from, to, weight }) => ({
           from: that.getOrCreateBoid(s, from),

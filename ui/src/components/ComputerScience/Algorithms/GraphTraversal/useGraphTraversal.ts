@@ -1,18 +1,18 @@
 import React from "react";
 import { depthFirstSearch, breadthFirstSearch } from "@comp-sci-maths/lib/dist/";
-import { VisitFunction, StringGraphVertex } from "@comp-sci-maths/lib/dist/types";
+import { VisitFunction } from "@comp-sci-maths/lib/dist/types";
 
 import { BREADTH_FIRST_SEARCH, DEPTH_FIRST_SEARCH } from "./common";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import { GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
   algorithmName: string;
-  graph: Graph<StringGraphVertex>;
-  startVertex?: StringGraphVertex;
+  graph: GraphState<string>;
+  startVertex?: string;
 }
 
 export interface UseGraphTraversal {
-  visitedItems: StringGraphVertex[];
+  visitedItems: string[];
 }
 
 const useGraphTraversal = ({
@@ -20,9 +20,9 @@ const useGraphTraversal = ({
   graph,
   startVertex,
 }: Props): UseGraphTraversal => {
-  const visitedItems: StringGraphVertex[] = React.useMemo(() => {
-    const items: StringGraphVertex[] = [];
-    const visit: VisitFunction<StringGraphVertex> = (d) => items.push(d);
+  const visitedItems: string[] = React.useMemo(() => {
+    const items: string[] = [];
+    const visit: VisitFunction<string> = (d) => items.push(d);
 
     if (startVertex !== undefined) {
       switch (algorithmName) {

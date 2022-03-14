@@ -7,8 +7,7 @@ import {
   graphs as cannedGraphs,
   vertexPositionsByGraphName,
 } from "./cannedGraphs";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "../../../p5/Boid/types";
+import { createInitialState, GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import {
   GraphsById,
   PositionsForGraphName,
@@ -22,7 +21,7 @@ export interface UseSavedGraph {
   graphs: GraphsById;
   vertexPositionsByGraph: PositionsForGraphName;
   createNew(name: string): void;
-  save(name: string, graph: Graph<any>, positions: PositionByVertex): void;
+  save(name: string, graph: GraphState<any>, positions: PositionByVertex): void;
   reset: () => void;
 }
 
@@ -38,7 +37,7 @@ const useSavedGraph = (): UseSavedGraph => {
     reduceValue: reduceGraphs,
     setValue: setGraphs,
   } = useLocalStorage<SavedGraphState>(
-    "saved-graphs",
+    "saved-graphs-fn",
     defaultSavedGraphState,
     useStoreObjectFactory()
   );
@@ -48,7 +47,7 @@ const useSavedGraph = (): UseSavedGraph => {
     reduceValue: reduceVertexPositions,
     setValue: setVertexPositions,
   } = useLocalStorage<PositionsForGraphName>(
-    "saved-graph-positions",
+    "saved-graph-positions-fn",
     defaultSavedVertexState,
     useStoreObjectFactory()
   );
@@ -61,7 +60,7 @@ const useSavedGraph = (): UseSavedGraph => {
       Object.entries(graphsData)
         .map(([name, graphData]) => {
           // Build full graphs from the base data
-          const graph = new Graph<StringDataItem>();
+          const graph = createInitialState();
           graph.vertices = graphData.vertices;
           graph.edges = graphData.edges;
           return { name, graph };
@@ -79,7 +78,7 @@ const useSavedGraph = (): UseSavedGraph => {
       } else {
         reduceGraphs((existing: SavedGraphState) => ({
           ...existing,
-          [name]: new Graph(),
+          [name]: createInitialState(),
         }));
       }
     },
@@ -87,7 +86,7 @@ const useSavedGraph = (): UseSavedGraph => {
   );
 
   const save = React.useCallback(
-    (name: string, graph: Graph<any>, positions: PositionByVertex) => {
+    (name: string, graph: GraphState<any>, positions: PositionByVertex) => {
       reduceGraphs((existing: SavedGraphState) => ({
         ...existing,
         [name]: graph,

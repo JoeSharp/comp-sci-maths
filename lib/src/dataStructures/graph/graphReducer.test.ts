@@ -1,4 +1,3 @@
-import { defaultEqualityCheck } from '../../common';
 import graphReducer, {
     createInitialState,
     getEdgeWeight
@@ -6,7 +5,7 @@ import graphReducer, {
 
 describe("Graph (functional)", () => {
     test("Add Vertex", () => {
-        let state = createInitialState<string>(s => s, defaultEqualityCheck);
+        let state = createInitialState();
 
         state = graphReducer(state, { type: 'addVertex', vertex: 'A' });
         state = graphReducer(state, { type: 'addVertex', vertex: 'B' });
@@ -17,7 +16,7 @@ describe("Graph (functional)", () => {
     });
 
     test("Graph - Weighted (strings)", () => {
-        let state = createInitialState<string>(s => s, defaultEqualityCheck);
+        let state = createInitialState();
 
         state = graphReducer(state, { type: 'addBidirectionalEdge', from: "A", to: "B", weight: 1.0 });
         state = graphReducer(state, { type: 'addBidirectionalEdge', from: "A", to: "C" });

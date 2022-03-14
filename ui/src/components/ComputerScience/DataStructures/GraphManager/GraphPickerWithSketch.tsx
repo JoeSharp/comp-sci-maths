@@ -1,7 +1,6 @@
 import React from "react";
 import useSavedGraph, { UseSavedGraph } from "./useSavedGraph";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "../../../p5/Boid/types";
+import graphReducer, { GraphAction, GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import useSketch, { UseSketch } from "../../../p5/useSketch";
 import GraphSketch from "../../../ComputerScience/DataStructures/GraphManager/GraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
@@ -39,15 +38,20 @@ const GraphPickerWithSketch: React.FunctionComponent<Props> = ({
 
 interface UsePicker {
   graphName: string;
-  graph: Graph<StringDataItem>;
+  graph: GraphState<string>;
+  graphDispatch: (action: GraphAction<string>) => void;
   vertexPositions: PositionByVertex;
   componentProps: Props;
   onValueChange: (name: string) => void;
   savedGraphUse: UseSavedGraph;
   sketchUse: UseSketch<
-    GraphSketchConfig<StringDataItem>,
-    GraphSketch<StringDataItem>
+    GraphSketchConfig,
+    GraphSketch
   >;
+}
+
+const wrappedGraphReducer = (graph: GraphState<string>, action: GraphAction<string>): GraphState<string> => {
+  return graphReducer(graph, action);
 }
 
 export const usePicker = (
@@ -56,21 +60,20 @@ export const usePicker = (
   const savedGraphUse = useSavedGraph();
   const { names, graphs, vertexPositionsByGraph } = savedGraphUse;
 
+  const [graph, graphDispatch] = React.useReducer(wrappedGraphReducer, graphs[defaultGraphName]);
+
   const [graphName, setGraphName] = React.useState<string>(defaultGraphName);
-  const [graph, setGraph] = React.useState<Graph<StringDataItem>>(
-    graphs[defaultGraphName]
-  );
   const [vertexPositions, setVertexPositions] = React.useState<
     PositionByVertex
   >({});
 
   const onChange = React.useCallback(
-    (name: string, graph: Graph<StringDataItem>) => {
-      setGraph(graph);
+    (name: string, graph: GraphState<string>) => {
+      graphDispatch({ type: 'replace', newState: graph });
       setGraphName(name);
       setVertexPositions(vertexPositionsByGraph[name]);
     },
-    [setGraph, vertexPositionsByGraph, setVertexPositions]
+    [graphDispatch, vertexPositionsByGraph, setVertexPositions]
   );
 
   const [value, setValue] = React.useState<string>();
@@ -99,8 +102,8 @@ export const usePicker = (
   }, [defaultGraphName, graphName, graphs, onChange, setValue]);
 
   const sketchUse = useSketch<
-    GraphSketchConfig<StringDataItem>,
-    GraphSketch<StringDataItem>
+    GraphSketchConfig,
+    GraphSketch
   >(GraphSketch);
 
   const { updateConfig, refContainer } = sketchUse;
@@ -114,6 +117,7 @@ export const usePicker = (
   return {
     graphName,
     graph,
+    graphDispatch,
     vertexPositions,
     savedGraphUse,
     onValueChange,

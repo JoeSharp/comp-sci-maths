@@ -1,35 +1,34 @@
 import React from "react";
 
-import Graph, {
+import {
+  GraphState,
+  GraphAction,
   Edge,
-} from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+} from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import EdgesCell from "./EdgeCell";
-import { StringDataItem } from "../../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "../../../../Bootstrap/Buttons/ButtonBar";
 import { Props as ButtonProps } from "../../../../Bootstrap/Buttons/Button";
 
 interface Props {
-  vertex: StringDataItem;
-  version: number;
-  graph: Graph<StringDataItem>;
-  pendingFrom: StringDataItem | undefined;
+  vertex: string;
+  graph: GraphState<string>;
+  dispatch: (action: GraphAction<string>) => void;
+  pendingFrom: string | undefined;
   newEdgeWeight: number;
-  prepareEdge: (from: StringDataItem) => void;
+  prepareEdge: (from: string) => void;
   cancelEdge: () => void;
-  completeEdge: (to: StringDataItem, weight: number) => void;
+  completeEdge: (to: string, weight: number) => void;
   clearAll: () => void;
-  tickVersion: () => void;
 }
 
-const GET_EDGE_FROM = (edge: Edge<StringDataItem>) => edge.from;
-const GET_EDGE_TO = (edge: Edge<StringDataItem>) => edge.to;
+const GET_EDGE_FROM = (edge: Edge<string>) => edge.from;
+const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
 
 const VertexRow: React.FunctionComponent<Props> = ({
   vertex,
-  version,
-  tickVersion,
+  dispatch,
   newEdgeWeight,
   graph,
   pendingFrom,
@@ -47,16 +46,15 @@ const VertexRow: React.FunctionComponent<Props> = ({
   );
   const onCancelEdge = React.useCallback(() => cancelEdge(), [cancelEdge]);
   const onRemoveVertex = React.useCallback(() => {
-    graph.removeVertex(vertex);
-    tickVersion();
-  }, [vertex, graph, tickVersion]);
+    dispatch({ type: 'removeVertex', vertex });
+  }, [vertex, dispatch]);
 
   const filterOutgoing = React.useCallback(
-    (edge: Edge<StringDataItem>) => graph.areVerticesEqual(edge.from, vertex),
+    (edge: Edge<string>) => graph.areVerticesEqual(edge.from, vertex),
     [vertex, graph]
   );
   const filterIncoming = React.useCallback(
-    (edge: Edge<StringDataItem>) => graph.areVerticesEqual(edge.to, vertex),
+    (edge: Edge<string>) => graph.areVerticesEqual(edge.to, vertex),
     [vertex, graph]
   );
   const buttonBarProps: ButtonBarProps = React.useMemo(() => {
@@ -107,23 +105,21 @@ const VertexRow: React.FunctionComponent<Props> = ({
 
   return (
     <tr>
-      <td>{vertex.label}</td>
+      <td>{vertex}</td>
       <td>
         <EdgesCell
-          version={version}
-          tickVersion={tickVersion}
           filter={filterOutgoing}
           getOtherEnd={GET_EDGE_TO}
           graph={graph}
+          dispatch={dispatch}
         />
       </td>
       <td>
         <EdgesCell
-          version={version}
-          tickVersion={tickVersion}
           filter={filterIncoming}
           getOtherEnd={GET_EDGE_FROM}
           graph={graph}
+          dispatch={dispatch}
         />
       </td>
       <td>

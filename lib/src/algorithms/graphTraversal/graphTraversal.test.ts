@@ -1,17 +1,15 @@
 import breadthFirstSearch from "./breadthFirstSearch";
 import depthFirstSearch from "./depthFirstSearch";
-import Graph from "../../dataStructures/graph/Graph";
-import SimpleStringGraph from "../../dataStructures/graph/SimpleStringGraph";
-import { AnyGraphVertex, StringGraphVertex } from "../../types";
-import createTestGraph, { vertexA, vertexB, vertexC, vertexD, vertexE, vertexF, vertexG } from "./createTestGraph";
+import { GraphState, createInitialState, graphAddBidirectionalEdge } from "../../dataStructures/graph/graphReducer";
+import createTestGraph from "./createTestGraph";
 
-function checkTraversalContainsEverythingOnce<T extends AnyGraphVertex>(
-  graph: Graph<T>,
+function checkTraversalContainsEverythingOnce<T>(
+  graph: GraphState,
   items: T[]
 ) {
   // Should visit all nodes exactly once
-  const itemsInSet = new Set(items.map((x) => x.value));
-  const verticesInSet = new Set(graph.vertices.map((x) => x.value));
+  const itemsInSet = new Set(items);
+  const verticesInSet = new Set(graph.vertices);
   expect(itemsInSet.size).toEqual(items.length);
   expect(itemsInSet).toEqual(verticesInSet);
 }
@@ -19,14 +17,14 @@ function checkTraversalContainsEverythingOnce<T extends AnyGraphVertex>(
 test("Graph - Breadth First Search", () => {
   const myGraph = createTestGraph();
 
-  const items: StringGraphVertex[] = [];
+  const items: string[] = [];
   breadthFirstSearch(myGraph, "S", (d) => items.push(d));
   checkTraversalContainsEverythingOnce(myGraph, items);
 
   expect(items.length).toBe(myGraph.vertices.length);
 
-  const directlyEdgeed = [vertexA, vertexB, vertexC];
-  const transitivelyEdgeed = [vertexD, vertexE, vertexF, vertexG];
+  const directlyEdgeed = ["A", "B", "C"];
+  const transitivelyEdgeed = ["D", "E", "F", "G"];
   directlyEdgeed.forEach((i) =>
     transitivelyEdgeed.forEach((t) => {
       const indexOfI = items.indexOf(i);
@@ -39,10 +37,11 @@ test("Graph - Breadth First Search", () => {
 });
 
 test("Graph - DFS Very Simple", () => {
-  const myGraph: SimpleStringGraph = new SimpleStringGraph();
-  myGraph.addBiDirectionalEdge(vertexA, vertexB);
+  const myGraph: GraphState = [{ from: "A", to: "B" }]
+    .reduce((acc, { from, to }) => graphAddBidirectionalEdge(acc, from, to), createInitialState());
 
-  const items: StringGraphVertex[] = [];
+
+  const items: string[] = [];
   depthFirstSearch(myGraph, "A", (x) => items.push(x));
 
   checkTraversalContainsEverythingOnce(myGraph, items);
@@ -51,7 +50,7 @@ test("Graph - DFS Very Simple", () => {
 test("Graph - Depth First Search", () => {
   const myGraph = createTestGraph();
 
-  const items: StringGraphVertex[] = [];
+  const items: string[] = [];
   depthFirstSearch(myGraph, "S", (d) => items.push(d));
   checkTraversalContainsEverythingOnce(myGraph, items);
 
@@ -62,9 +61,9 @@ test("Graph - Depth First Search", () => {
   expect(itemsInSet).toEqual(verticesInSet);
 
   const directRelatives = [
-    { direct: vertexC, transitive: vertexF },
-    { direct: vertexA, transitive: vertexD },
-    { direct: vertexB, transitive: vertexE },
+    { direct: "C", transitive: "F" },
+    { direct: "A", transitive: "D" },
+    { direct: "B", transitive: "E" },
   ].map(({ direct, transitive }) => ({
     direct,
     transitive,
@@ -77,7 +76,7 @@ test("Graph - Depth First Search", () => {
   expect(directRelatives.length).toBe(3);
 
   // This is the common transitive link from all 3 start points
-  const indexOfG = items.indexOf(vertexG);
+  const indexOfG = items.indexOf("G");
 
   // For all but the first one
   directRelatives

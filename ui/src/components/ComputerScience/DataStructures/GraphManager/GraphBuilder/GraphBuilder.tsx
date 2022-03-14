@@ -2,22 +2,19 @@ import React from "react";
 import VertexRow from "./VertexRow";
 
 import "./graphBuilder.css";
-import { v4 as uuidv4 } from "uuid";
-import { StringDataItem } from "../../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "../../../../Bootstrap/Buttons/ButtonBar";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
 import Checkbox from '../../../../Bootstrap/Checkbox';
+import { GraphState, GraphAction } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
-  graph: Graph<StringDataItem>;
+  graph: GraphState<string>;
+  dispatch: (action: GraphAction<string>) => void;
 }
 
-const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
-  const [version, tickVersion] = React.useReducer((s) => s + 1, 0);
-
-  const [pendingFrom, prepareEdge] = React.useState<StringDataItem | undefined>(
+const GraphBuilder: React.FunctionComponent<Props> = ({ graph, dispatch }: Props) => {
+  const [pendingFrom, prepareEdge] = React.useState<string | undefined>(
     undefined
   );
 
@@ -35,28 +32,35 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
 
 
   const completeEdge = React.useCallback(
-    (to: StringDataItem, weight: number) => {
+    (to: string, weight: number) => {
       if (pendingFrom !== undefined) {
         if (newEdgeBidirectional) {
-          graph.addBiDirectionalEdge(pendingFrom, to, weight);
-
+          dispatch({
+            type: 'addBidirectionalEdge',
+            from: pendingFrom,
+            to,
+            weight
+          })
         } else {
-          graph.addUnidirectionalEdge(pendingFrom, to, weight);
+          dispatch({
+            type: 'addUnidirectionalEdge',
+            from: pendingFrom,
+            to,
+            weight
+          })
         }
       }
       prepareEdge(undefined);
-      tickVersion();
     },
-    [pendingFrom, graph, newEdgeBidirectional]
+    [pendingFrom, newEdgeBidirectional, dispatch]
   );
   const cancelEdge = React.useCallback(() => prepareEdge(undefined), [
     prepareEdge,
   ]);
 
   const clearAll = React.useCallback(() => {
-    graph.vertices.forEach((v) => graph.removeVertex(v));
-    tickVersion();
-  }, [tickVersion, graph]);
+    dispatch({ type: 'reset' });
+  }, [dispatch]);
 
   const [newVertexName, setNewVertexName] = React.useState<string>("Z");
   const onNewVertexChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
@@ -66,14 +70,9 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
 
   const onAddVertex = React.useCallback(() => {
     if (newVertexName.length > 0) {
-      graph.addVertex({
-        key: uuidv4(),
-        label: newVertexName,
-        value: newVertexName,
-      });
-      tickVersion();
+      dispatch({ type: 'addVertex', vertex: newVertexName })
     }
-  }, [newVertexName, graph]);
+  }, [newVertexName, dispatch]);
 
   const buttonBarProps: ButtonBarProps = React.useMemo(
     () => ({
@@ -93,13 +92,9 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
     [clearAll, onAddVertex]
   );
 
-  // Ewww...it doesn't like keeping an eye on the version, when version is not then used...
-  // eslint-disable-next-line
-  const vertices = React.useMemo(() => graph.vertices, [graph, version]);
-
   return (
     <div>
-      <h2>Edit Graph (v{version})</h2>
+      <h2>Edit Graph</h2>
       <form>
         <div className="form-group">
           <label htmlFor="newVertexName">New Vertex Name</label>
@@ -140,15 +135,14 @@ const GraphBuilder: React.FunctionComponent<Props> = ({ graph }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {vertices.map((vertex, i) => (
+          {graph.vertices.map((vertex, i) => (
             <VertexRow
               key={i}
               {...{
                 vertex,
-                version,
                 clearAll,
-                tickVersion,
                 graph,
+                dispatch,
                 newEdgeWeight,
                 cancelEdge,
                 completeEdge,

@@ -1,5 +1,5 @@
 import PriorityQueue from "../../dataStructures/queue/PriorityQueue";
-import Graph, { Edge } from "../../dataStructures/graph/Graph";
+import { GraphState, Edge, getOutgoing } from "../../dataStructures/graph/graphReducer";
 import {
   ShortestPathTree,
   ShortestPathWithNode,
@@ -23,11 +23,11 @@ function getPathTo<T extends AnyGraphVertex>({
   graph,
   shortestPathTree,
   node,
-}: WalkPath<T>) {
-  const path: T[] = [];
+}: WalkPath) {
+  const path: string[] = [];
 
   // If there is no available path to the destination, feed back empty list
-  const endpoint = shortestPathTree[node.key];
+  const endpoint = shortestPathTree[node];
   if (!endpoint || endpoint.viaNode === undefined) {
     return path;
   }
@@ -38,10 +38,10 @@ function getPathTo<T extends AnyGraphVertex>({
   return path.reverse();
 }
 
-interface WalkPath<T extends AnyGraphVertex> {
-  graph: Graph<T>;
-  shortestPathTree: ShortestPathTree<T>;
-  node: T;
+interface WalkPath {
+  graph: GraphState;
+  shortestPathTree: ShortestPathTree;
+  node: string;
 }
 
 /**
@@ -55,10 +55,10 @@ interface WalkPath<T extends AnyGraphVertex> {
 function* walkPath<T extends AnyGraphVertex>({
   shortestPathTree,
   node,
-}: WalkPath<T>) {
+}: WalkPath) {
   while (!!node) {
     yield node;
-    const thisShortestPath: ShortestPathForNode<T> = shortestPathTree[node.key];
+    const thisShortestPath: ShortestPathForNode = shortestPathTree[node];
     if (thisShortestPath === undefined) {
       break;
     }
@@ -69,16 +69,16 @@ function* walkPath<T extends AnyGraphVertex>({
 // These are the arguments that the routing algorithm requires
 // Some of them are optional, so it is easier to use an object of named args
 // that can be given default values in the routing function.
-interface Args<T extends AnyGraphVertex> {
-  graph: Graph<T>;
-  sourceNodeKey: string;
-  destinationNodeKey?: string;
-  getHeuristicCost?: HeuristicCostFunction<T>;
-  observer?: RoutingObserver<T>;
+interface Args {
+  graph: GraphState;
+  sourceNode: string;
+  destinationNode?: string;
+  getHeuristicCost?: HeuristicCostFunction;
+  observer?: RoutingObserver;
 }
 
 // A hueristic that always returns a constant value will have no effect.
-export const emptyHeuristic: HeuristicCostFunction<any> = () => 0;
+export const emptyHeuristic: HeuristicCostFunction = () => 0;
 
 /**
  * Executes Dijkstras routing algorithm, returning the shortest path tree for the given source node.
@@ -96,24 +96,20 @@ export const emptyHeuristic: HeuristicCostFunction<any> = () => 0;
  * @param {function} observer // Allows the caller to monitor the steps of the algorithm.
  * @returns Shortest Path Tree { [node] : {cost: number, viaNode: string} }
  */
-function dijkstras<T extends AnyGraphVertex>({
+function dijkstras({
   graph,
-  sourceNodeKey,
-  destinationNodeKey,
+  sourceNode,
+  destinationNode,
   getHeuristicCost = emptyHeuristic,
   observer = emptyObserver,
-}: Args<T>): ShortestPathTree<T> {
-  const sourceNode: T = graph.getVertex(sourceNodeKey);
-  const destinationNode =
-    destinationNodeKey && graph.getVertex(destinationNodeKey);
-
+}: Args): ShortestPathTree {
   // The output of this function is the shortest path tree, derived by the algorithm.
   // The caller can then use this tree to derive a path using the getPathTo function above.
-  const shortestPathTree: ShortestPathTree<T> = {};
+  const shortestPathTree: ShortestPathTree = {};
 
   // Build a priority queue, where the nodes are arranged in order of
   // distance from the source (smallest to largest)
-  const currentDistances = new PriorityQueue<ShortestPathWithNode<T>>();
+  const currentDistances = new PriorityQueue<ShortestPathWithNode>();
 
   // Add the 'from' node, it doesn't go via anything, and it's distance is zero
   currentDistances.enqueue({
@@ -125,7 +121,7 @@ function dijkstras<T extends AnyGraphVertex>({
 
   // Add all the other nodes, with a distance of Infinity
   graph.vertices
-    .filter((node) => !graph.areVerticesEqual(node, sourceNode))
+    .filter((node) => node !== sourceNode)
     .map((node) => ({ node, viaNode: undefined, cost: Infinity, priority: 0 }))
     .forEach((n) => currentDistances.enqueue(n));
 
@@ -138,9 +134,8 @@ function dijkstras<T extends AnyGraphVertex>({
     const currentItem = currentDistances.dequeue();
 
     // Work out what amendments to make to the priority queue
-    const outgoing: EdgeWithCost<T>[] = graph
-      .getOutgoing(currentItem.node.key)
-      .filter(({ to }) => shortestPathTree[to.key] === undefined) // only those that aren't in our tree already
+    const outgoing: EdgeWithCost[] = getOutgoing(graph, currentItem.node)
+      .filter(({ to }) => shortestPathTree[to] === undefined) // only those that aren't in our tree already
       .map((edge) => {
         const { to: node, weight } = edge;
         let totalCost = weight;
@@ -148,9 +143,7 @@ function dijkstras<T extends AnyGraphVertex>({
 
         // Remove the matching item from our current known distances
         // It will either be replaced as is, or replaced with updated details
-        const otherItem = currentDistances.removeMatch((d) =>
-          graph.areVerticesEqual(d.node, node)
-        );
+        const otherItem = currentDistances.removeMatch((d) => d.node === node);
 
         // What is the distance to this other node, from our current node?
         const newPotentialDistance =
@@ -184,17 +177,14 @@ function dijkstras<T extends AnyGraphVertex>({
     observer({ currentItem, shortestPathTree, currentDistances, outgoing });
 
     // Put this item into our set (using node as a key)
-    shortestPathTree[currentItem.node.key] = {
+    shortestPathTree[currentItem.node] = {
       cost: currentItem.cost,
       viaNode: currentItem.viaNode,
       priority: 1 / currentItem.cost,
     };
 
     // Have we reached the destination? Quit early
-    if (
-      !!destinationNode &&
-      graph.areVerticesEqual(currentItem.node, destinationNode)
-    ) {
+    if (!!destinationNode && (currentItem.node === destinationNode)) {
       break;
     }
   }

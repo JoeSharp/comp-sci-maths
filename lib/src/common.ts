@@ -54,16 +54,6 @@ export const bytesToString = (contents: number[], columns: number, window: Index
     .join(", ")
 }
 
-export const getStringVertex = (value: string): StringGraphVertex => ({
-  key: value,
-  value,
-});
-
-export const getNumberVertex = (value: number): NumberGraphVertex => ({
-  key: value.toString(10),
-  value,
-});
-
 export const defaultEqualityCheck: EqualityCheck<any> = (a: any, b: any) =>
   a === b;
 export const defaultToString: ToString<any> = (a) => `${a}`;

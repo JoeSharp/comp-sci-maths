@@ -17,6 +17,7 @@ import cogoToast from "cogo-toast";
 const GraphManager: React.FunctionComponent = () => {
   const {
     graphName,
+    graphDispatch,
     graph,
     savedGraphUse: { createNew, save, reset },
     componentProps: graphPickerProps,
@@ -50,9 +51,9 @@ const GraphManager: React.FunctionComponent = () => {
     const vertexPositions = graph.vertices
       .map((v) => sketchContainer.getBoid(v))
       .filter((b) => b !== undefined)
-      .map((b) => b as DataItemBoid<StringDataItem>)
-      .map((b: DataItemBoid<StringDataItem>) => ({
-        key: b.entity.key,
+      .map((b) => b as DataItemBoid<string>)
+      .map((b: DataItemBoid<string>) => ({
+        key: b.entity,
         position: { x: b.position.x, y: b.position.y },
       }))
       .reduce((acc, { key, position }) => ({ ...acc, [key]: position }), {});
@@ -98,7 +99,7 @@ const GraphManager: React.FunctionComponent = () => {
       </div>
       <ButtonBar {...buttonBarProps} />
 
-      <GraphBuilder graph={graph} />
+      <GraphBuilder graph={graph} dispatch={graphDispatch} />
       <NewGraphDialog {...newGraphProps} />
     </div>
   );
