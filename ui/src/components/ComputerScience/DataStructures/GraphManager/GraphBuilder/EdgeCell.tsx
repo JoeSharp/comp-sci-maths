@@ -1,21 +1,17 @@
 import React from "react";
 
-import Graph, {
-  Edge,
-} from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "../../../../p5/Boid/types";
+import { GraphState, Edge, GraphAction } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
-  version: number;
-  graph: Graph<StringDataItem>;
-  filter: (edge: Edge<StringDataItem>) => boolean;
-  getOtherEnd: (edge: Edge<StringDataItem>) => StringDataItem;
-  tickVersion: () => void;
+  graph: GraphState<string>;
+  dispatch: (action: GraphAction<string>) => void;
+  filter: (edge: Edge<string>) => boolean;
+  getOtherEnd: (edge: Edge<string>) => string;
 }
 
 const EdgesCell: React.FunctionComponent<Props> = ({
   graph,
-  tickVersion,
+  dispatch,
   filter,
   getOtherEnd,
 }) => {
@@ -24,14 +20,11 @@ const EdgesCell: React.FunctionComponent<Props> = ({
       {graph.edges.filter(filter).map((edge, i) => (
         <span key={i} className="input-group btn-group edge-buttons">
           <div className="input-group-prepend">
-            <div className="input-group-text">{getOtherEnd(edge).label} </div>
+            <div className="input-group-text">{getOtherEnd(edge)} </div>
           </div>
           <button
             className="btn btn-danger btn-sm"
-            onClick={() => {
-              tickVersion();
-              graph.removeEdge(edge.from, edge.to);
-            }}
+            onClick={() => dispatch({ type: 'removeEdge', ...edge })}
           >
             X
           </button>

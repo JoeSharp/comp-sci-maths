@@ -1,20 +1,20 @@
 import React from "react";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import { GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import { DisplayDataItem } from "../../../../p5/Boid/types";
 
-export interface Props<DATA_ITEM extends DisplayDataItem<any>> {
+export interface Props {
   className?: string;
-  graph: Graph<DATA_ITEM>;
+  graph: GraphState<string>;
   value: string | undefined;
   onChange: (v: string | undefined) => void;
 }
 
-const VertexPicker = <DATA_ITEM extends DisplayDataItem<any>>({
+const VertexPicker = ({
   graph,
   value,
   onChange,
   className,
-}: Props<DATA_ITEM>) => {
+}: Props) => {
   const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
     ({ target: { value } }) => {
       onChange(value);
@@ -24,34 +24,34 @@ const VertexPicker = <DATA_ITEM extends DisplayDataItem<any>>({
 
   React.useEffect(() => {
     if (graph.vertices.length > 0) {
-      onChange(graph.vertices[0].key);
+      onChange(graph.vertices[0]);
     }
   }, [graph, onChange]);
 
   return (
     <select className={className} onChange={onSelectChange} value={value}>
       {graph.vertices.map((vertex) => (
-        <option key={vertex.key} value={vertex.key}>
-          {vertex.label}
+        <option key={vertex} value={vertex}>
+          {vertex}
         </option>
       ))}
     </select>
   );
 };
 
-interface UsePicker<DATA_ITEM extends DisplayDataItem<any>> {
-  vertex: DATA_ITEM | undefined;
-  componentProps: Props<DATA_ITEM>;
+interface UsePicker {
+  vertex: string | undefined;
+  componentProps: Props;
 }
 
-export const usePicker = <DATA_ITEM extends DisplayDataItem<any>>(
-  graph: Graph<DATA_ITEM>,
+export const usePicker = (
+  graph: GraphState<string>,
   className?: string
-): UsePicker<DATA_ITEM> => {
+): UsePicker => {
   const [value, onChange] = React.useState<string | undefined>(undefined);
 
   const vertex = React.useMemo(
-    () => graph.vertices.find((v) => v.key === value),
+    () => graph.vertices.find((v) => v === value),
     [value, graph]
   );
 

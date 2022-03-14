@@ -1,46 +1,35 @@
 import { ShortestPathTree, ObserverArgs } from "./types";
-import Graph from "../../dataStructures/graph/Graph";
+import { GraphState, createInitialState } from "../../dataStructures/graph/graphReducer";
 
 import { dijkstras, getPathTo } from "./dijkstras";
-import { getStringVertex } from "../../common";
 import { StringGraphVertex } from "../../types";
 
-const vertexA = getStringVertex("A");
-const vertexB = getStringVertex("B");
-const vertexC = getStringVertex("C");
-const vertexD = getStringVertex("D");
-const vertexE = getStringVertex("E");
-const vertexF = getStringVertex("F");
-const vertexG = getStringVertex("G");
-const vertexH = getStringVertex("H");
-const vertexI = getStringVertex("I");
-const vertexJ = getStringVertex("J");
-const vertexK = getStringVertex("K");
-const vertexL = getStringVertex("L");
-const vertexS = getStringVertex("S");
-
 test("Routing Algorithms - Dead End", () => {
-  const myGraph = new Graph()
-    .addBiDirectionalEdge(vertexA, vertexB)
-    .addBiDirectionalEdge(vertexB, vertexC)
-    .addBiDirectionalEdge(vertexE, vertexD);
+  const myGraph: GraphState = {
+    vertices: ["A", "B", "C", "D", "E"],
+    edges: [
+      { from: "A", to: "B", weight: 1 },
+      { from: "B", to: "C", weight: 1 },
+      { from: "E", to: "D", weight: 1 }
+    ]
+  }
 
   const shortestPathTree = dijkstras({
     graph: myGraph,
-    sourceNodeKey: vertexA.key,
-    destinationNodeKey: vertexD.key,
+    sourceNode: "A",
+    destinationNode: "D",
   });
 
   // Check the unreachable nodes
-  [vertexD, vertexE].forEach((u) => {
-    expect(shortestPathTree[u.key].cost).toBe(Infinity);
-    expect(shortestPathTree[u.key].viaNode).toBeUndefined();
+  ["D", "E"].forEach((u) => {
+    expect(shortestPathTree[u].cost).toBe(Infinity);
+    expect(shortestPathTree[u].viaNode).toBeUndefined();
   });
 
   const pathTo = getPathTo({
     graph: myGraph,
     shortestPathTree,
-    node: vertexD,
+    node: "D",
   });
 
   // Should be empty with no available path
@@ -68,30 +57,30 @@ test("Routing Algorithms - A*", () => {
   };
 
   const myGraph = new Graph()
-    .addBiDirectionalEdge(vertexS, vertexA, 7)
-    .addBiDirectionalEdge(vertexS, vertexB, 2)
-    .addBiDirectionalEdge(vertexS, vertexC, 3)
-    .addBiDirectionalEdge(vertexA, vertexD, 4)
-    .addBiDirectionalEdge(vertexA, vertexB, 3)
-    .addBiDirectionalEdge(vertexB, vertexD, 4)
-    .addBiDirectionalEdge(vertexB, vertexH, 1)
-    .addBiDirectionalEdge(vertexC, vertexL, 2)
-    .addBiDirectionalEdge(vertexD, vertexF, 5)
-    .addBiDirectionalEdge(vertexE, vertexK, 5)
-    .addBiDirectionalEdge(vertexE, vertexG, 2)
-    .addBiDirectionalEdge(vertexF, vertexH, 3)
-    .addBiDirectionalEdge(vertexG, vertexH, 2)
-    .addBiDirectionalEdge(vertexI, vertexL, 4)
-    .addBiDirectionalEdge(vertexI, vertexK, 4)
-    .addBiDirectionalEdge(vertexJ, vertexL, 4)
-    .addBiDirectionalEdge(vertexJ, vertexK, 4);
+    .addBiDirectionalEdge("S", "A", 7)
+    .addBiDirectionalEdge("S", "B", 2)
+    .addBiDirectionalEdge("S", "C", 3)
+    .addBiDirectionalEdge("A", "D", 4)
+    .addBiDirectionalEdge("A", "B", 3)
+    .addBiDirectionalEdge("B", "D", 4)
+    .addBiDirectionalEdge("B", "H", 1)
+    .addBiDirectionalEdge("C", "L", 2)
+    .addBiDirectionalEdge("D", "F", 5)
+    .addBiDirectionalEdge("E", "K", 5)
+    .addBiDirectionalEdge("E", "G", 2)
+    .addBiDirectionalEdge("F", "H", 3)
+    .addBiDirectionalEdge("G", "H", 2)
+    .addBiDirectionalEdge("I", "L", 4)
+    .addBiDirectionalEdge("I", "K", 4)
+    .addBiDirectionalEdge("J", "L", 4)
+    .addBiDirectionalEdge("J", "K", 4);
 
   const observations: ObserverArgs<StringGraphVertex>[] = [];
-  const shortestPathTreeStoE: ShortestPathTree<StringGraphVertex> = dijkstras({
+  const shortestPathTreeStoE: ShortestPathTree = dijkstras({
     graph: myGraph,
-    sourceNodeKey: vertexS.key,
-    destinationNodeKey: vertexE.key,
-    getHeuristicCost: (d) => euclideanDistances[d.key],
+    sourceNodeKey: "S",
+    destinationNodeKey: "E",
+    getHeuristicCost: (d) => euclideanDistances[d],
     observer: (d) => observations.push(d),
   });
 
@@ -100,80 +89,80 @@ test("Routing Algorithms - A*", () => {
   const pathStoE: StringGraphVertex[] = getPathTo({
     graph: myGraph,
     shortestPathTree: shortestPathTreeStoE,
-    node: vertexE,
+    node: "E",
   });
-  expect(pathStoE).toEqual([vertexS, vertexB, vertexH, vertexG, vertexE]);
+  expect(pathStoE).toEqual(["S", "B", "H", "G", "E"]);
 });
 
 // https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
 test("Routing Algorithms - Dijkstra", () => {
   const myGraph = new Graph()
-    .addBiDirectionalEdge(vertexA, vertexB, 4)
-    .addBiDirectionalEdge(vertexA, vertexH, 8)
-    .addBiDirectionalEdge(vertexB, vertexC, 8)
-    .addBiDirectionalEdge(vertexB, vertexH, 11)
-    .addBiDirectionalEdge(vertexC, vertexD, 7)
-    .addBiDirectionalEdge(vertexC, vertexI, 2)
-    .addBiDirectionalEdge(vertexC, vertexF, 4)
-    .addBiDirectionalEdge(vertexD, vertexE, 9)
-    .addBiDirectionalEdge(vertexD, vertexF, 14)
-    .addBiDirectionalEdge(vertexE, vertexF, 10)
-    .addBiDirectionalEdge(vertexF, vertexG, 2)
-    .addBiDirectionalEdge(vertexG, vertexH, 1)
-    .addBiDirectionalEdge(vertexG, vertexI, 6)
-    .addBiDirectionalEdge(vertexH, vertexI, 7);
+    .addBiDirectionalEdge("A", "B", 4)
+    .addBiDirectionalEdge("A", "H", 8)
+    .addBiDirectionalEdge("B", "C", 8)
+    .addBiDirectionalEdge("B", "H", 11)
+    .addBiDirectionalEdge("C", "D", 7)
+    .addBiDirectionalEdge("C", "I", 2)
+    .addBiDirectionalEdge("C", "F", 4)
+    .addBiDirectionalEdge("D", "E", 9)
+    .addBiDirectionalEdge("D", "F", 14)
+    .addBiDirectionalEdge("E", "F", 10)
+    .addBiDirectionalEdge("F", "G", 2)
+    .addBiDirectionalEdge("G", "H", 1)
+    .addBiDirectionalEdge("G", "I", 6)
+    .addBiDirectionalEdge("H", "I", 7);
 
-  const viaNode = vertexA;
-  const shortestPathTreeAll: ShortestPathTree<StringGraphVertex> = dijkstras({
+  const viaNode = "A";
+  const shortestPathTreeAll: ShortestPathTree = dijkstras({
     graph: myGraph,
-    sourceNodeKey: viaNode.key,
+    sourceNodeKey: viaNode,
   });
   expect(shortestPathTreeAll).toEqual({
-    [vertexA.key]: { cost: 0, viaNode: undefined, priority: Infinity },
-    [vertexB.key]: { cost: 4, viaNode: vertexA, priority: 1 / 4 },
-    [vertexC.key]: { cost: 12, viaNode: vertexB, priority: 1 / 12 },
-    [vertexD.key]: { cost: 19, viaNode: vertexC, priority: 1 / 19 },
-    [vertexE.key]: { cost: 21, viaNode: vertexF, priority: 1 / 21 },
-    [vertexF.key]: { cost: 11, viaNode: vertexG, priority: 1 / 11 },
-    [vertexG.key]: { cost: 9, viaNode: vertexH, priority: 1 / 9 },
-    [vertexH.key]: { cost: 8, viaNode: vertexA, priority: 1 / 8 },
-    [vertexI.key]: { cost: 14, viaNode: vertexC, priority: 1 / 14 },
+    ["A"]: { cost: 0, viaNode: undefined, priority: Infinity },
+    ["B"]: { cost: 4, viaNode: "A", priority: 1 / 4 },
+    ["C"]: { cost: 12, viaNode: "B", priority: 1 / 12 },
+    ["D"]: { cost: 19, viaNode: "C", priority: 1 / 19 },
+    ["E"]: { cost: 21, viaNode: "F", priority: 1 / 21 },
+    ["F"]: { cost: 11, viaNode: "G", priority: 1 / 11 },
+    ["G"]: { cost: 9, viaNode: "H", priority: 1 / 9 },
+    ["H"]: { cost: 8, viaNode: "A", priority: 1 / 8 },
+    ["I"]: { cost: 14, viaNode: "C", priority: 1 / 14 },
   });
 
   const pathTo4 = getPathTo({
     graph: myGraph,
     shortestPathTree: shortestPathTreeAll,
-    node: vertexE,
+    node: "E",
   });
-  expect(pathTo4).toEqual([vertexA, vertexH, vertexG, vertexF, vertexE]);
+  expect(pathTo4).toEqual(["A", "H", "G", "F", "E"]);
 
   const pathTo3 = getPathTo({
     graph: myGraph,
     shortestPathTree: shortestPathTreeAll,
-    node: vertexD,
+    node: "D",
   });
-  expect(pathTo3).toEqual([vertexA, vertexB, vertexC, vertexD]);
+  expect(pathTo3).toEqual(["A", "B", "C", "D"]);
 
   const pathTo8 = getPathTo({
     graph: myGraph,
     shortestPathTree: shortestPathTreeAll,
-    node: vertexI,
+    node: "I",
   });
-  expect(pathTo8).toEqual([vertexA, vertexB, vertexC, vertexI]);
+  expect(pathTo8).toEqual(["A", "B", "C", "I"]);
 
   // Do the same thing again, but only find the route to one node
   // It should come up with the same answer, but will make no attempt to route 'every node'
-  const shortestPathTree4only: ShortestPathTree<StringGraphVertex> = dijkstras(
+  const shortestPathTree4only: ShortestPathTree = dijkstras(
     {
       graph: myGraph,
-      sourceNodeKey: viaNode.key,
-      destinationNodeKey: vertexE.key,
+      sourceNodeKey: viaNode,
+      destinationNodeKey: "E",
     } // this time specifying the toNode
   );
   const pathTo4only = getPathTo({
     graph: myGraph,
     shortestPathTree: shortestPathTree4only,
-    node: vertexE,
+    node: "E",
   });
-  expect(pathTo4only).toEqual([vertexA, vertexH, vertexG, vertexF, vertexE]);
+  expect(pathTo4only).toEqual(["A", "H", "G", "F", "E"]);
 });

@@ -1,27 +1,17 @@
-import Graph from "../../dataStructures/graph/Graph";
-import { StringGraphVertex } from "../../types";
-import { getStringVertex } from "../../common";
-
-export const vertexA = getStringVertex("A");
-export const vertexB = getStringVertex("B");
-export const vertexC = getStringVertex("C");
-export const vertexD = getStringVertex("D");
-export const vertexE = getStringVertex("E");
-export const vertexF = getStringVertex("F");
-export const vertexG = getStringVertex("G");
-export const vertexS = getStringVertex("S");
+import { Edge, graphAddBidirectionalEdge, createInitialState } from "../../dataStructures/graph/graphReducer";
 
 const createTestGraph = () => {
-    return new Graph<StringGraphVertex>()
-        .addBiDirectionalEdge(vertexS, vertexA)
-        .addBiDirectionalEdge(vertexS, vertexB)
-        .addBiDirectionalEdge(vertexS, vertexC)
-        .addBiDirectionalEdge(vertexA, vertexD)
-        .addBiDirectionalEdge(vertexD, vertexG)
-        .addBiDirectionalEdge(vertexB, vertexE)
-        .addBiDirectionalEdge(vertexE, vertexG)
-        .addBiDirectionalEdge(vertexC, vertexF)
-        .addBiDirectionalEdge(vertexF, vertexG);
+    return ([
+        { from: "S", to: "A" },
+        { from: "S", to: "B" },
+        { from: "S", to: "C" },
+        { from: "A", to: "D" },
+        { from: "D", to: "G" },
+        { from: "B", to: "E" },
+        { from: "E", to: "G" },
+        { from: "C", to: "F" },
+        { from: "F", to: "G" }
+    ] as Edge[]).reduce((acc, { from, to, weight }) => graphAddBidirectionalEdge(acc, from, to, weight), createInitialState());
 }
 
 export default createTestGraph;
