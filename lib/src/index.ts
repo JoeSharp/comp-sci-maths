@@ -10,7 +10,7 @@ import mergeSort from "./algorithms/sort/mergeSort";
 import BinaryTree from "./dataStructures/binaryTree/BinaryTree";
 import BinaryTreeString from "./dataStructures/binaryTree/BinaryTreeString";
 import BinaryTreeNumber from "./dataStructures/binaryTree/BinaryTreeNumber";
-import { GraphState, Edge, GraphAction } from "./dataStructures/graph/graphReducer";
+import { Graph, Edge, GraphAction } from "./dataStructures/graph/graphReducer";
 import LinkedItem from "./dataStructures/linkedList/LinkedItem";
 import LinkedList from "./dataStructures/linkedList/LinkedList";
 import linkedListReducer from "./dataStructures/linkedList/linkedListReducer";
@@ -54,7 +54,7 @@ import NandTestRunner from "./computation/nand/NandTestScript/NandTestRunner";
 
 export {
   // Data Structures
-  GraphState, Edge, GraphAction,
+  Graph, Edge, GraphAction,
   Stack,
   stackReducer,
   Queue,

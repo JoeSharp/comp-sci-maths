@@ -1,8 +1,8 @@
-import Graph from "../../dataStructures/graph/Graph";
-import { VisitFunction, AnyGraphVertex } from "../../types";
+import { Graph } from "../../dataStructures/graph/graphReducer";
+import { VisitFunction } from "../../types";
 
-export type GraphTraversal<T extends AnyGraphVertex> = (
-  graph: Graph<T>,
-  startVertex: T,
-  visit: VisitFunction<T>
+export type GraphTraversal = (
+  graph: Graph,
+  startVertex: string,
+  visit: VisitFunction<string>
 ) => void;

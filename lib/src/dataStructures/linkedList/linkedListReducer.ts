@@ -5,7 +5,7 @@ import {
     getInitialLinearStructureState,
     LinearDataStructureMessages,
     linearStructureError
-} from "../queue/linearDataStructure";
+} from "../linearDataStructure/linearDataStructure";
 import {
     getInitialStackState,
     isStackEmpty,
@@ -190,7 +190,8 @@ export const linkedListAppend = <T>(
         freeNodes,
         nextFree,
         lastResult: newItem,
-        lastMessage: LinearDataStructureMessages.added
+        lastMessage: LinearDataStructureMessages.added,
+        size: state.size + 1
     };
 }
 
@@ -220,6 +221,7 @@ export const linkedListRemoveLogicalIndex = <T>(state: LinkedListState<T>,
 
     return {
         ...state,
+        size: state.size - 1,
         contents,
         start,
         freeNodes,
@@ -302,6 +304,7 @@ export const linkedListInsert = <T>(state: LinkedListState<T>, logicalIndex: num
 
     return {
         ...state,
+        size: state.size + 1,
         start,
         contents,
         nextFree,

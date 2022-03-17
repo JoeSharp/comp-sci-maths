@@ -3,11 +3,11 @@ import { depthFirstSearch, breadthFirstSearch } from "@comp-sci-maths/lib/dist/"
 import { VisitFunction } from "@comp-sci-maths/lib/dist/types";
 
 import { BREADTH_FIRST_SEARCH, DEPTH_FIRST_SEARCH } from "./common";
-import { GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
   algorithmName: string;
-  graph: GraphState<string>;
+  graph: Graph<string>;
   startVertex?: string;
 }
 

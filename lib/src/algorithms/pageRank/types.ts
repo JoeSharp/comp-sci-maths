@@ -1,12 +1,11 @@
-import Graph from "../../dataStructures/graph/Graph";
-import { AnyGraphVertex } from "../../types";
+import { Graph } from "../../dataStructures/graph/graphReducer";
 
 export interface PageRanks {
   [s: string]: number;
 }
-export interface PageRankState<T extends AnyGraphVertex> {
+export interface PageRankState {
   iterations: number;
-  graph: Graph<T>;
+  graph: Graph;
   dampingFactor: number;
   ranks: PageRanks;
   rankHistory: PageRanks[];

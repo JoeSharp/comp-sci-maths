@@ -1,7 +1,7 @@
 import React from "react";
 
 import {
-  GraphState,
+  Graph,
   GraphAction,
   Edge,
 } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
@@ -13,7 +13,7 @@ import { Props as ButtonProps } from "../../../../Bootstrap/Buttons/Button";
 
 interface Props {
   vertex: string;
-  graph: GraphState<string>;
+  graph: Graph<string>;
   dispatch: (action: GraphAction<string>) => void;
   pendingFrom: string | undefined;
   newEdgeWeight: number;

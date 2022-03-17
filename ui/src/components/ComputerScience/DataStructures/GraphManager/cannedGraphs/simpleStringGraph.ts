@@ -1,12 +1,12 @@
 import {
-  GraphState,
+  Graph,
   createInitialState,
   graphAddBidirectionalEdge,
   Edge
 } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import { PositionByVertex } from "../types";
 
-const graph = (): GraphState<string> => {
+const graph = (): Graph<string> => {
   return ([
     { from: "A", to: "B" },
     { from: "B", to: "C" },

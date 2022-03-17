@@ -1,6 +1,5 @@
 import { PageRanks, PageRankState } from "../../algorithms/pageRank/types";
-import Graph from "../../dataStructures/graph/Graph";
-import { AnyGraphVertex } from "../../types";
+import { Graph, createInitialState } from "../../dataStructures/graph/graphReducer";
 
 const MAX_ITERATIONS = 20;
 
@@ -14,9 +13,9 @@ const MAX_ITERATIONS = 20;
 export const roundTo2Dp = (x: number): number =>
   x !== undefined ? parseFloat(x.toFixed(2)) : 0;
 
-export const BLANK_PAGE_RANK_STATE: PageRankState<any> = {
+export const BLANK_PAGE_RANK_STATE: PageRankState = {
   iterations: 0,
-  graph: new Graph(),
+  graph: createInitialState(),
   ranks: {},
   rankHistory: [],
   dampingFactor: 0.85,
@@ -29,12 +28,11 @@ export const BLANK_PAGE_RANK_STATE: PageRankState<any> = {
  * @param graph The graph which describes the linked pages.
  * @param dampingFactor The damping factor to apply during the page rank iterations
  */
-export const initialisePageRank = <T extends AnyGraphVertex>(
-  graph: Graph<T>,
+export const initialisePageRank = (
+  graph: Graph,
   dampingFactor: number = 0.85
 ) => {
   const firstRanks = [...graph.vertices]
-    .map((v) => v.key)
     .reduce((acc, curr) => ({ ...acc, [curr]: 1 }), {});
   return {
     iterations: 0,
@@ -50,8 +48,8 @@ export const initialisePageRank = <T extends AnyGraphVertex>(
  * @param state The page rank state, as yielded by the iterate function
  * @param page The specific page we are interested in
  */
-export const extractPageRank = <T extends AnyGraphVertex>(
-  { ranks }: PageRankState<T>,
+export const extractPageRank = (
+  { ranks }: PageRankState,
   page: string
 ): number => {
   return ranks[page];
@@ -64,13 +62,13 @@ export const extractPageRank = <T extends AnyGraphVertex>(
  * @param state The current page rank state
  * @returns The new page rank state
  */
-export const iteratePageRank = <T extends AnyGraphVertex>({
+export const iteratePageRank = ({
   iterations,
   graph,
   ranks,
   rankHistory,
   dampingFactor,
-}: PageRankState<T>): PageRankState<T> => {
+}: PageRankState): PageRankState => {
   if (iterations > MAX_ITERATIONS) {
     return {
       iterations,
@@ -85,17 +83,17 @@ export const iteratePageRank = <T extends AnyGraphVertex>({
 
   graph.vertices.forEach((page) => {
     const rank: number = graph.edges
-      .filter((edge) => graph.areVerticesEqual(edge.to, page))
+      .filter((edge) => edge.to === page)
       .map((edge) => edge.from)
       .map(
         (incoming) =>
-          newRanks[incoming.key] /
-          graph.edges.filter((l) => graph.areVerticesEqual(l.from, incoming))
+          newRanks[incoming] /
+          graph.edges.filter((l) => l.from === incoming)
             .length
       )
       .reduce((acc, curr) => acc + curr, 0);
 
-    newRanks[page.key] = 1 - dampingFactor + dampingFactor * rank;
+    newRanks[page] = 1 - dampingFactor + dampingFactor * rank;
   });
 
   return {

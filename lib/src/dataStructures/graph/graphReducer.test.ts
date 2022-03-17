@@ -1,6 +1,7 @@
 import graphReducer, {
     createInitialState,
-    getEdgeWeight
+    getEdgeWeight,
+    getOutgoing
 } from './graphReducer';
 
 describe("Graph (functional)", () => {
@@ -23,6 +24,10 @@ describe("Graph (functional)", () => {
         state = graphReducer(state, { type: 'addUnidirectionalEdge', from: "A", to: "D", weight: 4.0 });
         state = graphReducer(state, { type: 'addUnidirectionalEdge', from: "D", to: "A", weight: 2.0 });
         state = graphReducer(state, { type: 'addUnidirectionalEdge', from: "C", to: "E" });
+
+        const fromA = getOutgoing(state, 'A').map(v => v.to);
+        expect(fromA.length).toBe(3);
+        ['B', 'C', 'D'].forEach(oa => expect(fromA).toContain(oa));
 
         const ad = getEdgeWeight(state, "A", "D");
         expect(ad).toBe(4.0);

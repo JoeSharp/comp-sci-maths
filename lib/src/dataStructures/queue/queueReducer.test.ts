@@ -1,4 +1,4 @@
-import { LinearDataStructureMessages } from "./linearDataStructure";
+import { LinearDataStructureMessages } from "../linearDataStructure/linearDataStructure";
 import queueReducer, { getInitialQueueState } from "./queueReducer";
 
 describe("Queue (functional implementation)", () => {

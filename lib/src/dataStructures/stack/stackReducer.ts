@@ -5,7 +5,7 @@ import {
     DEFAULT_CAPACITY,
     getInitialLinearStructureState,
     linearStructureError
-} from "../queue/linearDataStructure";
+} from "../linearDataStructure/linearDataStructure";
 
 export interface StackState<T> extends LinearStructureState<T> {
     stackPointer: number;
@@ -19,6 +19,9 @@ export const getInitialStackState = <T>(capacity: number = DEFAULT_CAPACITY): St
 export const isStackEmpty = ({ stackPointer }: StackState<any>): boolean => stackPointer === 0;
 export const isStackFull = ({ stackPointer, capacity }: StackState<any>): boolean => stackPointer === capacity;
 
+export const getStackItems = ({ contents, stackPointer }: StackState<any>) => {
+    return contents.filter((_, i) => i < stackPointer);
+}
 
 export const stackPush = <T>(state: StackState<T>, value: T): StackState<T> => {
     if (isStackFull(state)) {
@@ -30,6 +33,7 @@ export const stackPush = <T>(state: StackState<T>, value: T): StackState<T> => {
 
     return {
         ...state,
+        size: state.size + 1,
         contents,
         stackPointer: state.stackPointer + 1,
         lastMessage: LinearDataStructureMessages.added
@@ -50,6 +54,7 @@ export const stackPop = <T>(state: StackState<T>): StackState<T> => {
 
     return {
         ...state,
+        size: state.size - 1,
         contents,
         stackPointer: state.stackPointer - 1,
         lastResult,

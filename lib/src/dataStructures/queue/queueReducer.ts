@@ -5,7 +5,7 @@ import {
     DEFAULT_CAPACITY,
     getInitialLinearStructureState,
     linearStructureError
-} from "./linearDataStructure";
+} from "../linearDataStructure/linearDataStructure";
 
 export interface QueueState<T> extends LinearStructureState<T> {
     front: number;
@@ -44,6 +44,7 @@ export const queuePush = <T>(state: QueueState<T>, value: T): QueueState<T> => {
 
     return {
         ...state,
+        size: state.size + 1,
         contents,
         front,
         rear,
@@ -75,6 +76,7 @@ export const queuePop = <T>(state: QueueState<T>): QueueState<T> => {
 
     return {
         ...state,
+        size: state.size - 1,
         contents,
         front,
         lastResult,

@@ -7,7 +7,7 @@ import {
     LinkedListItem,
     INVALID_PTR
 } from '../linkedList/linkedListReducer';
-import { DEFAULT_CAPACITY, LinearDataStructureMessages } from './linearDataStructure';
+import { DEFAULT_CAPACITY, LinearDataStructureMessages } from '../linearDataStructure/linearDataStructure';
 
 export interface PrioritisedItem<T> {
     value: T;

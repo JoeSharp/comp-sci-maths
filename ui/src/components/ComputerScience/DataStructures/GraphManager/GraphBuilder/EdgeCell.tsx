@@ -1,9 +1,9 @@
 import React from "react";
 
-import { GraphState, Edge, GraphAction } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import { Graph, Edge, GraphAction } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
-  graph: GraphState<string>;
+  graph: Graph<string>;
   dispatch: (action: GraphAction<string>) => void;
   filter: (edge: Edge<string>) => boolean;
   getOtherEnd: (edge: Edge<string>) => string;

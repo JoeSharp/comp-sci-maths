@@ -1,8 +1,8 @@
 import { Optional } from "../../types";
 
-interface GraphReplaceAction {
+interface GraphReplaceAction<T = string> {
     type: 'replace',
-    newState: GraphState;
+    newState: Graph<T>;
 }
 
 interface GraphAddVertexAction {
@@ -39,13 +39,13 @@ interface GraphResetAction {
     type: 'reset'
 }
 
-export type GraphAction = GraphAddVertexAction |
+export type GraphAction<T = string> = GraphAddVertexAction |
     GraphRemoveVertex |
     GraphRemoveEdge |
     GraphAddUnidirectionalEdge |
     GraphAddBidirectionalEdge |
     GraphResetAction |
-    GraphReplaceAction;
+    GraphReplaceAction<T>;
 
 export interface Edge {
     from: string;
@@ -53,9 +53,12 @@ export interface Edge {
     weight: number;
 }
 
-export interface GraphState {
+export interface Graph<T = string> {
     vertices: string[];
     edges: Edge[];
+    vertexValues?: {
+        [vertex: string]: T
+    }
 }
 
 /**
@@ -65,8 +68,17 @@ export interface GraphState {
  * @param asString The vertex as a string
  * @returns The original vertex value, if found
  */
-export const getVertex = ({ vertices }: GraphState, asString: string): Optional<string> =>
+export const getVertex = <T = string>({ vertices }: Graph<T>, asString: string): Optional<string> =>
     vertices.find(v => v === asString);
+
+
+/**
+ * Retrieve the value associated with a given vertex.
+ * @param Graph state
+ * @param vertex The vertex we want to find
+ * @returns The associated value with that vertex, if such a value has been registered.
+ */
+export const getVertexValue = <T = string>({ vertexValues }: Graph<T>, vertex: string): T => vertexValues !== undefined ? vertexValues[vertex] : undefined;
 
 /**
  * Retrieve the edge that exists between the two given vertices
@@ -76,14 +88,14 @@ export const getVertex = ({ vertices }: GraphState, asString: string): Optional<
  * @param to The to vertex
  * @returns The edge that exists between the two (if there is one)
  */
-export const getEdge = ({ edges }: GraphState, from: string, to: string): Optional<Edge> =>
+export const getEdge = ({ edges }: Graph, from: string, to: string): Optional<Edge> =>
     edges.find((l) => l.from === from && l.to === to)
 
 /**
  * Access edges coming into a specific vertex
  * @param vertex The from vertex
  */
-export const getIncoming = ({ edges }: GraphState, toKey: string): Edge[] =>
+export const getIncoming = ({ edges }: Graph, toKey: string): Edge[] =>
     edges.filter((l) => l.to === toKey);
 
 /**
@@ -92,7 +104,7 @@ export const getIncoming = ({ edges }: GraphState, toKey: string): Edge[] =>
  * @param fromKey The from vertex
  * @returns The edges
  */
-export const getOutgoing = ({ edges }: GraphState, fromKey: string): Edge[] =>
+export const getOutgoing = ({ edges }: Graph, fromKey: string): Edge[] =>
     edges.filter((l) => l.from === fromKey);
 
 /**
@@ -104,7 +116,7 @@ export const getOutgoing = ({ edges }: GraphState, fromKey: string): Edge[] =>
  * @param {string} to The destination vertex
  * @return The weight of the Edge, or Infinity if there is no Edge.
  */
-export const getEdgeWeight = (state: GraphState, from: string, to: string): number => {
+export const getEdgeWeight = (state: Graph, from: string, to: string): number => {
     const edge = getEdge(state, from, to);
     return !!edge ? edge.weight : Infinity;
 }
@@ -116,9 +128,10 @@ export const getEdgeWeight = (state: GraphState, from: string, to: string): numb
  * @param areVerticesEqual A function that can compare two vertices
  * @returns An empty graph state.
  */
-export const createInitialState = (): GraphState => ({
+export const createInitialState = <T = string>(): Graph<T> => ({
     vertices: [],
     edges: [],
+    vertexValues: {}
 })
 
 /**
@@ -128,12 +141,16 @@ export const createInitialState = (): GraphState => ({
  * @param vertex The vertex to add
  * @returns new graph state after changes
  */
-export const graphAddVertex = (state: GraphState, vertex: string): GraphState => ({
+export const graphAddVertex = <T = string>(state: Graph<T>, vertex: string, value: Optional<T> = undefined): Graph<T> => ({
     ...state,
     vertices: [
         ...state.vertices.filter(v => v !== vertex),
         vertex
     ],
+    vertexValues: {
+        ...state.vertexValues,
+        [vertex]: value
+    }
 });
 
 /**
@@ -142,7 +159,7 @@ export const graphAddVertex = (state: GraphState, vertex: string): GraphState =>
  * @param vertex The vertex to remove
  * @returns new graph state after changes
  */
-export const graphRemoveVertex = (state: GraphState, vertex: string): GraphState => ({
+export const graphRemoveVertex = <T = string>(state: Graph<T>, vertex: string): Graph<T> => ({
     ...state,
     vertices: state.vertices.filter(
         v => (v !== vertex)
@@ -159,7 +176,7 @@ export const graphRemoveVertex = (state: GraphState, vertex: string): GraphState
  * @param to
  * @returns new graph state after changes
  */
-export const graphRemoveEdge = (state: GraphState, from: string, to: string): GraphState => ({
+export const graphRemoveEdge = <T = string>(state: Graph<T>, from: string, to: string): Graph<T> => ({
     ...state,
     edges: state.edges.filter(
         (l) => !(l.from === from && l.to === to)
@@ -174,12 +191,12 @@ export const graphRemoveEdge = (state: GraphState, from: string, to: string): Gr
  * @param weight
  * @returns new graph state after changes
  */
-export const graphAddUnidirectionalEdge = (
-    state: GraphState,
+export const graphAddUnidirectionalEdge = <T = string>(
+    state: Graph<T>,
     from: string,
     to: string,
     weight: number = 1.0
-): GraphState => ({
+): Graph<T> => ({
     ...state,
     vertices: [
         ...state.vertices,
@@ -201,12 +218,12 @@ export const graphAddUnidirectionalEdge = (
  * @param weight
  * @returns new graph state after changes
  */
-export const graphAddBidirectionalEdge = (
-    state: GraphState,
+export const graphAddBidirectionalEdge = <T = string>(
+    state: Graph<T>,
     from: string,
     to: string,
     weight: number = 1.0
-): GraphState => ({
+): Graph<T> => ({
     ...state,
     vertices: [
         ...state.vertices,
@@ -221,7 +238,7 @@ export const graphAddBidirectionalEdge = (
                 )
         ), // filter any existing Edge in this direction
         { from, to, weight },
-        { to, from, weight },
+        { from: to, to: from, weight },
     ]
 });
 
@@ -231,7 +248,7 @@ export const graphAddBidirectionalEdge = (
  * @param action
  * @returns new graph state after changes
  */
-export const graphReducer = (state: GraphState, action: GraphAction): GraphState => {
+export const graphReducer = <T = string>(state: Graph<T>, action: GraphAction<T>): Graph<T> => {
     switch (action.type) {
         case 'addVertex': return graphAddVertex(state, action.vertex);
         case 'removeVertex': return graphRemoveVertex(state, action.vertex);

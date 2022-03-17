@@ -17,9 +17,6 @@ export interface IKeyWithValue<T> {
   key: string;
   value: T;
 }
-export type AnyGraphVertex = IKeyWithValue<any>;
-export type StringGraphVertex = IKeyWithValue<string>;
-export type NumberGraphVertex = IKeyWithValue<number>;
 
 export interface IVersioned {
   version: number;
