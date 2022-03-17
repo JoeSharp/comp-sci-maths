@@ -4,8 +4,6 @@ import {
   ToString,
   Comparator,
   IVersioned,
-  StringGraphVertex,
-  NumberGraphVertex,
   LineReference,
   RawLineRef,
 } from "./types";

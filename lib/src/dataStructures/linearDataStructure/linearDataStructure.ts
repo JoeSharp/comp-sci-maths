@@ -35,6 +35,7 @@ export interface LinearStructureState<T> {
     capacity: number,
     lastResult: T | null;
     lastMessage: LinearDataStructureMessages;
+    size: number;
 }
 
 export const DEFAULT_CAPACITY = 10;
@@ -43,7 +44,8 @@ export const getInitialLinearStructureState = <T>(capacity: number = DEFAULT_CAP
     contents: Array(capacity).fill(null),
     capacity,
     lastResult: null,
-    lastMessage: LinearDataStructureMessages.newStructure
+    lastMessage: LinearDataStructureMessages.newStructure,
+    size: 0
 })
 
 export const linearStructureError = <STATE extends LinearStructureState<any>>(state: STATE, lastMessage: LinearDataStructureMessages): STATE => ({
@@ -51,3 +53,5 @@ export const linearStructureError = <STATE extends LinearStructureState<any>>(st
     lastMessage,
     lastResult: null
 })
+
+export type LinearDataStructureReducer<T, STATE extends LinearStructureState<T>> = (state: STATE, action: LinearStructureAction<T>) => STATE;

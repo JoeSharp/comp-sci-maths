@@ -1,5 +1,5 @@
 import PriorityQueue from "../../dataStructures/queue/PriorityQueue";
-import { GraphState, Edge, getOutgoing } from "../../dataStructures/graph/graphReducer";
+import { Graph, getOutgoing } from "../../dataStructures/graph/graphReducer";
 import {
   ShortestPathTree,
   ShortestPathWithNode,
@@ -10,7 +10,6 @@ import {
   EdgeCurrentWeightCalcType,
 } from "./types";
 import { emptyObserver } from "../../common";
-import { AnyGraphVertex } from "../../types";
 
 /**
  * Calls the walkPath generator function and puts all the nodes into an array, returns the array.
@@ -19,7 +18,7 @@ import { AnyGraphVertex } from "../../types";
  * @param {string} destinationNode
  * @returns An array containing the path (walking backwards), it will be empty if no route was found
  */
-function getPathTo<T extends AnyGraphVertex>({
+function getPathTo({
   graph,
   shortestPathTree,
   node,
@@ -39,7 +38,7 @@ function getPathTo<T extends AnyGraphVertex>({
 }
 
 interface WalkPath {
-  graph: GraphState;
+  graph: Graph;
   shortestPathTree: ShortestPathTree;
   node: string;
 }
@@ -52,7 +51,7 @@ interface WalkPath {
  * @param {string} viaNode The start point of the journey
  * @param {string} destinationNode The end point of the journey
  */
-function* walkPath<T extends AnyGraphVertex>({
+function* walkPath({
   shortestPathTree,
   node,
 }: WalkPath) {
@@ -70,7 +69,7 @@ function* walkPath<T extends AnyGraphVertex>({
 // Some of them are optional, so it is easier to use an object of named args
 // that can be given default values in the routing function.
 interface Args {
-  graph: GraphState;
+  graph: Graph;
   sourceNode: string;
   destinationNode?: string;
   getHeuristicCost?: HeuristicCostFunction;

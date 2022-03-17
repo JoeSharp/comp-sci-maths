@@ -1,6 +1,6 @@
 import React from "react";
 import useSavedGraph, { UseSavedGraph } from "./useSavedGraph";
-import graphReducer, { GraphAction, GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import graphReducer, { GraphAction, Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import useSketch, { UseSketch } from "../../../p5/useSketch";
 import GraphSketch from "../../../ComputerScience/DataStructures/GraphManager/GraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
@@ -38,7 +38,7 @@ const GraphPickerWithSketch: React.FunctionComponent<Props> = ({
 
 interface UsePicker {
   graphName: string;
-  graph: GraphState<string>;
+  graph: Graph<string>;
   graphDispatch: (action: GraphAction<string>) => void;
   vertexPositions: PositionByVertex;
   componentProps: Props;
@@ -50,7 +50,7 @@ interface UsePicker {
   >;
 }
 
-const wrappedGraphReducer = (graph: GraphState<string>, action: GraphAction<string>): GraphState<string> => {
+const wrappedGraphReducer = (graph: Graph<string>, action: GraphAction<string>): Graph<string> => {
   return graphReducer(graph, action);
 }
 
@@ -68,7 +68,7 @@ export const usePicker = (
   >({});
 
   const onChange = React.useCallback(
-    (name: string, graph: GraphState<string>) => {
+    (name: string, graph: Graph<string>) => {
       graphDispatch({ type: 'replace', newState: graph });
       setGraphName(name);
       setVertexPositions(vertexPositionsByGraph[name]);

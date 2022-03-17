@@ -3,26 +3,20 @@ import {
   iteratePageRank,
   extractPageRank,
 } from "./pageRank";
-import Graph from "../../dataStructures/graph/Graph";
+import { graphAddUnidirectionalEdge, createInitialState } from "../../dataStructures/graph/graphReducer";
 import { PageRankState } from "./types";
-import { StringGraphVertex } from "../../types";
-import { getStringVertex } from "../../common";
 import percentageError from "../../maths/percentageError";
 
 test("Page Rank", () => {
-  const vertexA = getStringVertex("A");
-  const vertexB = getStringVertex("B");
-  const vertexC = getStringVertex("C");
-  const vertexD = getStringVertex("D");
+  const graph = [
+    { from: 'A', to: 'B' },
+    { from: 'B', to: 'A' },
+    { from: 'B', to: 'C' },
+    { from: 'B', to: 'D' },
+    { from: 'D', to: 'A' },
+  ].reduce((acc, { from, to }) => graphAddUnidirectionalEdge(acc, from, to), createInitialState());
 
-  const graph = new Graph()
-    .addUnidirectionalEdge(vertexA, vertexB)
-    .addUnidirectionalEdge(vertexB, vertexA)
-    .addUnidirectionalEdge(vertexB, vertexC)
-    .addUnidirectionalEdge(vertexB, vertexD)
-    .addUnidirectionalEdge(vertexD, vertexA);
-
-  let pageRankState: PageRankState<StringGraphVertex> = initialisePageRank(
+  let pageRankState: PageRankState = initialisePageRank(
     graph
   );
 
@@ -31,10 +25,10 @@ test("Page Rank", () => {
     pageRankState = iteratePageRank(pageRankState);
   }
 
-  const pageRankA = extractPageRank(pageRankState, vertexA.key);
-  const pageRankB = extractPageRank(pageRankState, vertexB.key);
-  const pageRankC = extractPageRank(pageRankState, vertexC.key);
-  const pageRankD = extractPageRank(pageRankState, vertexD.key);
+  const pageRankA = extractPageRank(pageRankState, "A");
+  const pageRankB = extractPageRank(pageRankState, "B");
+  const pageRankC = extractPageRank(pageRankState, "C");
+  const pageRankD = extractPageRank(pageRankState, "D");
 
   expect(percentageError(pageRankA, 0.67)).toBeLessThan(5);
   expect(percentageError(pageRankB, 0.72)).toBeLessThan(5);

@@ -6,10 +6,10 @@ import ButtonBar, {
   Props as ButtonBarProps,
 } from "../../../../Bootstrap/Buttons/ButtonBar";
 import Checkbox from '../../../../Bootstrap/Checkbox';
-import { GraphState, GraphAction } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import { Graph, GraphAction } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
-  graph: GraphState<string>;
+  graph: Graph<string>;
   dispatch: (action: GraphAction<string>) => void;
 }
 

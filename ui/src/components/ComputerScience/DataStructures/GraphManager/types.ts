@@ -1,5 +1,5 @@
 import { Point } from "../../../p5/Boid/types";
-import { GraphState, Edge } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import { Graph, Edge } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 export interface SavedGraphState {
   [name: string]: {
@@ -9,7 +9,7 @@ export interface SavedGraphState {
 }
 
 export interface GraphsById {
-  [name: string]: GraphState<string>;
+  [name: string]: Graph<string>;
 }
 
 export interface PositionByVertex {

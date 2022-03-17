@@ -1,4 +1,4 @@
-import Stack from "../../dataStructures/stack/Stack";
+import { stackReducer, getInitialStackState } from "../../dataStructures/stack/stackReducer";
 import graphTraversal from "./graphTraversal";
 
-export default graphTraversal(() => new Stack<string>());
+export default graphTraversal(getInitialStackState, stackReducer);

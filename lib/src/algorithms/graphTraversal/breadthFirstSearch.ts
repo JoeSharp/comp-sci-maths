@@ -1,4 +1,4 @@
-import Queue from "../../dataStructures/queue/Queue";
+import { queueReducer, getInitialQueueState } from "../../dataStructures/queue/queueReducer";
 import graphTraversal from "./graphTraversal";
 
-export default graphTraversal(() => new Queue<string>());
+export default graphTraversal(getInitialQueueState, queueReducer);

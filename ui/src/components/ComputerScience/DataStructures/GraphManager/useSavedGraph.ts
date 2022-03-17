@@ -7,7 +7,7 @@ import {
   graphs as cannedGraphs,
   vertexPositionsByGraphName,
 } from "./cannedGraphs";
-import { createInitialState, GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import { createInitialState, Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import {
   GraphsById,
   PositionsForGraphName,
@@ -21,7 +21,7 @@ export interface UseSavedGraph {
   graphs: GraphsById;
   vertexPositionsByGraph: PositionsForGraphName;
   createNew(name: string): void;
-  save(name: string, graph: GraphState<any>, positions: PositionByVertex): void;
+  save(name: string, graph: Graph<any>, positions: PositionByVertex): void;
   reset: () => void;
 }
 
@@ -86,7 +86,7 @@ const useSavedGraph = (): UseSavedGraph => {
   );
 
   const save = React.useCallback(
-    (name: string, graph: GraphState<any>, positions: PositionByVertex) => {
+    (name: string, graph: Graph<any>, positions: PositionByVertex) => {
       reduceGraphs((existing: SavedGraphState) => ({
         ...existing,
         [name]: graph,

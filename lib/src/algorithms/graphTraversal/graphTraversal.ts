@@ -1,6 +1,10 @@
-import { Producer, VisitFunction } from "../../types";
-import { ILinearDataStructure } from "../../common";
-import { GraphState, getOutgoing } from "../../dataStructures/graph/graphReducer";
+import { VisitFunction } from "../../types";
+import { Graph, getOutgoing } from "../../dataStructures/graph/graphReducer";
+import { Producer } from "../../types";
+import {
+    LinearDataStructureReducer,
+    LinearStructureState
+} from "src/dataStructures/linearDataStructure/linearDataStructure";
 
 /**
  * Breadth first and Depth first traversals have a common shape.
@@ -10,14 +14,18 @@ import { GraphState, getOutgoing } from "../../dataStructures/graph/graphReducer
  * Given a factory for a linear data structure, this function returns
  * a function which can then be used for traversing a graph.
  */
-const graphTraversal = (dataStructureFactory: Producer<ILinearDataStructure<string>>) =>
-    (graph: GraphState, startingVertex: string, visit: VisitFunction<string>) => {
+const graphTraversal = (
+    getInitialState: Producer<LinearStructureState<string>>,
+    reducer: LinearDataStructureReducer<string, LinearStructureState<string>>
+) =>
+    (graph: Graph, startingVertex: string, visit: VisitFunction<string>) => {
         const visited: string[] = [];
-        const visitDataStructure: ILinearDataStructure<string> = dataStructureFactory();
-        visitDataStructure.push(startingVertex);
+        let visitDataStructure: LinearStructureState<string> = getInitialState();
+        visitDataStructure = reducer(visitDataStructure, { type: 'push', value: startingVertex });
 
-        while (visitDataStructure.size() > 0) {
-            const visiting = visitDataStructure.pop();
+        while (visitDataStructure.size > 0) {
+            visitDataStructure = reducer(visitDataStructure, { type: 'pop' });
+            const visiting = visitDataStructure.lastResult;
             if (visiting === undefined) break; // shouldn't happen
 
             // Stack/Queue may contain same vertex twice, if we've already seen it, skip it
@@ -26,9 +34,9 @@ const graphTraversal = (dataStructureFactory: Producer<ILinearDataStructure<stri
                 visited.push(visiting);
             }
 
-            getOutgoing(graph, visiting) // you could attack these in any order
+            visitDataStructure = getOutgoing(graph, visiting) // you could attack these in any order
                 .filter(n => !visited.includes(n.to))
-                .forEach(n => visitDataStructure.push(n.to));
+                .reduce((acc, curr) => reducer(acc, { type: 'push', value: curr.to }), visitDataStructure);
         }
     }
 

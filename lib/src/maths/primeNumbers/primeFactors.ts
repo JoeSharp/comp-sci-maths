@@ -1,7 +1,11 @@
 import sieveOfEratosthenes from "./sieveOfEratosthenes";
 import { isDivisibleBy, isPrime } from "./divisibilityRules";
-import Graph from "../../dataStructures/graph/Graph";
-import { NumberGraphVertex } from "../../types";
+import {
+  Graph,
+  createInitialState,
+  graphAddVertex,
+  graphAddUnidirectionalEdge
+} from "../../dataStructures/graph/graphReducer";
 
 export function getPrimeFactors(value: number): number[] {
   const factors: number[] = [];
@@ -24,20 +28,20 @@ export function getPrimeFactors(value: number): number[] {
   return factors;
 }
 
-export function getPrimeFactorTree(value: number): Graph<NumberGraphVertex> {
+export function getPrimeFactorTree(value: number): Graph<number> {
   const primeFactors: number[] = getPrimeFactors(value);
-  const graph = new Graph<NumberGraphVertex>();
+  let graph = createInitialState<number>()
 
   let k = 0;
   const nextKey = (): string => {
     k += 1;
     return k.toString(10);
   };
-  let currentItem: NumberGraphVertex = {
+  let currentItem = {
     key: nextKey(),
     value,
   };
-  graph.addVertex(currentItem);
+  graph = graphAddVertex(graph, currentItem.key, currentItem.value);
   primeFactors
     .slice(0, primeFactors.length - 1) // Skip the last one
     .forEach((factor) => {
@@ -45,11 +49,14 @@ export function getPrimeFactorTree(value: number): Graph<NumberGraphVertex> {
         key: nextKey(),
         value: currentItem.value / factor,
       };
-      graph.addUnidirectionalEdge(currentItem, {
+      const otherNewItem = {
         key: nextKey(),
         value: factor,
-      });
-      graph.addUnidirectionalEdge(currentItem, newItem);
+      }
+      graph = graphAddVertex(graph, newItem.key, newItem.value);
+      graph = graphAddVertex(graph, otherNewItem.key, otherNewItem.value);
+      graph = graphAddUnidirectionalEdge(graph, currentItem.key, otherNewItem.key);
+      graph = graphAddUnidirectionalEdge(graph, currentItem.key, newItem.key);
       currentItem = newItem;
     });
 

@@ -1,10 +1,10 @@
 import React from "react";
-import { GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import { DisplayDataItem } from "../../../../p5/Boid/types";
 
 export interface Props {
   className?: string;
-  graph: GraphState<string>;
+  graph: Graph<string>;
   value: string | undefined;
   onChange: (v: string | undefined) => void;
 }
@@ -45,7 +45,7 @@ interface UsePicker {
 }
 
 export const usePicker = (
-  graph: GraphState<string>,
+  graph: Graph<string>,
   className?: string
 ): UsePicker => {
   const [value, onChange] = React.useState<string | undefined>(undefined);

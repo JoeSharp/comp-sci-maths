@@ -1,10 +1,10 @@
 import breadthFirstSearch from "./breadthFirstSearch";
 import depthFirstSearch from "./depthFirstSearch";
-import { GraphState, createInitialState, graphAddBidirectionalEdge } from "../../dataStructures/graph/graphReducer";
+import { Graph, createInitialState, graphAddBidirectionalEdge } from "../../dataStructures/graph/graphReducer";
 import createTestGraph from "./createTestGraph";
 
 function checkTraversalContainsEverythingOnce<T>(
-  graph: GraphState,
+  graph: Graph,
   items: T[]
 ) {
   // Should visit all nodes exactly once
@@ -37,7 +37,7 @@ test("Graph - Breadth First Search", () => {
 });
 
 test("Graph - DFS Very Simple", () => {
-  const myGraph: GraphState = [{ from: "A", to: "B" }]
+  const myGraph: Graph = [{ from: "A", to: "B" }]
     .reduce((acc, { from, to }) => graphAddBidirectionalEdge(acc, from, to), createInitialState());
 
 

@@ -1,8 +1,8 @@
-import { GraphState } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import { PositionByVertex } from "../types";
 
 export interface GraphSketchConfig {
-  graph: GraphState<string>;
+  graph: Graph<string>;
   vertexPositions: PositionByVertex;
   physicsEnabled: boolean;
 }

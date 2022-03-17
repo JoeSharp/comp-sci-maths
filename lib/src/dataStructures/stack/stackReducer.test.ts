@@ -1,4 +1,4 @@
-import { LinearDataStructureMessages } from "../queue/linearDataStructure";
+import { LinearDataStructureMessages } from "../linearDataStructure/linearDataStructure";
 import stackReducer, { getInitialStackState } from "./stackReducer";
 
 describe("Stack (functional)", () => {

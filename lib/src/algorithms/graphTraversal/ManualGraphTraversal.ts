@@ -1,27 +1,34 @@
-import Queue from "../../dataStructures/queue/Queue";
-import Stack from "../../dataStructures/stack/Stack";
-import Graph from "../../dataStructures/graph/Graph";
+
+import { Graph, getOutgoing } from "../../dataStructures/graph/graphReducer";
 import LinkedList from "../../dataStructures/linkedList/LinkedList";
-import { ILinearDataStructure } from "../../common";
+import { queueReducer, getInitialQueueState } from "../../dataStructures/queue/queueReducer";
+import { stackReducer, getInitialStackState } from "../../dataStructures/stack/stackReducer";
 import { Producer } from "../../types";
+import {
+    LinearDataStructureReducer,
+    LinearStructureState
+} from "src/dataStructures/linearDataStructure/linearDataStructure";
 
 class ManualGraphTraversal {
-    linearDataStructureFactory: Producer<ILinearDataStructure<LinkedList<string>>>;
+    reducer: LinearDataStructureReducer<LinkedList<string>, LinearStructureState<LinkedList<string>>>;
+    getInitialState: Producer<LinearStructureState<LinkedList<string>>>;
 
-    graph: Graph<any>;
-    linearDataStructure: ILinearDataStructure<LinkedList<string>>;
+    graph: Graph;
+    state: LinearStructureState<LinkedList<string>>;
     visited: string[];
     errors: number;
 
-    constructor(linearDataStructureFactory: Producer<ILinearDataStructure<LinkedList<string>>>) {
-        this.linearDataStructureFactory = linearDataStructureFactory;
+    constructor(getInitialState: Producer<LinearStructureState<LinkedList<string>>>,
+        reducer: LinearDataStructureReducer<LinkedList<string>, LinearStructureState<LinkedList<string>>>) {
+        this.reducer = reducer;
+        this.getInitialState = getInitialState;
     }
 
-    start(graph: Graph<any>, startingVertex: string): this {
+    start(graph: Graph, startingVertex: string): this {
         this.visited = [];
         this.graph = graph;
-        this.linearDataStructure = this.linearDataStructureFactory();
-        this.linearDataStructure.push(new LinkedList<string>().append(startingVertex));
+        this.state = this.getInitialState();
+        this.state = this.reducer(this.state, { type: 'push', value: new LinkedList<string>().append(startingVertex) });
         this.visited.push(startingVertex);
         this.errors = 0;
         return this;
@@ -37,13 +44,13 @@ class ManualGraphTraversal {
             this.visit(key);
 
             // Get all the possible avenues from this point
-            const optionsFromVisiting: string[] = this.graph.getOutgoing(key)
-                .filter(n => !this.visited.includes(n.to.key))
-                .map(n => n.to.key);
+            const optionsFromVisiting: string[] = getOutgoing(this.graph, key)
+                .filter(n => !this.visited.includes(n.to))
+                .map(n => n.to);
 
             // Push the list of them onto our linear data structure
             if (optionsFromVisiting.length > 0) {
-                this.linearDataStructure.push(new LinkedList<string>().appendAll(...optionsFromVisiting));
+                this.state = this.reducer(this.state, { type: 'push', value: new LinkedList<string>().appendAll(...optionsFromVisiting) });
             }
         } else {
             this.errors++;
@@ -62,15 +69,17 @@ class ManualGraphTraversal {
     }
 
     getNextOptions(): LinkedList<string> | undefined {
-        if (this.linearDataStructure.isEmpty()) {
+        if (this.state.size === 0) {
             return undefined;
         }
 
-        let list = this.linearDataStructure.peek();
-        while (list.isEmpty() && !this.linearDataStructure.isEmpty()) {
-            this.linearDataStructure.pop();
-            if (!this.linearDataStructure.isEmpty()) {
-                list = this.linearDataStructure.peek();
+        this.state = this.reducer(this.state, { type: 'peek' });
+        let list = this.state.lastResult;
+        while (list.isEmpty() && this.state.size > 0) {
+            this.state = this.reducer(this.state, { type: 'pop' });
+            if (this.state.size > 0) {
+                this.state = this.reducer(this.state, { type: 'peek' });
+                list = this.state.lastResult;
             }
         }
         return list.size() > 0 ? list : undefined;
@@ -78,12 +87,14 @@ class ManualGraphTraversal {
 
     visit(key: string) {
         // Strip out the visited key from all sub linked lists
-        this.linearDataStructure.getItems().forEach(l => l.removeMatch(k => k === key));
+        this.state.contents
+            .filter(c => c !== undefined && c !== null)
+            .forEach(l => l.removeMatch(k => k === key));
         this.visited.push(key);
     }
 }
 
-export const breadthFirstManualTraversal = () => new ManualGraphTraversal(() => new Queue<LinkedList<string>>());
-export const depthFirstManualTraversal = () => new ManualGraphTraversal(() => new Stack<LinkedList<string>>());
+export const breadthFirstManualTraversal = () => new ManualGraphTraversal(getInitialQueueState, queueReducer);
+export const depthFirstManualTraversal = () => new ManualGraphTraversal(getInitialStackState, stackReducer);
 
 export default ManualGraphTraversal;
