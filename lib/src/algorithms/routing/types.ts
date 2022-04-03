@@ -1,10 +1,10 @@
 import { Optional } from "../../types";
-import PriorityQueue, {
-  PrioritisedItem,
-} from "../../dataStructures/queue/PriorityQueue";
+import {
+  PriorityQueueState,
+} from "../../dataStructures/queue/priorityQueueReducer";
 import { Edge } from "../../dataStructures/graph/graphReducer";
 
-export interface ShortestPathForNode extends PrioritisedItem {
+export interface ShortestPathForNode {
   cost: number;
   viaNode: Optional<string>;
 }
@@ -49,7 +49,7 @@ export interface EdgeWithCost {
 export interface ObserverArgs {
   currentItem?: ShortestPathWithNode;
   shortestPathTree: ShortestPathTree;
-  currentDistances: PriorityQueue<ShortestPathWithNode>;
+  currentDistances: PriorityQueueState<ShortestPathWithNode>;
   outgoing: EdgeWithCost[];
 }
 export interface ObserverArgsWithPathFrom

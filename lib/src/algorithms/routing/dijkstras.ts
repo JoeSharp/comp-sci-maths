@@ -1,4 +1,8 @@
-import PriorityQueue from "../../dataStructures/queue/PriorityQueue";
+import {
+  priorityQueueEnqueue,
+  priorityQueueDequeue,
+  getInitialPriorityQueueState
+} from "../../dataStructures/queue/priorityQueueReducer";
 import { Graph, getOutgoing } from "../../dataStructures/graph/graphReducer";
 import {
   ShortestPathTree,
@@ -10,6 +14,7 @@ import {
   EdgeCurrentWeightCalcType,
 } from "./types";
 import { emptyObserver } from "../../common";
+import { isListEmpty, linkedListRemoveMatch } from "../../dataStructures/linkedList/linkedListReducer";
 
 /**
  * Calls the walkPath generator function and puts all the nodes into an array, returns the array.
@@ -108,29 +113,28 @@ function dijkstras({
 
   // Build a priority queue, where the nodes are arranged in order of
   // distance from the source (smallest to largest)
-  const currentDistances = new PriorityQueue<ShortestPathWithNode>();
+  let currentDistances = getInitialPriorityQueueState<ShortestPathWithNode>(graph.vertices.length);
 
   // Add the 'from' node, it doesn't go via anything, and it's distance is zero
-  currentDistances.enqueue({
+  currentDistances = priorityQueueEnqueue(currentDistances, {
     node: sourceNode,
     viaNode: undefined,
     cost: 0,
-    priority: Infinity,
-  });
+  }, Infinity);
 
   // Add all the other nodes, with a distance of Infinity
-  graph.vertices
+  currentDistances = graph.vertices
     .filter((node) => node !== sourceNode)
-    .map((node) => ({ node, viaNode: undefined, cost: Infinity, priority: 0 }))
-    .forEach((n) => currentDistances.enqueue(n));
+    .reduce((acc, node) => priorityQueueEnqueue(acc, { node, viaNode: undefined, cost: Infinity }, 0), currentDistances);
 
   // Give the observer the START
   observer({ shortestPathTree, currentDistances, outgoing: [] });
 
   // While there are items in the queue to check...
-  while (!currentDistances.isEmpty()) {
+  while (!isListEmpty(currentDistances)) {
     // Take the node that is the shortest distance from our source node
-    const currentItem = currentDistances.dequeue();
+    currentDistances = priorityQueueDequeue(currentDistances);
+    const { lastResult: { value: { value: currentItem } } } = currentDistances;
 
     // Work out what amendments to make to the priority queue
     const outgoing: EdgeWithCost[] = getOutgoing(graph, currentItem.node)
@@ -142,7 +146,8 @@ function dijkstras({
 
         // Remove the matching item from our current known distances
         // It will either be replaced as is, or replaced with updated details
-        const otherItem = currentDistances.removeMatch((d) => d.node === node);
+        currentDistances = linkedListRemoveMatch(currentDistances, (d) => d.value.node === node);
+        const { lastResult: { value: { value: otherItem, priority: otherPriority } } } = currentDistances;
 
         // What is the distance to this other node, from our current node?
         const newPotentialDistance =
@@ -152,17 +157,17 @@ function dijkstras({
         if (newPotentialDistance < otherItem.cost) {
           totalCost = newPotentialDistance;
           // Replace the node with our new distance and via details
-          currentDistances.enqueue({
-            node,
-            cost: newPotentialDistance,
-            viaNode: currentItem.node,
-            priority: 1 / newPotentialDistance,
-          });
+          currentDistances = priorityQueueEnqueue(currentDistances,
+            {
+              node, cost: newPotentialDistance,
+              viaNode: currentItem.node
+            }, 1 / newPotentialDistance);
           calcResult = EdgeCurrentWeightCalcType.shorterRouteFound;
         } else {
           totalCost = otherItem.cost;
           // Just put the current one back
-          currentDistances.enqueue(otherItem);
+          currentDistances = priorityQueueEnqueue(currentDistances,
+            otherItem, otherPriority)
           calcResult = EdgeCurrentWeightCalcType.existingRouteStillQuickest;
         }
 
@@ -178,8 +183,7 @@ function dijkstras({
     // Put this item into our set (using node as a key)
     shortestPathTree[currentItem.node] = {
       cost: currentItem.cost,
-      viaNode: currentItem.viaNode,
-      priority: 1 / currentItem.cost,
+      viaNode: currentItem.viaNode
     };
 
     // Have we reached the destination? Quit early
