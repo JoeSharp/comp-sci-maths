@@ -4,7 +4,6 @@ import {
     linkedListReducer,
     linkedListGet,
     linkedListTraverse,
-    LinkedListItem,
     INVALID_PTR
 } from '../linkedList/linkedListReducer';
 import { DEFAULT_CAPACITY, LinearDataStructureMessages } from '../linearDataStructure/linearDataStructure';
@@ -43,24 +42,27 @@ export type PriorityQueueAction<T> = EnqueuePrioritisedAction<T> |
     PeekPrioritised |
     ResetAction;
 
-export const priorityQueueEnqueue = <T>(state: PriorityQueueState<T>, newItem: PrioritisedItem<T>): PriorityQueueState<T> => {
+export const priorityQueueEnqueue = <T>(state: PriorityQueueState<T>, newItem: T, priority: number): PriorityQueueState<T> => {
     let insertIndex = INVALID_PTR;
+    const newPrioritisedItem: PrioritisedItem<T> = { value: newItem, priority }
 
     linkedListTraverse(state,
         (item, logicalIndex) => {
             // Should we insert ahead of this one?
-            if (item.value.priority < newItem.priority) {
+            if (item.value.priority < priority) {
                 insertIndex = logicalIndex;
                 return true;
             }
             return false;
         })
 
+    let newState;
     if (insertIndex === INVALID_PTR) {
-        return linkedListReducer(state, { type: 'append', value: newItem });
+        newState = linkedListReducer(state, { type: 'append', value: newPrioritisedItem });
     } else {
-        return linkedListReducer(state, { type: 'insert', logicalIndex: insertIndex, value: newItem });
+        newState = linkedListReducer(state, { type: 'insert', logicalIndex: insertIndex, value: newPrioritisedItem });
     }
+    return newState;
 }
 
 export const priorityQueueDequeue = <T>(state: PriorityQueueState<T>) =>
@@ -82,7 +84,7 @@ export const priorityQueuePeek = <T>(state: PriorityQueueState<T>): PriorityQueu
  */
 export const priorityQueueReducer = <T>(state: PriorityQueueState<T>, action: PriorityQueueAction<T>): PriorityQueueState<T> => {
     switch (action.type) {
-        case 'enqueue': return priorityQueueEnqueue(state, { value: action.value, priority: action.priority });
+        case 'enqueue': return priorityQueueEnqueue(state, action.value, action.priority);
         case 'dequeue': return priorityQueueDequeue(state);
         case 'peek': return priorityQueuePeek(state);
         case 'reset': return getInitialLinkedListState();

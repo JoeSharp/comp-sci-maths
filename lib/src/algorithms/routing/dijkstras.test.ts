@@ -1,5 +1,5 @@
 import { ShortestPathTree, ObserverArgs } from "./types";
-import { Graph, createInitialState } from "../../dataStructures/graph/graphReducer";
+import { createInitialState, Graph, graphAddBidirectionalEdge, graphAddVertex } from "../../dataStructures/graph/graphReducer";
 
 import { dijkstras, getPathTo } from "./dijkstras";
 
@@ -20,10 +20,9 @@ test("Routing Algorithms - Dead End", () => {
   });
 
   // Check the unreachable nodes
-  ["D", "E"].forEach((u) => {
-    expect(shortestPathTree[u].cost).toBe(Infinity);
-    expect(shortestPathTree[u].viaNode).toBeUndefined();
-  });
+  expect(shortestPathTree.D).toBeDefined();
+  expect(shortestPathTree.D.cost).toBe(Infinity);
+  expect(shortestPathTree.D.viaNode).toBeUndefined();
 
   const pathTo = getPathTo({
     graph: myGraph,
@@ -55,28 +54,27 @@ test("Routing Algorithms - A*", () => {
     L: 6,
   };
 
-  const myGraph: Graph = {
-    vertices: ["S", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
-    edges: [
-      { from: "S", to: "A", weight: 7 },
-      { from: "S", to: "B", weight: 2 },
-      { from: "S", to: "C", weight: 3 },
-      { from: "A", to: "D", weight: 4 },
-      { from: "A", to: "B", weight: 3 },
-      { from: "B", to: "D", weight: 4 },
-      { from: "B", to: "H", weight: 1 },
-      { from: "C", to: "L", weight: 2 },
-      { from: "D", to: "F", weight: 5 },
-      { from: "E", to: "K", weight: 5 },
-      { from: "E", to: "G", weight: 2 },
-      { from: "F", to: "H", weight: 3 },
-      { from: "G", to: "H", weight: 2 },
-      { from: "I", to: "L", weight: 4 },
-      { from: "I", to: "K", weight: 4 },
-      { from: "J", to: "L", weight: 4 },
-      { from: "J", to: "K", weight: 4 }
-    ]
-  }
+  let myGraph: Graph = ["S", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
+    .reduce((acc, curr) => graphAddVertex(acc, curr), createInitialState());
+  myGraph = [
+    { from: "S", to: "A", weight: 7 },
+    { from: "S", to: "B", weight: 2 },
+    { from: "S", to: "C", weight: 3 },
+    { from: "A", to: "D", weight: 4 },
+    { from: "A", to: "B", weight: 3 },
+    { from: "B", to: "D", weight: 4 },
+    { from: "B", to: "H", weight: 1 },
+    { from: "C", to: "L", weight: 2 },
+    { from: "D", to: "F", weight: 5 },
+    { from: "E", to: "K", weight: 5 },
+    { from: "E", to: "G", weight: 2 },
+    { from: "F", to: "H", weight: 3 },
+    { from: "G", to: "H", weight: 2 },
+    { from: "I", to: "L", weight: 4 },
+    { from: "I", to: "K", weight: 4 },
+    { from: "J", to: "L", weight: 4 },
+    { from: "J", to: "K", weight: 4 }
+  ].reduce((acc, curr) => graphAddBidirectionalEdge(acc, curr.from, curr.to, curr.weight), myGraph);
 
   const observations: ObserverArgs[] = [];
   const shortestPathTreeStoE: ShortestPathTree = dijkstras({
@@ -99,25 +97,24 @@ test("Routing Algorithms - A*", () => {
 
 // https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
 test("Routing Algorithms - Dijkstra", () => {
-  const myGraph: Graph = {
-    vertices: ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
-    edges: [
-      { from: "A", to: "B", weight: 4 },
-      { from: "A", to: "H", weight: 8 },
-      { from: "B", to: "C", weight: 8 },
-      { from: "B", to: "H", weight: 11 },
-      { from: "C", to: "D", weight: 7 },
-      { from: "C", to: "I", weight: 2 },
-      { from: "C", to: "F", weight: 4 },
-      { from: "D", to: "E", weight: 9 },
-      { from: "D", to: "F", weight: 14 },
-      { from: "E", to: "F", weight: 10 },
-      { from: "F", to: "G", weight: 2 },
-      { from: "G", to: "H", weight: 1 },
-      { from: "G", to: "I", weight: 6 },
-      { from: "H", to: "I", weight: 7 },
-    ]
-  }
+  let myGraph: Graph = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+    .reduce((acc, curr) => graphAddVertex(acc, curr), createInitialState());
+  myGraph = [
+    { from: "A", to: "B", weight: 4 },
+    { from: "A", to: "H", weight: 8 },
+    { from: "B", to: "C", weight: 8 },
+    { from: "B", to: "H", weight: 11 },
+    { from: "C", to: "D", weight: 7 },
+    { from: "C", to: "I", weight: 2 },
+    { from: "C", to: "F", weight: 4 },
+    { from: "D", to: "E", weight: 9 },
+    { from: "D", to: "F", weight: 14 },
+    { from: "E", to: "F", weight: 10 },
+    { from: "F", to: "G", weight: 2 },
+    { from: "G", to: "H", weight: 1 },
+    { from: "G", to: "I", weight: 6 },
+    { from: "H", to: "I", weight: 7 },
+  ].reduce((acc, curr) => graphAddBidirectionalEdge(acc, curr.from, curr.to, curr.weight), myGraph);
 
   const viaNode = "A";
   const shortestPathTreeAll: ShortestPathTree = dijkstras({
@@ -125,15 +122,15 @@ test("Routing Algorithms - Dijkstra", () => {
     sourceNode: viaNode,
   });
   expect(shortestPathTreeAll).toEqual({
-    ["A"]: { cost: 0, viaNode: undefined, priority: Infinity },
-    ["B"]: { cost: 4, viaNode: "A", priority: 1 / 4 },
-    ["C"]: { cost: 12, viaNode: "B", priority: 1 / 12 },
-    ["D"]: { cost: 19, viaNode: "C", priority: 1 / 19 },
-    ["E"]: { cost: 21, viaNode: "F", priority: 1 / 21 },
-    ["F"]: { cost: 11, viaNode: "G", priority: 1 / 11 },
-    ["G"]: { cost: 9, viaNode: "H", priority: 1 / 9 },
-    ["H"]: { cost: 8, viaNode: "A", priority: 1 / 8 },
-    ["I"]: { cost: 14, viaNode: "C", priority: 1 / 14 },
+    ["A"]: { cost: 0, viaNode: undefined },
+    ["B"]: { cost: 4, viaNode: "A" },
+    ["C"]: { cost: 12, viaNode: "B" },
+    ["D"]: { cost: 19, viaNode: "C" },
+    ["E"]: { cost: 21, viaNode: "F" },
+    ["F"]: { cost: 11, viaNode: "G" },
+    ["G"]: { cost: 9, viaNode: "H" },
+    ["H"]: { cost: 8, viaNode: "A" },
+    ["I"]: { cost: 14, viaNode: "C" },
   });
 
   const pathTo4 = getPathTo({
