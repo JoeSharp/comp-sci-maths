@@ -43,7 +43,7 @@ function getPathTo({
 }
 
 interface WalkPath {
-  graph: Graph;
+  graph: Graph<any>;
   shortestPathTree: ShortestPathTree;
   node: string;
 }
@@ -74,7 +74,7 @@ function* walkPath({
 // Some of them are optional, so it is easier to use an object of named args
 // that can be given default values in the routing function.
 interface Args {
-  graph: Graph;
+  graph: Graph<any>;
   sourceNode: string;
   destinationNode?: string;
   getHeuristicCost?: HeuristicCostFunction;

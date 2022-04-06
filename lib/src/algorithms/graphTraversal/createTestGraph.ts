@@ -1,4 +1,4 @@
-import { Edge, graphAddBidirectionalEdge, createInitialState } from "../../dataStructures/graph/graphReducer";
+import { Edge, addBidirectionalEdge, createInitialState } from "../../dataStructures/graph/graphReducer";
 
 const createTestGraph = () => {
     return ([
@@ -11,7 +11,7 @@ const createTestGraph = () => {
         { from: "E", to: "G" },
         { from: "C", to: "F" },
         { from: "F", to: "G" }
-    ] as Edge[]).reduce((acc, { from, to, weight }) => graphAddBidirectionalEdge(acc, from, to, weight), createInitialState());
+    ] as Edge[]).reduce((acc, { from, to, weight }) => addBidirectionalEdge(acc, from, to, weight), createInitialState());
 }
 
 export default createTestGraph;

@@ -9,7 +9,6 @@ import {
   SortObservation,
 } from "./types";
 import DataItemBoid from "../../../p5/Boid/DataItemBoid";
-import { StringDataItem } from "../../../p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 300;
@@ -17,7 +16,7 @@ const HEIGHT = 300;
 const DATA_Y = 100;
 
 interface Config {
-  sortStage: SortStage<StringDataItem>;
+  sortStage: SortStage<string>;
 }
 
 const getDefaultConfig = (): Config => ({
@@ -26,7 +25,7 @@ const getDefaultConfig = (): Config => ({
 
 class SortingSketch extends AbstractSketch<Config> {
   boids: {
-    [id: string]: DataItemBoid<StringDataItem>;
+    [id: string]: DataItemBoid<string>;
   };
   knownPositionVars: string[];
 
@@ -48,11 +47,11 @@ class SortingSketch extends AbstractSketch<Config> {
     return this.knownPositionVars.indexOf(positionVar);
   }
 
-  getBoid(sketch: p5, vertex: StringDataItem, dataLength: number) {
-    if (!this.boids[vertex.key]) {
-      this.boids[vertex.key] = new DataItemBoid<StringDataItem>({
+  getBoid(sketch: p5, vertex: string, dataLength: number) {
+    if (!this.boids[vertex]) {
+      this.boids[vertex] = new DataItemBoid<string>({
         entity: vertex,
-        label: vertex.label,
+        label: vertex,
         radius: sketch.width / (dataLength + 2),
         minForce: 0,
         maxSpeed: 3,
@@ -62,7 +61,7 @@ class SortingSketch extends AbstractSketch<Config> {
         ),
       });
     }
-    return this.boids[vertex.key];
+    return this.boids[vertex];
   }
 
   sketch(s: p5) {
@@ -77,7 +76,7 @@ class SortingSketch extends AbstractSketch<Config> {
     s.draw = function () {
       const { sortStage = DEFAULT_SORT_STAGE } = that.config;
 
-      const { data, stageName, positionVars }: SortObservation<StringDataItem> =
+      const { data, stageName, positionVars }: SortObservation<string> =
         sortStage.type === SortStageType.observation
           ? sortStage
           : sortStage.lastObservation;
@@ -119,7 +118,7 @@ class SortingSketch extends AbstractSketch<Config> {
       let dataWidth = s.width / (data.length + 2);
       let getDataX = (i: number) => (i + 1.5) * dataWidth;
 
-      const boids: DataItemBoid<StringDataItem>[] = data.map((item, i) => {
+      const boids: DataItemBoid<string>[] = data.map((item, i) => {
         const boid = that.getBoid(s, item, data.length);
 
         let x = getDataX(i);

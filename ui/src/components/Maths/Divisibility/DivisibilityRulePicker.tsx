@@ -3,7 +3,7 @@ import React from "react";
 import {
   divisibilityRules,
   defaultNamedDivisibilityRule,
-} from "@comp-sci-maths/lib/dist/algorithms/primeNumbers/divisibilityRules";
+} from "@comp-sci-maths/lib/dist/maths/primeNumbers/divisibilityRules";
 import { ControlledInput } from "../../../types";
 import { NamedDivisibilityRule } from "@comp-sci-maths/lib/dist/types";
 

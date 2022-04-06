@@ -1,22 +1,22 @@
 import { AbstractSketch } from "../../../../p5/useSketch";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import graphApi, { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import p5 from "p5";
-import { createKeyedPoint } from "./useGridGraph";
+import { pointToStr } from "./useGridGraph";
 import DataItemBoid from "../../../../p5/Boid/DataItemBoid";
-import { PointDataItem } from "../../../../p5/Boid/types";
+import { Point } from "../../../../p5/Boid/types";
 
 interface Config {
-  sourceNode: PointDataItem;
-  destinationNode: PointDataItem;
-  graph: Graph<PointDataItem>;
-  path: PointDataItem[];
-  toggleConnection: (vertex: PointDataItem) => void;
+  sourceNode: Point;
+  destinationNode: Point;
+  graph: Graph<Point>;
+  path: Point[];
+  toggleConnection: (vertex: Point) => void;
 }
 
 const getDefaultConfig = (): Config => ({
-  graph: new Graph(),
-  sourceNode: createKeyedPoint(0, 0),
-  destinationNode: createKeyedPoint(0, 0),
+  graph: graphApi.createInitialState(),
+  sourceNode: { x: 0, y: 0 },
+  destinationNode: { x: 0, y: 0 },
   path: [],
   toggleConnection: () => { },
 });
@@ -27,7 +27,7 @@ const SPREAD = 50;
 
 class GridSketch extends AbstractSketch<Config> {
   boids: {
-    [id: string]: DataItemBoid<PointDataItem>;
+    [id: string]: DataItemBoid<Point>;
   };
 
   constructor() {
@@ -35,23 +35,24 @@ class GridSketch extends AbstractSketch<Config> {
     this.boids = {};
   }
 
-  getBoid(point: PointDataItem): DataItemBoid<PointDataItem> | undefined {
-    return this.boids[point.key];
+  getBoid(vertex: string): DataItemBoid<Point> | undefined {
+    return this.boids[vertex];
   }
 
-  getOrCreateBoid(sketch: p5, point: PointDataItem) {
-    if (!this.boids[point.key]) {
-      this.boids[point.key] = new DataItemBoid<PointDataItem>({
+  getOrCreateBoid(sketch: p5, point: Point) {
+    const pointS = pointToStr(point);
+    if (!this.boids[pointS]) {
+      this.boids[pointS] = new DataItemBoid<Point>({
         entity: point,
-        label: point.label,
+        label: pointS,
         radius: 20,
         position: sketch.createVector(
-          (point.value.x + 1) * SPREAD,
-          (point.value.y + 1) * SPREAD
+          (point.x + 1) * SPREAD,
+          (point.y + 1) * SPREAD
         ),
       });
     }
-    return this.boids[point.key];
+    return this.boids[pointS];
   }
 
   sketch(s: p5) {
@@ -79,19 +80,22 @@ class GridSketch extends AbstractSketch<Config> {
       s.push();
 
       const {
-        graph: { areVerticesEqual, vertices, edges },
+        graph,
         sourceNode,
         destinationNode,
         path,
       } = that.config;
 
-      let boidsInSketch: DataItemBoid<PointDataItem>[] = vertices.map((v) => {
-        const boid = that.getOrCreateBoid(s, v);
-        if (areVerticesEqual(v, sourceNode)) {
+      const { vertices, edges } = graph;
+
+      let boidsInSketch: DataItemBoid<Point>[] = vertices.map((v) => {
+        const vertex = graphApi.getVertexValue(graph, v);
+        const boid = that.getOrCreateBoid(s, vertex);
+        if (v === pointToStr(sourceNode)) {
           boid.colour = "lime";
-        } else if (areVerticesEqual(v, destinationNode)) {
+        } else if (v === pointToStr(destinationNode)) {
           boid.colour = "red";
-        } else if (path.find((p) => areVerticesEqual(p, v)) !== undefined) {
+        } else if (path.find((p) => pointToStr(p) === v) !== undefined) {
           boid.colour = "cyan";
         } else {
           boid.colour = "black";
@@ -99,17 +103,20 @@ class GridSketch extends AbstractSketch<Config> {
         return boid;
       });
 
-      const boidIdsInSketch: string[] = vertices.map((v) => v.key);
-
       // Draw the lines for all connections
       s.stroke("black");
       s.strokeWeight(4);
       edges
         .filter(
           ({ from, to }) =>
-            boidIdsInSketch.includes(from.key) &&
-            boidIdsInSketch.includes(to.key)
+            vertices.includes(from) &&
+            vertices.includes(to)
         )
+        .map(({ from, to, ...rest }) => ({
+          from: graphApi.getVertexValue(graph, from),
+          to: graphApi.getVertexValue(graph, to),
+          ...rest
+        }))
         .map(({ from, to, weight }) => ({
           from: that.getOrCreateBoid(s, from),
           to: that.getOrCreateBoid(s, to),

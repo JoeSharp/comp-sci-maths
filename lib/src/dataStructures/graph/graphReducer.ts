@@ -5,9 +5,10 @@ interface GraphReplaceAction<T = string> {
     newState: Graph<T>;
 }
 
-interface GraphAddVertexAction {
+interface AddVertexAction<T = string> {
     type: 'addVertex',
-    vertex: string
+    vertex: string,
+    value?: T
 }
 
 interface GraphRemoveVertex {
@@ -21,14 +22,19 @@ interface GraphRemoveEdge {
     to: string
 }
 
-interface GraphAddUnidirectionalEdge {
+interface DisconnectVertexAction {
+    type: 'disconnectVertex',
+    vertex: string
+}
+
+interface AddUnidirectionalEdge {
     type: 'addUnidirectionalEdge',
     from: string,
     to: string,
     weight?: number
 }
 
-interface GraphAddBidirectionalEdge {
+interface AddBidirectionalEdge {
     type: 'addBidirectionalEdge',
     from: string,
     to: string,
@@ -39,13 +45,14 @@ interface GraphResetAction {
     type: 'reset'
 }
 
-export type GraphAction<T = string> = GraphAddVertexAction |
+export type GraphAction<T = string> = AddVertexAction<T> |
     GraphRemoveVertex |
     GraphRemoveEdge |
-    GraphAddUnidirectionalEdge |
-    GraphAddBidirectionalEdge |
+    AddUnidirectionalEdge |
+    AddBidirectionalEdge |
     GraphResetAction |
-    GraphReplaceAction<T>;
+    GraphReplaceAction<T> |
+    DisconnectVertexAction;
 
 export interface Edge {
     from: string;
@@ -88,14 +95,14 @@ export const getVertexValue = <T = string>({ vertexValues }: Graph<T>, vertex: s
  * @param to The to vertex
  * @returns The edge that exists between the two (if there is one)
  */
-export const getEdge = ({ edges }: Graph, from: string, to: string): Optional<Edge> =>
+export const getEdge = <T = string>({ edges }: Graph<T>, from: string, to: string): Optional<Edge> =>
     edges.find((l) => l.from === from && l.to === to)
 
 /**
  * Access edges coming into a specific vertex
  * @param vertex The from vertex
  */
-export const getIncoming = ({ edges }: Graph, toKey: string): Edge[] =>
+export const getIncoming = <T = string>({ edges }: Graph<T>, toKey: string): Edge[] =>
     edges.filter((l) => l.to === toKey);
 
 /**
@@ -104,7 +111,7 @@ export const getIncoming = ({ edges }: Graph, toKey: string): Edge[] =>
  * @param fromKey The from vertex
  * @returns The edges
  */
-export const getOutgoing = ({ edges }: Graph, fromKey: string): Edge[] =>
+export const getOutgoing = <T = string>({ edges }: Graph<T>, fromKey: string): Edge[] =>
     edges.filter((l) => l.from === fromKey);
 
 /**
@@ -116,7 +123,7 @@ export const getOutgoing = ({ edges }: Graph, fromKey: string): Edge[] =>
  * @param {string} to The destination vertex
  * @return The weight of the Edge, or Infinity if there is no Edge.
  */
-export const getEdgeWeight = (state: Graph, from: string, to: string): number => {
+export const getEdgeWeight = <T = string>(state: Graph<T>, from: string, to: string): number => {
     const edge = getEdge(state, from, to);
     return !!edge ? edge.weight : Infinity;
 }
@@ -141,7 +148,7 @@ export const createInitialState = <T = string>(): Graph<T> => ({
  * @param vertex The vertex to add
  * @returns new graph state after changes
  */
-export const graphAddVertex = <T = string>(state: Graph<T>, vertex: string, value: Optional<T> = undefined): Graph<T> => ({
+export const addVertex = <T = string>(state: Graph<T>, vertex: string, value: Optional<T> = undefined): Graph<T> => ({
     ...state,
     vertices: [
         ...state.vertices.filter(v => v !== vertex),
@@ -153,13 +160,20 @@ export const graphAddVertex = <T = string>(state: Graph<T>, vertex: string, valu
     }
 });
 
+export const disconnectVertex = <T = string>(state: Graph<T>, vertex: string): Graph<T> => ({
+    ...state,
+    edges: state.edges.filter(
+        ({ from, to }) => !((from === vertex) || (to === vertex))
+    )
+})
+
 /**
  *
  * @param state Current graph state
  * @param vertex The vertex to remove
  * @returns new graph state after changes
  */
-export const graphRemoveVertex = <T = string>(state: Graph<T>, vertex: string): Graph<T> => ({
+export const removeVertex = <T = string>(state: Graph<T>, vertex: string): Graph<T> => ({
     ...state,
     vertices: state.vertices.filter(
         v => (v !== vertex)
@@ -176,7 +190,7 @@ export const graphRemoveVertex = <T = string>(state: Graph<T>, vertex: string): 
  * @param to
  * @returns new graph state after changes
  */
-export const graphRemoveEdge = <T = string>(state: Graph<T>, from: string, to: string): Graph<T> => ({
+export const removeEdge = <T = string>(state: Graph<T>, from: string, to: string): Graph<T> => ({
     ...state,
     edges: state.edges.filter(
         (l) => !(l.from === from && l.to === to)
@@ -191,7 +205,7 @@ export const graphRemoveEdge = <T = string>(state: Graph<T>, from: string, to: s
  * @param weight
  * @returns new graph state after changes
  */
-export const graphAddUnidirectionalEdge = <T = string>(
+export const addUnidirectionalEdge = <T = string>(
     state: Graph<T>,
     from: string,
     to: string,
@@ -218,7 +232,7 @@ export const graphAddUnidirectionalEdge = <T = string>(
  * @param weight
  * @returns new graph state after changes
  */
-export const graphAddBidirectionalEdge = <T = string>(
+export const addBidirectionalEdge = <T = string>(
     state: Graph<T>,
     from: string,
     to: string,
@@ -248,16 +262,31 @@ export const graphAddBidirectionalEdge = <T = string>(
  * @param action
  * @returns new graph state after changes
  */
-export const graphReducer = <T = string>(state: Graph<T>, action: GraphAction<T>): Graph<T> => {
+export const reduce = <T = string>(state: Graph<T>, action: GraphAction<T>): Graph<T> => {
     switch (action.type) {
-        case 'addVertex': return graphAddVertex(state, action.vertex);
-        case 'removeVertex': return graphRemoveVertex(state, action.vertex);
-        case 'removeEdge': return graphRemoveEdge(state, action.from, action.to);
-        case 'addUnidirectionalEdge': return graphAddUnidirectionalEdge(state, action.from, action.to, action.weight);
-        case 'addBidirectionalEdge': return graphAddBidirectionalEdge(state, action.from, action.to, action.weight);
+        case 'addVertex': return addVertex(state, action.vertex, action.value);
+        case 'removeVertex': return removeVertex(state, action.vertex);
+        case 'removeEdge': return removeEdge(state, action.from, action.to);
+        case 'addUnidirectionalEdge': return addUnidirectionalEdge(state, action.from, action.to, action.weight);
+        case 'addBidirectionalEdge': return addBidirectionalEdge(state, action.from, action.to, action.weight);
         case 'reset': return createInitialState();
+        case 'disconnectVertex': return disconnectVertex(state, action.vertex);
         case 'replace': return action.newState;
     }
 }
 
-export default graphReducer;
+export default {
+    reduce,
+    createInitialState,
+
+    getEdge,
+    getIncoming,
+    getOutgoing,
+    getEdgeWeight,
+    getVertexValue,
+
+    addVertex,
+    removeVertex,
+    addUnidirectionalEdge,
+    addBidirectionalEdge
+};

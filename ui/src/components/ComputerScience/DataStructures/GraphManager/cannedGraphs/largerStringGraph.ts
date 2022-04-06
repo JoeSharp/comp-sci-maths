@@ -1,7 +1,7 @@
 import {
   Graph,
   createInitialState,
-  graphAddBidirectionalEdge,
+  addBidirectionalEdge,
   Edge
 } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import { PositionByVertex } from "../types";
@@ -17,7 +17,7 @@ const graph = (): Graph<string> => {
     { from: "E", to: "G" },
     { from: "C", to: "F" },
     { from: "F", to: "G" }
-  ] as Edge<string>[]).reduce((acc, { from, to, weight }) => graphAddBidirectionalEdge(acc, from, to, weight), createInitialState<string>());
+  ] as Edge[]).reduce((acc, { from, to, weight }) => addBidirectionalEdge(acc, from, to, weight), createInitialState<string>());
 };
 
 export default graph;

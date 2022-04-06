@@ -1,4 +1,5 @@
-import graphReducer, {
+import {
+    reduce,
     createInitialState,
     getEdgeWeight,
     getOutgoing
@@ -8,22 +9,22 @@ describe("Graph (functional)", () => {
     test("Add Vertex", () => {
         let state = createInitialState();
 
-        state = graphReducer(state, { type: 'addVertex', vertex: 'A' });
-        state = graphReducer(state, { type: 'addVertex', vertex: 'B' });
-        state = graphReducer(state, { type: 'addVertex', vertex: 'C' });
-        state = graphReducer(state, { type: 'addVertex', vertex: 'D' });
-        state = graphReducer(state, { type: 'addVertex', vertex: 'E' });
-        state = graphReducer(state, { type: 'addVertex', vertex: 'F' });
+        state = reduce(state, { type: 'addVertex', vertex: 'A' });
+        state = reduce(state, { type: 'addVertex', vertex: 'B' });
+        state = reduce(state, { type: 'addVertex', vertex: 'C' });
+        state = reduce(state, { type: 'addVertex', vertex: 'D' });
+        state = reduce(state, { type: 'addVertex', vertex: 'E' });
+        state = reduce(state, { type: 'addVertex', vertex: 'F' });
     });
 
     test("Graph - Weighted (strings)", () => {
         let state = createInitialState();
 
-        state = graphReducer(state, { type: 'addBidirectionalEdge', from: "A", to: "B", weight: 1.0 });
-        state = graphReducer(state, { type: 'addBidirectionalEdge', from: "A", to: "C" });
-        state = graphReducer(state, { type: 'addUnidirectionalEdge', from: "A", to: "D", weight: 4.0 });
-        state = graphReducer(state, { type: 'addUnidirectionalEdge', from: "D", to: "A", weight: 2.0 });
-        state = graphReducer(state, { type: 'addUnidirectionalEdge', from: "C", to: "E" });
+        state = reduce(state, { type: 'addBidirectionalEdge', from: "A", to: "B", weight: 1.0 });
+        state = reduce(state, { type: 'addBidirectionalEdge', from: "A", to: "C" });
+        state = reduce(state, { type: 'addUnidirectionalEdge', from: "A", to: "D", weight: 4.0 });
+        state = reduce(state, { type: 'addUnidirectionalEdge', from: "D", to: "A", weight: 2.0 });
+        state = reduce(state, { type: 'addUnidirectionalEdge', from: "C", to: "E" });
 
         const fromA = getOutgoing(state, 'A').map(v => v.to);
         expect(fromA.length).toBe(3);
@@ -53,8 +54,8 @@ describe("Graph (functional)", () => {
         );
 
         // Execute some removals
-        state = graphReducer(state, { type: 'removeEdge', from: "A", to: "C" })
-        state = graphReducer(state, { type: 'removeVertex', vertex: "B" })
+        state = reduce(state, { type: 'removeEdge', from: "A", to: "C" })
+        state = reduce(state, { type: 'removeVertex', vertex: "B" })
 
         const acPostDelete = getEdgeWeight(state, "A", "C");
         expect(acPostDelete).toBe(Infinity);

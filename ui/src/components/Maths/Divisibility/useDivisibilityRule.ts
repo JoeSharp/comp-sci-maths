@@ -3,7 +3,7 @@ import { NamedDivisibilityRule } from "@comp-sci-maths/lib/dist/types";
 import {
   defaultNamedDivisibilityRule,
   isDivisibleBy,
-} from "@comp-sci-maths/lib/dist/algorithms/primeNumbers/divisibilityRules";
+} from "@comp-sci-maths/lib/dist/maths/primeNumbers/divisibilityRules";
 
 interface Props {
   divisibilityRule?: NamedDivisibilityRule;

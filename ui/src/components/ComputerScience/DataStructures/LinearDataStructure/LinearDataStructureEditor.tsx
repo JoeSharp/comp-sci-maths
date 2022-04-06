@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
     LinearStructureAction
-} from "@comp-sci-maths/lib/dist/dataStructures/queue/linearDataStructure";
+} from "@comp-sci-maths/lib/dist/dataStructures/linearDataStructure/linearDataStructure";
 
 import ButtonBar, {
     Props as ButtonBarProps,

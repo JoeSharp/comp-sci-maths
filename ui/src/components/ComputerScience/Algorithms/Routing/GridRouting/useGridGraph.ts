@@ -1,7 +1,7 @@
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import graphApi, { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import React from "react";
 import p5 from "p5";
-import { PointDataItem } from "../../../../p5/Boid//types";
+import { Point } from "../../../../p5/Boid/types";
 
 interface Props {
   rows: number;
@@ -9,81 +9,76 @@ interface Props {
 }
 
 export interface UseGridGraph {
-  version: number;
-  topLeft: PointDataItem;
-  bottomRight: PointDataItem;
-  graph: Graph<PointDataItem>;
-  connect: (vertex: PointDataItem) => void;
-  disconnect: (vertex: PointDataItem) => void;
-  toggleConnection: (vertex: PointDataItem) => void;
+  topLeft: Point;
+  bottomRight: Point;
+  graph: Graph<Point>;
+  connect: (vertex: Point) => void;
+  disconnect: (vertex: Point) => void;
+  toggleConnection: (vertex: Point) => void;
 }
 
 export function createP5Vector(x: number, y: number): p5.Vector {
   return p5.Vector.random2D().set(x, y);
 }
 
-export function createKeyedPoint(x: number, y: number): PointDataItem {
-  return {
-    key: `${x}-${y}`,
-    label: `${x}, ${y}`,
-    value: { x, y },
-  };
+export function pointToStr({ x, y }: Point): string {
+  return `${x}-${y}`;
 }
 
-const useGridGraph = ({ rows, columns }: Props): UseGridGraph => {
-  const [version, tickVersion] = React.useReducer((s) => s + 1, 0);
+const initialState: Graph<Point> = graphApi.createInitialState<Point>();
 
-  const graph = React.useRef<Graph<PointDataItem>>(new Graph());
+const useGridGraph = ({ rows, columns }: Props): UseGridGraph => {
+
+  const [graph, graphDispatch] = React.useReducer(graphApi.reduce, initialState);
 
   const connect = React.useCallback(
-    (point: PointDataItem) => {
-      if (point.value.y > 0) {
-        const to: PointDataItem = createKeyedPoint(
-          point.value.x,
-          point.value.y - 1
-        );
-        graph.current.addBiDirectionalEdge(point, to);
+    (point: Point) => {
+      const from = pointToStr(point);
+      if (point.y > 0) {
+        graphDispatch({
+          type: 'addBidirectionalEdge',
+          from,
+          to: pointToStr({ x: point.x, y: point.y - 1 })
+        })
       }
-      if (point.value.y < rows - 1) {
-        const to: PointDataItem = createKeyedPoint(
-          point.value.x,
-          point.value.y + 1
-        );
-        graph.current.addBiDirectionalEdge(point, to);
+      if (point.y < rows - 1) {
+        graphDispatch({
+          type: 'addBidirectionalEdge', from, to: pointToStr({
+            x: point.x,
+            y: point.y + 1
+          })
+        })
       }
-      if (point.value.x > 0) {
-        const to: PointDataItem = createKeyedPoint(
-          point.value.x - 1,
-          point.value.y
-        );
-        graph.current.addBiDirectionalEdge(point, to);
+      if (point.x > 0) {
+        graphDispatch({
+          type: 'addBidirectionalEdge', from, to: pointToStr({
+            x: point.x - 1,
+            y: point.y
+          })
+        })
       }
-      if (point.value.x < columns - 1) {
-        const to: PointDataItem = createKeyedPoint(
-          point.value.x + 1,
-          point.value.y
-        );
-        graph.current.addBiDirectionalEdge(point, to);
+      if (point.x < columns - 1) {
+
+        graphDispatch({
+          type: 'addBidirectionalEdge', from, to: pointToStr({
+            x: point.x + 1,
+            y: point.y
+          })
+        })
       }
-      tickVersion();
     },
-    [rows, columns, graph, tickVersion]
+    [rows, columns]
   );
   const disconnect = React.useCallback(
-    (vertex: PointDataItem) => {
-      graph.current.removeVertex(vertex);
-      graph.current.addVertex(vertex);
-
-      tickVersion();
-    },
-    [graph]
+    (vertex: Point) => graphDispatch({ type: 'disconnectVertex', vertex: pointToStr(vertex) }),
+    []
   );
 
   const toggleConnection = React.useCallback(
-    (vertex: PointDataItem) => {
+    (vertex: Point) => {
       if (
-        graph.current.getIncoming(vertex.key).length > 0 ||
-        graph.current.getOutgoing(vertex.key).length > 0
+        graphApi.getIncoming(graph, pointToStr(vertex)).length > 0 ||
+        graphApi.getOutgoing(graph, pointToStr(vertex)).length > 0
       ) {
         disconnect(vertex);
       } else {
@@ -94,50 +89,47 @@ const useGridGraph = ({ rows, columns }: Props): UseGridGraph => {
   );
 
   React.useEffect(() => {
-    graph.current.clearAll();
+    graphDispatch({ type: 'reset' });
 
     for (let col = 0; col < columns; col++) {
       for (let row = 0; row < rows; row++) {
-        graph.current.addVertex(createKeyedPoint(col, row));
+        const point = { x: col, y: row };
+        graphDispatch({ type: 'addVertex', vertex: pointToStr(point), value: point })
       }
     }
 
-    graph.current.vertices.forEach((v) => connect(v));
-    disconnect(createKeyedPoint(0, 7));
-    disconnect(createKeyedPoint(1, 6));
-    disconnect(createKeyedPoint(2, 5));
-    disconnect(createKeyedPoint(3, 4));
-    disconnect(createKeyedPoint(4, 3));
-    disconnect(createKeyedPoint(4, 4));
-    disconnect(createKeyedPoint(4, 5));
+    graph.vertices.map(v => graphApi.getVertexValue(graph, v) as Point).forEach((v) => connect(v));
+    disconnect({ x: 0, y: 7 });
+    disconnect({ x: 1, y: 6 });
+    disconnect({ x: 2, y: 5 });
+    disconnect({ x: 3, y: 4 });
+    disconnect({ x: 4, y: 3 });
+    disconnect({ x: 4, y: 4 });
+    disconnect({ x: 4, y: 5 });
+    disconnect({ x: 8, y: 1 });
+    disconnect({ x: 8, y: 2 });
+    disconnect({ x: 8, y: 3 });
+    disconnect({ x: 8, y: 4 });
 
-    disconnect(createKeyedPoint(8, 1));
-    disconnect(createKeyedPoint(8, 2));
-    disconnect(createKeyedPoint(8, 3));
-    disconnect(createKeyedPoint(8, 4));
+    disconnect({ x: 9, y: 4 });
+    disconnect({ x: 9, y: 7 });
+    disconnect({ x: 10, y: 3 });
+    disconnect({ x: 11, y: 1 });
+    disconnect({ x: 11, y: 6 });
+    disconnect({ x: 11, y: 7 });
 
-    disconnect(createKeyedPoint(9, 4));
-    disconnect(createKeyedPoint(9, 7));
-    disconnect(createKeyedPoint(10, 3));
-    disconnect(createKeyedPoint(11, 1));
-    disconnect(createKeyedPoint(11, 6));
-    disconnect(createKeyedPoint(11, 7));
-
-    disconnect(createKeyedPoint(12, 1));
-    disconnect(createKeyedPoint(12, 4));
-    disconnect(createKeyedPoint(12, 5));
-
-    tickVersion();
-  }, [rows, columns, connect, disconnect]);
+    disconnect({ x: 12, y: 1 });
+    disconnect({ x: 12, y: 4 });
+    disconnect({ x: 12, y: 5 });
+  }, [graph, rows, columns, connect, disconnect]);
 
   return {
-    version,
-    topLeft: React.useMemo(() => createKeyedPoint(0, 0), []),
-    bottomRight: React.useMemo(() => createKeyedPoint(columns - 1, rows - 1), [
+    topLeft: React.useMemo(() => ({ x: 0, y: 0 }), []),
+    bottomRight: React.useMemo(() => ({ x: columns - 1, y: rows - 1 }), [
       rows,
       columns,
     ]),
-    graph: graph.current,
+    graph: graph as Graph<Point>,
     connect,
     disconnect,
     toggleConnection,

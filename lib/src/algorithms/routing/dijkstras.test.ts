@@ -1,5 +1,5 @@
 import { ShortestPathTree, ObserverArgs } from "./types";
-import { createInitialState, Graph, graphAddBidirectionalEdge, graphAddVertex } from "../../dataStructures/graph/graphReducer";
+import { createInitialState, Graph, addBidirectionalEdge, addVertex } from "../../dataStructures/graph/graphReducer";
 
 import { dijkstras, getPathTo } from "./dijkstras";
 
@@ -55,7 +55,7 @@ test("Routing Algorithms - A*", () => {
   };
 
   let myGraph: Graph = ["S", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
-    .reduce((acc, curr) => graphAddVertex(acc, curr), createInitialState());
+    .reduce((acc, curr) => addVertex(acc, curr), createInitialState());
   myGraph = [
     { from: "S", to: "A", weight: 7 },
     { from: "S", to: "B", weight: 2 },
@@ -74,7 +74,7 @@ test("Routing Algorithms - A*", () => {
     { from: "I", to: "K", weight: 4 },
     { from: "J", to: "L", weight: 4 },
     { from: "J", to: "K", weight: 4 }
-  ].reduce((acc, curr) => graphAddBidirectionalEdge(acc, curr.from, curr.to, curr.weight), myGraph);
+  ].reduce((acc, curr) => addBidirectionalEdge(acc, curr.from, curr.to, curr.weight), myGraph);
 
   const observations: ObserverArgs[] = [];
   const shortestPathTreeStoE: ShortestPathTree = dijkstras({
@@ -98,7 +98,7 @@ test("Routing Algorithms - A*", () => {
 // https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
 test("Routing Algorithms - Dijkstra", () => {
   let myGraph: Graph = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
-    .reduce((acc, curr) => graphAddVertex(acc, curr), createInitialState());
+    .reduce((acc, curr) => addVertex(acc, curr), createInitialState());
   myGraph = [
     { from: "A", to: "B", weight: 4 },
     { from: "A", to: "H", weight: 8 },
@@ -114,7 +114,7 @@ test("Routing Algorithms - Dijkstra", () => {
     { from: "G", to: "H", weight: 1 },
     { from: "G", to: "I", weight: 6 },
     { from: "H", to: "I", weight: 7 },
-  ].reduce((acc, curr) => graphAddBidirectionalEdge(acc, curr.from, curr.to, curr.weight), myGraph);
+  ].reduce((acc, curr) => addBidirectionalEdge(acc, curr.from, curr.to, curr.weight), myGraph);
 
   const viaNode = "A";
   const shortestPathTreeAll: ShortestPathTree = dijkstras({

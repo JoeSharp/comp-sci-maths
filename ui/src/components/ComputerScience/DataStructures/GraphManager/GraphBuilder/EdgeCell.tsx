@@ -5,8 +5,8 @@ import { Graph, Edge, GraphAction } from "@comp-sci-maths/lib/dist/dataStructure
 interface Props {
   graph: Graph<string>;
   dispatch: (action: GraphAction<string>) => void;
-  filter: (edge: Edge<string>) => boolean;
-  getOtherEnd: (edge: Edge<string>) => string;
+  filter: (edge: Edge) => boolean;
+  getOtherEnd: (edge: Edge) => string;
 }
 
 const EdgesCell: React.FunctionComponent<Props> = ({

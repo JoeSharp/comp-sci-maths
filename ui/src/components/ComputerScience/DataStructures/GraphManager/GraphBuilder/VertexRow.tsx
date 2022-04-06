@@ -23,8 +23,8 @@ interface Props {
   clearAll: () => void;
 }
 
-const GET_EDGE_FROM = (edge: Edge<string>) => edge.from;
-const GET_EDGE_TO = (edge: Edge<string>) => edge.to;
+const GET_EDGE_FROM = (edge: Edge) => edge.from;
+const GET_EDGE_TO = (edge: Edge) => edge.to;
 
 const VertexRow: React.FunctionComponent<Props> = ({
   vertex,
@@ -50,12 +50,12 @@ const VertexRow: React.FunctionComponent<Props> = ({
   }, [vertex, dispatch]);
 
   const filterOutgoing = React.useCallback(
-    (edge: Edge<string>) => graph.areVerticesEqual(edge.from, vertex),
-    [vertex, graph]
+    (edge: Edge) => edge.from === vertex,
+    [vertex]
   );
   const filterIncoming = React.useCallback(
-    (edge: Edge<string>) => graph.areVerticesEqual(edge.to, vertex),
-    [vertex, graph]
+    (edge: Edge) => edge.to === vertex,
+    [vertex]
   );
   const buttonBarProps: ButtonBarProps = React.useMemo(() => {
     const buttons: ButtonProps[] = [];

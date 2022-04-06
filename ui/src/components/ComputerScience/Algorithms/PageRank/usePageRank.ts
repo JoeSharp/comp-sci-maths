@@ -7,12 +7,11 @@ import {
   BLANK_PAGE_RANK_STATE,
 } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
 import { PageRankState } from "@comp-sci-maths/lib/dist/algorithms/pageRank/types";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
-import { StringDataItem } from "../../../p5/Boid/types";
+import { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
   dampingFactor: number;
-  graph: Graph<StringDataItem>;
+  graph: Graph;
 }
 
 interface UsePageRank {
@@ -30,15 +29,15 @@ interface IterateAction {
 interface InitialiseAction {
   type: "initialise";
   dampingFactor: number;
-  graph: Graph<StringDataItem>;
+  graph: Graph;
 }
 
 type RankReducerAction = IterateAction | InitialiseAction;
 
 const rankReducer = (
-  state: PageRankState<StringDataItem>,
+  state: PageRankState,
   action: RankReducerAction
-): PageRankState<StringDataItem> => {
+): PageRankState => {
   switch (action.type) {
     case "iterate": {
       return iteratePageRank(state);

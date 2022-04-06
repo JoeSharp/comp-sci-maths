@@ -3,42 +3,42 @@ import ShortestPathWithNodeTable from "./ShortestPathWithNodeTable";
 import {
   ObserverArgsWithPathFrom,
   getCurrentWeightCalcTypeStr,
+  ShortestPathWithNode,
 } from "@comp-sci-maths/lib/dist/algorithms/routing/types";
 import Table from "../../../Bootstrap/Table";
-import { DisplayDataItem } from "../../../p5/Boid/types";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import { linkedListTraverse } from '@comp-sci-maths/lib/dist/dataStructures/linkedList/linkedListReducer'
 import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
 
-interface Props<DATA_ITEM extends DisplayDataItem<any>> {
-  graph: Graph<DATA_ITEM>;
-  currentStage: ObserverArgsWithPathFrom<DATA_ITEM>;
+interface Props {
+  currentStage: ObserverArgsWithPathFrom;
 }
 
-const RouteObserverStage = <DATA_ITEM extends DisplayDataItem<any>>({
-  graph,
+const RouteObserverStage = ({
   currentStage: { shortestPathTree, currentItem, currentDistances, outgoing },
-}: Props<DATA_ITEM>) => {
+}: Props) => {
   const shortestPathTreeItems = React.useMemo(
     () =>
       Object.entries(shortestPathTree).map(([node, { cost, viaNode }]) => ({
-        node: graph.getVertex(node)?.label || "NONE", // Ideally we would fetch back the original node...
+        node: node || "NONE", // Ideally we would fetch back the original node...
         cost,
         viaNode,
       })),
-    [shortestPathTree, graph]
+    [shortestPathTree]
   );
   const queueItems = React.useMemo(
-    () =>
-      currentDistances.toArray().map(({ node, cost, viaNode }) => ({
-        node: node.label,
-        cost,
-        viaNode,
-      })),
+    () => {
+      const asArray: ShortestPathWithNode[] = [];
+      linkedListTraverse(currentDistances, ({ value: { value } }) => {
+        asArray.push(value);
+        return false;
+      })
+      return asArray;
+    },
     [currentDistances]
   );
   const currentItemForTable = React.useMemo(() => {
     if (currentItem !== undefined) {
-      return [{ ...currentItem, node: currentItem.node.label }];
+      return [{ ...currentItem, node: currentItem.node }];
     }
     return [];
   }, [currentItem]);
@@ -46,7 +46,7 @@ const RouteObserverStage = <DATA_ITEM extends DisplayDataItem<any>>({
   const outgoingData = React.useMemo(
     () =>
       outgoing.map(({ totalCost, calcResult, edge: { to, weight } }) => ({
-        to: to.label,
+        to,
         weight,
         totalCost: roundTo2Dp(totalCost),
         calcResult: getCurrentWeightCalcTypeStr(calcResult),

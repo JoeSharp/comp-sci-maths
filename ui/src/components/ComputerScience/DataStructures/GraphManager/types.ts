@@ -4,7 +4,7 @@ import { Graph, Edge } from "@comp-sci-maths/lib/dist/dataStructures/graph/graph
 export interface SavedGraphState {
   [name: string]: {
     vertices: string[];
-    edges: Edge<string>[];
+    edges: Edge[];
   };
 }
 

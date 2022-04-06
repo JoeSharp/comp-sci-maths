@@ -3,7 +3,7 @@ import {
   iteratePageRank,
   extractPageRank,
 } from "./pageRank";
-import { graphAddUnidirectionalEdge, createInitialState } from "../../dataStructures/graph/graphReducer";
+import { addUnidirectionalEdge, createInitialState } from "../../dataStructures/graph/graphReducer";
 import { PageRankState } from "./types";
 import percentageError from "../../maths/percentageError";
 
@@ -14,7 +14,7 @@ test("Page Rank", () => {
     { from: 'B', to: 'C' },
     { from: 'B', to: 'D' },
     { from: 'D', to: 'A' },
-  ].reduce((acc, { from, to }) => graphAddUnidirectionalEdge(acc, from, to), createInitialState());
+  ].reduce((acc, { from, to }) => addUnidirectionalEdge(acc, from, to), createInitialState());
 
   let pageRankState: PageRankState = initialisePageRank(
     graph

@@ -45,7 +45,7 @@ const Traversal: React.FunctionComponent = () => {
         </div>
       </form>
 
-      <h2>Item Visit Order: {visitedItems.map((v) => v.value).join(" -> ")}</h2>
+      <h2>Item Visit Order: {visitedItems.join(" -> ")}</h2>
     </div>
   );
 };

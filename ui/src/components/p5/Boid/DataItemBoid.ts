@@ -1,24 +1,5 @@
 import p5 from "p5";
 import Boid from "./Boid";
-import { NumberDataItem, StringDataItem } from "./types";
-
-export const createSimpleStringDataItem = (
-  keyPrefix: string,
-  content: string
-): StringDataItem => ({
-  key: `${keyPrefix}-${content}`,
-  label: content,
-  value: content,
-});
-
-export const createSimpleNumberDataItem = (
-  keyPrefix: string,
-  content: number
-): NumberDataItem => ({
-  key: `${keyPrefix}-${content}`,
-  label: content.toString(10),
-  value: content,
-});
 
 export default class DataItemBoid<T> extends Boid<T> {
   isMouseOver(mousePosition: p5.Vector) {

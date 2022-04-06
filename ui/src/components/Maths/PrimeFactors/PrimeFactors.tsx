@@ -2,10 +2,10 @@ import React from "react";
 
 import GraphSketch from "../../ComputerScience/DataStructures/GraphManager/GraphSketch";
 import useSketch from "../../p5/useSketch";
-import usePrimeFactorTree, { PrimeFactorDataItem } from "./usePrimeFactorTree";
+import usePrimeFactorTree from "./usePrimeFactorTree";
 import Checkbox from "../../Bootstrap/Checkbox";
 
-class PrimeFactorSketch extends GraphSketch<PrimeFactorDataItem> {}
+class PrimeFactorSketch extends GraphSketch { }
 
 const PrimeFactors: React.FunctionComponent = () => {
   const [value, setValue] = React.useState<number>(1001);

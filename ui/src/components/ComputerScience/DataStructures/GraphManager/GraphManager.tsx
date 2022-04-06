@@ -3,7 +3,6 @@ import GraphBuilder from "./GraphBuilder";
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
 } from "./GraphPickerWithSketch";
-import { StringDataItem } from "../../../p5/Boid/types";
 import DataItemBoid from "../../../p5/Boid/DataItemBoid";
 import Checkbox from "../../../Bootstrap/Checkbox";
 import NewGraphDialog, {

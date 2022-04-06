@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
     LinearStructureState
-} from "@comp-sci-maths/lib/dist/dataStructures/queue/linearDataStructure";
+} from "@comp-sci-maths/lib/dist/dataStructures/linearDataStructure/linearDataStructure";
 
 export interface Props {
     state: LinearStructureState<string | number>;

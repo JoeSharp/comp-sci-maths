@@ -1,7 +1,10 @@
 import React from "react";
+
+import { Optional } from "@comp-sci-maths/lib/dist/types";
+
 import useSketch from "../../../../p5/useSketch";
 import GridSketch from "./GridSketch";
-import useGridGraph from "./useGridGraph";
+import useGridGraph, { pointToStr } from "./useGridGraph";
 import useRoutingAlgorithm from "../useRoutingAlgorithm";
 
 import "./routing.css";
@@ -10,27 +13,29 @@ import StepThruListControls, {
 } from "../../../../lib/StepThruListControls";
 import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "../../../../ComputerScience/Algorithms/Routing/HeuristicCostTable";
-import { PointDataItem } from "../../../../p5/Boid/types";
 import ButtonBar, {
   Props as ButtonBarProps,
 } from "../../../../Bootstrap/Buttons/ButtonBar";
+import p5 from "p5";
 
 const GridRouting: React.FunctionComponent = () => {
   const { refContainer, updateConfig, sketchContainer } = useSketch(GridSketch);
 
   const {
     graph,
-    version,
-    topLeft: sourceNode,
-    bottomRight: destinationNode,
+    topLeft,
+    bottomRight,
     toggleConnection,
   } = useGridGraph({
     rows: 8,
     columns: 15,
   });
 
+  const sourceNode = pointToStr(topLeft);
+  const destinationNode = pointToStr(bottomRight);
+
   const getPositionOfNode = React.useCallback(
-    (d: PointDataItem) => {
+    (d: string): Optional<p5.Vector> => {
       const boid = sketchContainer.getBoid(d);
       return !!boid ? boid.position : undefined;
     },
@@ -44,7 +49,6 @@ const GridRouting: React.FunctionComponent = () => {
     heuristicCosts,
   } = useRoutingAlgorithm({
     graph,
-    version,
     sourceNode,
     destinationNode,
     getPositionOfNode,
@@ -102,7 +106,7 @@ const GridRouting: React.FunctionComponent = () => {
       <StepThruListControls {...steppingControlProps} />
 
       {currentStage && (
-        <RouteObserverStage graph={graph} currentStage={currentStage} />
+        <RouteObserverStage currentStage={currentStage} />
       )}
     </div>
   );

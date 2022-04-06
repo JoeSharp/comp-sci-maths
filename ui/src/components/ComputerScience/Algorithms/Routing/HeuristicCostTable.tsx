@@ -2,7 +2,7 @@ import React from "react";
 import { HeuristicCostById } from "./types";
 import Table from "../../../Bootstrap/Table";
 import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
-import Graph from "@comp-sci-maths/lib/dist/dataStructures/graph/Graph";
+import { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 
 interface Props {
   graph: Graph<any>;
@@ -23,7 +23,7 @@ const HeuristicCostTable: React.FunctionComponent<Props> = ({
             distance,
           },
         ]) => ({
-          name: graph.vertices.find((v) => v.key === id)?.label,
+          name: graph.vertices.find((v) => v === id),
           position: `x: ${roundTo2Dp(x)}, y: ${roundTo2Dp(y)}`,
           distance: roundTo2Dp(distance),
         })

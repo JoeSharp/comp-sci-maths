@@ -3,14 +3,13 @@ import { NO_MATCH } from "@comp-sci-maths/lib/dist/algorithms/search/common";
 import { AbstractSketch } from "../../../p5/useSketch";
 
 import { DEFAULT_SEARCH_OBS, SearchObservation } from "./types";
-import { StringDataItem } from "../../../p5/Boid/types";
 
 const WIDTH = 600;
 const HEIGHT = 600;
 
 interface Config {
   searchItem?: string;
-  data: StringDataItem[];
+  data: string[];
   searchStage: SearchObservation;
   matchIndex: number;
   isFinalStage: boolean;
@@ -96,7 +95,7 @@ class SearchingSketch extends AbstractSketch<Config> {
 
         s.ellipse(x, datyaY, dataWidth, dataWidth);
         s.fill("black");
-        s.text(item.value, x, datyaY);
+        s.text(item, x, datyaY);
       });
 
       s.fill("black");

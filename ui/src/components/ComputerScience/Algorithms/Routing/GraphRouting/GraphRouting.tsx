@@ -9,7 +9,6 @@ import StepThruListControls, {
 } from "../../../../lib/StepThruListControls";
 import RouteObserverStage from "../RouteObserverStage";
 import HeuristicCostTable from "../../../../ComputerScience/Algorithms/Routing/HeuristicCostTable";
-import { StringDataItem } from "../../../../p5/Boid/types";
 
 import GraphPickerWithSketch, {
   usePicker as useGraphPicker,
@@ -35,7 +34,7 @@ const GraphRouting: React.FunctionComponent = () => {
   } = useVertexPicker(graph, "form-control");
 
   const getPositionOfNode = React.useCallback(
-    (d: StringDataItem) => {
+    (d: string) => {
       const boid = sketchContainer.getBoid(d);
       return !!boid ? boid.position : undefined;
     },
@@ -49,7 +48,7 @@ const GraphRouting: React.FunctionComponent = () => {
     onResetDistances,
     heuristicCosts,
   } = useRoutingAlgorithm({
-    graph, version: 0,
+    graph,
     sourceNode,
     destinationNode,
     getPositionOfNode,
@@ -61,10 +60,10 @@ const GraphRouting: React.FunctionComponent = () => {
   } = useStepThruListControls(stages);
 
   React.useEffect(() => {
-    graph.vertices.forEach((v) => {
+    graph.vertices.forEach((v: string) => {
       if (
-        (sourceNode && graph.areVerticesEqual(sourceNode, v)) ||
-        (destinationNode && graph.areVerticesEqual(destinationNode, v))
+        (sourceNode && sourceNode === v) ||
+        (destinationNode && destinationNode === v)
       ) {
         sketchContainer.setBorderWeight(v, 3);
         sketchContainer.setBorderColour(v, "black");
@@ -72,13 +71,13 @@ const GraphRouting: React.FunctionComponent = () => {
       } else if (
         currentStage !== undefined &&
         currentStage.currentItem !== undefined &&
-        currentStage.currentItem.node.key === v.key
+        currentStage.currentItem.node === v
       ) {
         sketchContainer.setBorderWeight(v, 3);
         sketchContainer.setBorderColour(v, "red");
       } else if (
         currentStage !== undefined &&
-        currentStage.pathFrom.map((p) => p.key).includes(v.key)
+        currentStage.pathFrom.includes(v)
       ) {
         sketchContainer.setBorderWeight(v, 3);
         sketchContainer.setBorderColour(v, "red");
@@ -122,7 +121,7 @@ const GraphRouting: React.FunctionComponent = () => {
           <VertexPicker {...destinationPickerProps} />
         </div>
       </form>
-      <h2>Path Found - {path.map(p => p.value).join('->')}</h2>
+      <h2>Path Found - {path.join('->')}</h2>
       <h2>A* Algorithm</h2>
       <div className="mb-3">
         <p>
@@ -142,7 +141,7 @@ const GraphRouting: React.FunctionComponent = () => {
 
       {currentStage && (
         <div className="mt-3">
-          <RouteObserverStage graph={graph} currentStage={currentStage} />
+          <RouteObserverStage currentStage={currentStage} />
         </div>
       )}
     </div>

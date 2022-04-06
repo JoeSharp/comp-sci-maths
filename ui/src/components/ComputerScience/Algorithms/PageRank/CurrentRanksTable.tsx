@@ -2,10 +2,9 @@ import React from "react";
 import { PageRanks } from "./types";
 import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
 import Table from "../../../Bootstrap/Table";
-import { StringDataItem } from "../../../p5/Boid/types";
 
 interface Props {
-  pages: StringDataItem[];
+  pages: string[];
   ranks: PageRanks;
 }
 
@@ -16,9 +15,9 @@ const CurrentRanksRable: React.FunctionComponent<Props> = ({
   const tableData = React.useMemo(
     () =>
       pages.map((page) => ({
-        page: page.value,
-        rank2dp: roundTo2Dp(ranks[page.key]),
-        rank: ranks[page.key],
+        page,
+        rank2dp: roundTo2Dp(ranks[page]),
+        rank: ranks[page],
       })),
     [pages, ranks]
   );

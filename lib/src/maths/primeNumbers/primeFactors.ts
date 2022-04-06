@@ -3,8 +3,8 @@ import { isDivisibleBy, isPrime } from "./divisibilityRules";
 import {
   Graph,
   createInitialState,
-  graphAddVertex,
-  graphAddUnidirectionalEdge
+  addVertex,
+  addUnidirectionalEdge
 } from "../../dataStructures/graph/graphReducer";
 
 export function getPrimeFactors(value: number): number[] {
@@ -41,7 +41,7 @@ export function getPrimeFactorTree(value: number): Graph<number> {
     key: nextKey(),
     value,
   };
-  graph = graphAddVertex(graph, currentItem.key, currentItem.value);
+  graph = addVertex(graph, currentItem.key, currentItem.value);
   primeFactors
     .slice(0, primeFactors.length - 1) // Skip the last one
     .forEach((factor) => {
@@ -53,10 +53,10 @@ export function getPrimeFactorTree(value: number): Graph<number> {
         key: nextKey(),
         value: factor,
       }
-      graph = graphAddVertex(graph, newItem.key, newItem.value);
-      graph = graphAddVertex(graph, otherNewItem.key, otherNewItem.value);
-      graph = graphAddUnidirectionalEdge(graph, currentItem.key, otherNewItem.key);
-      graph = graphAddUnidirectionalEdge(graph, currentItem.key, newItem.key);
+      graph = addVertex(graph, newItem.key, newItem.value);
+      graph = addVertex(graph, otherNewItem.key, otherNewItem.value);
+      graph = addUnidirectionalEdge(graph, currentItem.key, otherNewItem.key);
+      graph = addUnidirectionalEdge(graph, currentItem.key, newItem.key);
       currentItem = newItem;
     });
 

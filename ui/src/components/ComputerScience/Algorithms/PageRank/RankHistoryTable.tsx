@@ -2,10 +2,9 @@ import React from "react";
 
 import { PageRanks } from "./types";
 import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
-import { StringDataItem } from "../../../p5/Boid/types";
 
 interface Props {
-  pages: StringDataItem[];
+  pages: string[];
   rankHistory: PageRanks[];
 }
 
@@ -25,10 +24,10 @@ const RankHistoryTable: React.FunctionComponent<Props> = ({
       </thead>
       <tbody>
         {pages.map((page) => (
-          <tr key={page.key}>
-            <td>{page.value}</td>
+          <tr key={page}>
+            <td>{page}</td>
             {rankHistory.map((r, i) => (
-              <td key={i}>{roundTo2Dp(r[page.key])}</td>
+              <td key={i}>{roundTo2Dp(r[page])}</td>
             ))}
           </tr>
         ))}

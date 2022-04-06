@@ -2,27 +2,26 @@ import React from "react";
 import { Optional } from "@comp-sci-maths/lib/dist/types";
 import Table from "../../../Bootstrap/Table";
 import { roundTo2Dp } from "@comp-sci-maths/lib/dist/algorithms/pageRank/pageRank";
-import { DisplayDataItem } from "../../../p5/Boid/types";
 
-interface Item<DATA_ITEM extends DisplayDataItem<any>> {
+interface Item {
   node: string;
   cost: number;
-  viaNode: Optional<DATA_ITEM>;
+  viaNode: Optional<string>;
 }
 
-interface Props<DATA_ITEM extends DisplayDataItem<any>> {
-  items: Item<DATA_ITEM>[];
+interface Props {
+  items: Item[];
 }
 
-const ShortestPathWithNodeTable = <DATA_ITEM extends DisplayDataItem<any>>({
+const ShortestPathWithNodeTable = ({
   items,
-}: Props<DATA_ITEM>) => {
+}: Props) => {
   const tableData = React.useMemo(
     () =>
       items.map(({ node, cost, viaNode }) => ({
         node,
         cost: roundTo2Dp(cost),
-        viaNode: viaNode ? viaNode.label : "NONE",
+        viaNode: viaNode || "None",
       })),
     [items]
   );

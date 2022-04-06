@@ -13,7 +13,6 @@ import {
   SortObservation,
 } from "./types";
 import { NO_MATCH } from "@comp-sci-maths/lib/dist/algorithms/search/common";
-import { StringDataItem } from "../../../p5/Boid/types";
 import {
   NamedCustomisableSort,
   SortUtility,
@@ -23,25 +22,21 @@ interface Props {
   algorithm?: NamedCustomisableSort;
 }
 
-const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
-  const inputList: StringDataItem[] = React.useMemo(
+const useSortedData = ({ algorithm }: Props): SortingData<string> => {
+  const inputList: string[] = React.useMemo(
     () =>
-      generateRandomLetters(10, { sorted: false }).map((d, i) => ({
-        key: i.toString(),
-        label: d,
-        value: d,
-      })),
+      generateRandomLetters(10, { sorted: false }).map((d, i) => i.toString()),
     []
   );
   const {
     sortedData,
     stages,
-  }: SortingData<StringDataItem> = React.useMemo(() => {
+  }: SortingData<string> = React.useMemo(() => {
     let sortedData = inputList;
-    let stages: SortStage<StringDataItem>[] = [];
-    let lastObservation: SortObservation<StringDataItem>;
+    let stages: SortStage<string>[] = [];
+    let lastObservation: SortObservation<string>;
 
-    const sortUtilities: SortUtility<StringDataItem> = {
+    const sortUtilities: SortUtility<string> = {
       swap: (data, from, to) => {
         stages.push({
           type: SortStageType.swap,
@@ -52,7 +47,7 @@ const useSortedData = ({ algorithm }: Props): SortingData<StringDataItem> => {
         simpleSwap(data, from, to);
       },
       compare: (a, b, meta) => {
-        const result = stringComparator(a.value, b.value, meta);
+        const result = stringComparator(a, b, meta);
         stages.push({
           type: SortStageType.compare,
           a,

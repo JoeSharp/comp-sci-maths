@@ -1,6 +1,6 @@
 import React from "react";
 import useSavedGraph, { UseSavedGraph } from "./useSavedGraph";
-import graphReducer, { GraphAction, Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
+import graphApi, { GraphAction, Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import useSketch, { UseSketch } from "../../../p5/useSketch";
 import GraphSketch from "../../../ComputerScience/DataStructures/GraphManager/GraphSketch";
 import { GraphSketchConfig } from "./GraphBuilder/types";
@@ -51,7 +51,7 @@ interface UsePicker {
 }
 
 const wrappedGraphReducer = (graph: Graph<string>, action: GraphAction<string>): Graph<string> => {
-  return graphReducer(graph, action);
+  return graphApi.reduce(graph, action);
 }
 
 export const usePicker = (

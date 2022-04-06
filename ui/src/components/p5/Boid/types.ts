@@ -1,5 +1,4 @@
 import p5 from "p5";
-import { IKeyWithValue } from "@comp-sci-maths/lib/dist/types";
 
 export interface AbstractBoid<T> {
   entity: T;
@@ -17,16 +16,8 @@ export interface AbstractBoid<T> {
   lockY?: boolean;
 }
 
-export interface DisplayDataItem<T> extends IKeyWithValue<T> {
-  label: string;
-}
-
-export type NumberDataItem = DisplayDataItem<number>;
-export type StringDataItem = DisplayDataItem<string>;
-
 export interface Point {
   x: number;
   y: number;
 }
 
-export type PointDataItem = DisplayDataItem<Point>;
