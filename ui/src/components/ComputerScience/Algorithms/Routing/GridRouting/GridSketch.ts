@@ -6,17 +6,17 @@ import DataItemBoid from "../../../../p5/Boid/DataItemBoid";
 import { Point } from "../../../../p5/Boid/types";
 
 interface Config {
-  sourceNode: Point;
-  destinationNode: Point;
+  sourceNode: string;
+  destinationNode: string;
   graph: Graph<Point>;
-  path: Point[];
+  path: string[];
   toggleConnection: (vertex: Point) => void;
 }
 
 const getDefaultConfig = (): Config => ({
   graph: graphApi.createInitialState(),
-  sourceNode: { x: 0, y: 0 },
-  destinationNode: { x: 0, y: 0 },
+  sourceNode: "",
+  destinationNode: "",
   path: [],
   toggleConnection: () => { },
 });
@@ -52,23 +52,15 @@ class GridSketch extends AbstractSketch<Config> {
     // Finding boids on the path
     const { vertices, edges } = graph;
 
-    console.log('Updated Path ', {
-      sourceNode,
-      destinationNode,
-      path
-    });
-
     this.boidsInSketch = vertices.map((v) => {
       const vertex = graphApi.getVertexValue(graph, v);
       const boid = this.getOrCreateBoid(vertex);
 
-      console.log('Evaluating Vertex ', vertex);
-
-      if (v === pointToStr(sourceNode)) {
+      if (v === sourceNode) {
         boid.colour = "lime";
-      } else if (v === pointToStr(destinationNode)) {
+      } else if (v === destinationNode) {
         boid.colour = "red";
-      } else if (path.find((p) => p.x === vertex.x && p.y === vertex.y) !== undefined) {
+      } else if (path.find((p) => p === v) !== undefined) {
         boid.colour = "cyan";
       } else {
         boid.colour = "black";
@@ -160,9 +152,11 @@ class GridSketch extends AbstractSketch<Config> {
       s.stroke("cyan");
       s.strokeWeight(4);
       for (let i = 0; i < path.length - 1; i++) {
-        const from = that.getOrCreateBoid(path[i]);
-        const to = that.getOrCreateBoid(path[i + 1]);
-        s.line(from.position.x, from.position.y, to.position.x, to.position.y);
+        const from = that.getBoid(path[i]);
+        const to = that.getBoid(path[i + 1]);
+        if (!!from && !!to) {
+          s.line(from.position.x, from.position.y, to.position.x, to.position.y);
+        }
       }
 
       /// Call upon all boids to draw themselves

@@ -59,13 +59,18 @@ const GridRouting: React.FunctionComponent = () => {
     componentProps: steppingControlProps,
   } = useStepThruListControls(stages);
 
+  const path: string[] = React.useMemo(() => currentStage !== undefined ? currentStage.pathFrom : [],
+    [currentStage]);
+
   React.useEffect(() => {
     updateConfig({
       graph,
-      path: currentStage !== undefined ? currentStage.pathFrom : [],
+      path,
+      sourceNode,
+      destinationNode,
       toggleConnection,
     });
-  }, [currentStage, graph, updateConfig, toggleConnection]);
+  }, [path, graph, sourceNode, destinationNode, updateConfig, toggleConnection]);
 
   const buttonBarProps: ButtonBarProps = React.useMemo(
     () => ({
@@ -104,6 +109,9 @@ const GridRouting: React.FunctionComponent = () => {
       <HeuristicCostTable graph={graph} heuristicCostsById={heuristicCosts} />
 
       <StepThruListControls {...steppingControlProps} />
+      <p>
+        Path: {path.join(" > ")}
+      </p>
 
       {currentStage && (
         <RouteObserverStage currentStage={currentStage} />
