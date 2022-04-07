@@ -1,7 +1,7 @@
 import { AbstractSketch } from "../../../../p5/useSketch";
 import graphApi, { Graph } from "@comp-sci-maths/lib/dist/dataStructures/graph/graphReducer";
 import p5 from "p5";
-import { pointToStr } from "./useGridGraph";
+import { createP5Vector, pointToStr } from "./useGridGraph";
 import DataItemBoid from "../../../../p5/Boid/DataItemBoid";
 import { Point } from "../../../../p5/Boid/types";
 
@@ -29,27 +29,83 @@ class GridSketch extends AbstractSketch<Config> {
   boids: {
     [id: string]: DataItemBoid<Point>;
   };
+  boidsInSketch: DataItemBoid<Point>[];
+  edgesInSketch: { from: DataItemBoid<Point>, to: DataItemBoid<Point>, weight: number }[]
 
   constructor() {
     super(getDefaultConfig());
     this.boids = {};
+    this.boidsInSketch = [];
+    this.edgesInSketch = [];
+  }
+
+  setConfig(config: Config): void {
+    super.setConfig(config);
+
+    const {
+      graph,
+      sourceNode,
+      destinationNode,
+      path,
+    } = this.config;
+
+    // Finding boids on the path
+    const { vertices, edges } = graph;
+
+    console.log('Updated Path ', {
+      sourceNode,
+      destinationNode,
+      path
+    });
+
+    this.boidsInSketch = vertices.map((v) => {
+      const vertex = graphApi.getVertexValue(graph, v);
+      const boid = this.getOrCreateBoid(vertex);
+
+      console.log('Evaluating Vertex ', vertex);
+
+      if (v === pointToStr(sourceNode)) {
+        boid.colour = "lime";
+      } else if (v === pointToStr(destinationNode)) {
+        boid.colour = "red";
+      } else if (path.find((p) => p.x === vertex.x && p.y === vertex.y) !== undefined) {
+        boid.colour = "cyan";
+      } else {
+        boid.colour = "black";
+      }
+      return boid;
+    });
+
+    this.edgesInSketch = edges
+      .filter(
+        ({ from, to }) =>
+          vertices.includes(from) &&
+          vertices.includes(to)
+      )
+      .map(({ from, to, ...rest }) => ({
+        from: graphApi.getVertexValue(graph, from),
+        to: graphApi.getVertexValue(graph, to),
+        ...rest
+      }))
+      .map(({ from, to, weight }) => ({
+        from: this.getOrCreateBoid(from),
+        to: this.getOrCreateBoid(to),
+        weight,
+      }));
   }
 
   getBoid(vertex: string): DataItemBoid<Point> | undefined {
     return this.boids[vertex];
   }
 
-  getOrCreateBoid(sketch: p5, point: Point) {
+  getOrCreateBoid(point: Point) {
     const pointS = pointToStr(point);
     if (!this.boids[pointS]) {
       this.boids[pointS] = new DataItemBoid<Point>({
         entity: point,
         label: pointS,
         radius: 20,
-        position: sketch.createVector(
-          (point.x + 1) * SPREAD,
-          (point.y + 1) * SPREAD
-        ),
+        position: createP5Vector((point.x + 1) * SPREAD, (point.y + 1) * SPREAD),
       });
     }
     return this.boids[pointS];
@@ -80,48 +136,13 @@ class GridSketch extends AbstractSketch<Config> {
       s.push();
 
       const {
-        graph,
-        sourceNode,
-        destinationNode,
         path,
       } = that.config;
-
-      const { vertices, edges } = graph;
-
-      let boidsInSketch: DataItemBoid<Point>[] = vertices.map((v) => {
-        const vertex = graphApi.getVertexValue(graph, v);
-        const boid = that.getOrCreateBoid(s, vertex);
-        if (v === pointToStr(sourceNode)) {
-          boid.colour = "lime";
-        } else if (v === pointToStr(destinationNode)) {
-          boid.colour = "red";
-        } else if (path.find((p) => pointToStr(p) === v) !== undefined) {
-          boid.colour = "cyan";
-        } else {
-          boid.colour = "black";
-        }
-        return boid;
-      });
 
       // Draw the lines for all connections
       s.stroke("black");
       s.strokeWeight(4);
-      edges
-        .filter(
-          ({ from, to }) =>
-            vertices.includes(from) &&
-            vertices.includes(to)
-        )
-        .map(({ from, to, ...rest }) => ({
-          from: graphApi.getVertexValue(graph, from),
-          to: graphApi.getVertexValue(graph, to),
-          ...rest
-        }))
-        .map(({ from, to, weight }) => ({
-          from: that.getOrCreateBoid(s, from),
-          to: that.getOrCreateBoid(s, to),
-          weight,
-        }))
+      that.edgesInSketch
         .forEach(
           ({
             from: {
@@ -139,13 +160,13 @@ class GridSketch extends AbstractSketch<Config> {
       s.stroke("cyan");
       s.strokeWeight(4);
       for (let i = 0; i < path.length - 1; i++) {
-        const from = that.getOrCreateBoid(s, path[i]);
-        const to = that.getOrCreateBoid(s, path[i + 1]);
+        const from = that.getOrCreateBoid(path[i]);
+        const to = that.getOrCreateBoid(path[i + 1]);
         s.line(from.position.x, from.position.y, to.position.x, to.position.y);
       }
 
       /// Call upon all boids to draw themselves
-      boidsInSketch.forEach((b) => b.draw(s));
+      that.boidsInSketch.forEach((b) => b.draw(s));
     };
   };
 }

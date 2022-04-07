@@ -31,8 +31,8 @@ const GridRouting: React.FunctionComponent = () => {
     columns: 15,
   });
 
-  const sourceNode = pointToStr(topLeft);
-  const destinationNode = pointToStr(bottomRight);
+  const sourceNode = React.useMemo(() => pointToStr(topLeft), [topLeft]);
+  const destinationNode = React.useMemo(() => pointToStr(bottomRight), [bottomRight]);
 
   const getPositionOfNode = React.useCallback(
     (d: string): Optional<p5.Vector> => {
