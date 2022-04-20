@@ -1,8 +1,10 @@
+import exp from "constants";
+
 export type BinaryDigit = 0 | 1;
 
 export type BinaryNumber = BinaryDigit[];
 
-export interface FloatingPointState {
+export interface FloatingPointNumber {
     mantissa: BinaryNumber;
     exponent: BinaryNumber;
 }
@@ -32,9 +34,21 @@ export interface SetExponentAction {
 
 export type FloatingPointAction = ShiftAction | SetMantissaAction | SetExponentAction | ToggleBitAction;
 
+/**
+ * Given a bit, toggles it to the other state.
+ * @param bit The input bit
+ * @returns The toggled output bit
+ */
 export const toggleBit = (bit: BinaryDigit): BinaryDigit => bit === 0 ? 1 : 0;
 
-export const toggleBitInNumber = (bits: BinaryNumber, digit: number): BinaryNumber => {
+/**
+ * Toggle a specific digit in a binary number.
+ * 
+ * @param bits The original number
+ * @param digit The digit to toggle
+ * @returns The new number with the toggled bit.
+ */
+export const toggleBitInBinary = (bits: BinaryNumber, digit: number): BinaryNumber => {
     if (digit < 0 || digit >= bits.length) {
         throw new Error(`Cannot toggle bit ${digit} for a binary number of ${bits.length} digits`)
     }
@@ -42,40 +56,91 @@ export const toggleBitInNumber = (bits: BinaryNumber, digit: number): BinaryNumb
     return bits.map((v, i) => i === digit ? toggleBit(v) : v);
 }
 
-export const toggleBitInState = (state: FloatingPointState, component: FloatingPointComponent, digit: number): FloatingPointState => {
+/**
+ * Toggle a bit within a floating point number.
+ * 
+ * @param fp The floating point number 
+ * @param component The component we are toggling a bit in
+ * @param digit The digit we are toggling within that component
+ * @returns The new floating point number with the required bit toggled. 
+ */
+export const toggleBitInFloatingPoint = (
+    { mantissa, exponent }: FloatingPointNumber,
+    component: FloatingPointComponent,
+    digit: number
+): FloatingPointNumber => {
     switch (component) {
         case 'exponent':
             return {
-                ...state,
-                exponent: toggleBitInNumber(state.exponent, digit)
+                mantissa,
+                exponent: toggleBitInBinary(exponent, digit)
             }
         case 'mantissa':
             return {
-                ...state,
-                mantissa: toggleBitInNumber(state.mantissa, digit)
+                mantissa: toggleBitInBinary(mantissa, digit),
+                exponent
             }
     }
 }
 
-export const setMantissa = (state: FloatingPointState, mantissa: BinaryNumber): FloatingPointState => {
+/**
+ * Replace the mantissa with a new value
+ * 
+ * @param fp The floating point number
+ * @param mantissa The new mantissa
+ * @returns The new floating point number
+ */
+export const setMantissa = ({ exponent }: FloatingPointNumber, mantissa: BinaryNumber): FloatingPointNumber => {
     return {
-        ...state,
-        mantissa
-    }
-}
-
-export const setExponent = (state: FloatingPointState, exponent: BinaryNumber): FloatingPointState => {
-    return {
-        ...state,
+        mantissa,
         exponent
     }
 }
 
-export const shift = (state: FloatingPointState, direction: BinaryDigit): FloatingPointState => {
+/**
+ * Replace the exponent with a new value
+ * 
+ * @param fp The floating point number
+ * @param exponent The new exponent
+ * @returns The new floating point number
+ */
+export const setExponent = ({ mantissa }: FloatingPointNumber, exponent: BinaryNumber): FloatingPointNumber => {
+    return {
+        mantissa,
+        exponent
+    }
+}
+
+export const shift = (state: FloatingPointNumber, direction: BinaryDigit): FloatingPointNumber => {
     return state;
 }
 
-export const binaryString = (number: BinaryNumber) => number.join('');
+/**
+ * Create a printable representation of a floating point number.
+ * 
+ * @param fp Floating point number
+ * @returns The string representation
+ */
+export const floatingPointToString = ({ mantissa: [sign, ...mantissa], exponent }: FloatingPointNumber): string =>
+    `${sign}.${binaryToString(mantissa)} exp ${binaryToString(exponent)}`
+
+/**
+ * Create a printable representation of a binary number.
+ * 
+ * @param number The binary number
+ * @returns A string representation
+ */
+export const binaryToString = (number: BinaryNumber) => number.join('');
+
+/**
+ * Parse a binary string into a binary number.
+ * 
+ * @param value The string value
+ * @returns The binary number
+ */
+export const binaryFromString = (value: string): BinaryNumber =>
+    value.split('')
+        .map(x => parseInt(x) as BinaryDigit);
 
 /**
  * Used to store the result of binary operation, and a flag to indicate if
@@ -128,7 +193,7 @@ export const createBinaryNumber = (digits: number, defaultValue: BinaryDigit = 0
  * @param exponentBits The number of bits for the exponent
  * @returns The full floating point number
  */
-export const createFloatingPoint = (mantissaBits: number, exponentBits: number): FloatingPointState => ({
+export const createFloatingPoint = (mantissaBits: number = 8, exponentBits: number = 4): FloatingPointNumber => ({
     mantissa: createBinaryNumber(mantissaBits),
     exponent: createBinaryNumber(exponentBits)
 })
@@ -143,13 +208,19 @@ export const getDecimalFrom2sComplement = (bits: BinaryNumber): number =>
         .filter((_, i) => i > 0)
         .reduce((acc, curr, i) => acc + (curr * Math.pow(2, bits.length - 2 - i)), bits[0] * -Math.pow(2, bits.length - 1))
 
-export const reducer = (state: FloatingPointState, action: FloatingPointAction): FloatingPointState => {
+export const getDecimalFromFloatingPoint = ({ mantissa, exponent }: FloatingPointNumber): number => {
+    const mantissaDec = getDecimalFrom2sComplement(mantissa) / Math.pow(2, mantissa.length - 1);
+    const exponentDec = getDecimalFrom2sComplement(exponent);
+    return mantissaDec * Math.pow(2, exponentDec);
+}
+
+export const reducer = (state: FloatingPointNumber, action: FloatingPointAction): FloatingPointNumber => {
 
     switch (action.type) {
         case 'setMantissa': return setExponent(state, action.mantissa);
         case 'setExponent': return setExponent(state, action.exponent);
         case 'shift': return shift(state, action.direction);
-        case 'toggle': return toggleBitInState(state, action.component, action.digit);
+        case 'toggle': return toggleBitInFloatingPoint(state, action.component, action.digit);
     }
 
 }
