@@ -12,8 +12,34 @@ import {
     FloatingPointNumber,
     getDecimalFromFloatingPoint,
     binaryFromString,
-    floatingPointToString
+    floatingPointToString,
+    getFloatingPointFromDecimal,
+    get1sComplement
 } from "./floatingPointReducer";
+
+interface OnesComplementTestCase {
+    input: BinaryNumber;
+    output: BinaryNumber;
+}
+
+const ONES_COMPLEMENT_TEST_CASES: OnesComplementTestCase[] = [
+    {
+        input: binaryFromString('0000'),
+        output: binaryFromString('1111')
+    }, {
+        input: binaryFromString('0001'),
+        output: binaryFromString('1110')
+    }, {
+        input: binaryFromString('1000'),
+        output: binaryFromString('0111')
+    }, {
+        input: binaryFromString('0110'),
+        output: binaryFromString('1001')
+    }, {
+        input: binaryFromString('0101'),
+        output: binaryFromString('1010')
+    }
+]
 
 interface TwosComplementTestCase {
     binary: BinaryNumber,
@@ -160,8 +186,8 @@ describe("Floating Point Numbers", () => {
 
     TWOS_COMPLEMMENT_TEST_CASES.forEach(({ binary, decimal }) =>
         test(`Get Decimal from 2s Complement - ${binaryToString(binary)} -> ${decimal}`,
-            () => expect(getDecimalFrom2sComplement(binary)).toBe(decimal))
-    )
+            () => expect(getDecimalFrom2sComplement(binary)).toBe(decimal)
+        ))
 
     SHIFT_RIGHT_TEST_CASES.forEach(({ binary, result, flag }) =>
         test(`Shift Right ${binaryToString(binary)} -> ${binaryToString(result)} -> underflow: ${flag}`,
@@ -174,7 +200,13 @@ describe("Floating Point Numbers", () => {
     )
 
     FLOATING_POINT_TEST_CASES.forEach(({ floatingPoint, decimal }) =>
-        test(`Floating Point to Decimal ${floatingPointToString(floatingPoint)} -> ${decimal}`, () =>
-            expect(getDecimalFromFloatingPoint(floatingPoint)).toBe(decimal))
-    )
+        test(`Floating Point to Decimal ${floatingPointToString(floatingPoint)} -> ${decimal}`, () => {
+            expect(getDecimalFromFloatingPoint(floatingPoint)).toBe(decimal)
+            // expect(getFloatingPointFromDecimal(decimal)).toEqual(floatingPoint)
+        }));
+
+    ONES_COMPLEMENT_TEST_CASES.forEach(({ input, output }) =>
+        test(`One's Complement ${binaryToString(input)} -> ${binaryToString(output)}`, () => {
+            expect(get1sComplement(input)).toEqual(output);
+        }));
 })

@@ -1,4 +1,6 @@
-import exp from "constants";
+
+export const DEFAULT_MANTISSA_BITS = 8;
+export const DEFAULT_EXPONENT_BITS = 4;
 
 export type BinaryDigit = 0 | 1;
 
@@ -193,7 +195,10 @@ export const createBinaryNumber = (digits: number, defaultValue: BinaryDigit = 0
  * @param exponentBits The number of bits for the exponent
  * @returns The full floating point number
  */
-export const createFloatingPoint = (mantissaBits: number = 8, exponentBits: number = 4): FloatingPointNumber => ({
+export const createFloatingPoint = (
+    mantissaBits: number = DEFAULT_MANTISSA_BITS,
+    exponentBits: number = DEFAULT_EXPONENT_BITS
+): FloatingPointNumber => ({
     mantissa: createBinaryNumber(mantissaBits),
     exponent: createBinaryNumber(exponentBits)
 })
@@ -208,6 +213,74 @@ export const getDecimalFrom2sComplement = (bits: BinaryNumber): number =>
         .filter((_, i) => i > 0)
         .reduce((acc, curr, i) => acc + (curr * Math.pow(2, bits.length - 2 - i)), bits[0] * -Math.pow(2, bits.length - 1))
 
+/**
+ * Inverts all the bits in a binary number.
+ * 
+ * @param binary The binary number to take the 1's complement
+ * @returns The 1s complement of the input number.
+ */
+export const get1sComplement = (binary: BinaryNumber): BinaryNumber => {
+    return binary.map(x => toggleBit(x));
+}
+
+/**
+ * Convert a decimal number into 2s complement binary
+ * 
+ * @param decimal The decimal number to convert
+ * @param bits The number of bits in the output number
+ * @returns The twos complement binary number
+ */
+export const get2sComplementFromDecimal = (decimal: number, bits: number): BinaryNumber => {
+    const result = createBinaryNumber(bits);
+
+    return result;
+}
+
+/**
+ * Convert a decimal number into it's normalised floating point representation.
+ * TODO - Does not work yet.
+ * @param decimal The number to turn into a floating point
+ * @param mantissaBits Number of bits to allocate to the mantissa
+ * @param exponentBits Number of bits to allocate to the exponent
+ * @returns The floating point representation.
+ */
+export const getFloatingPointFromDecimal = (
+    decimal: number,
+    mantissaBits: number = DEFAULT_MANTISSA_BITS,
+    exponentBits: number = DEFAULT_EXPONENT_BITS
+): FloatingPointNumber => {
+    if (decimal === 0) return createFloatingPoint(mantissaBits, exponentBits);
+
+    const original = decimal;
+
+    let exponentValue = 0;
+    while (Math.abs(decimal) > 1 || Math.abs(decimal) < 0.1) {
+        if (Math.abs(decimal) > 1) {
+            decimal /= 2;
+            exponentValue++;
+        } else {
+            decimal *= 2;
+            exponentValue--;
+        }
+    }
+
+    const mantissa = decimal.toString(2).padEnd(mantissaBits, '0');
+    const exponent = exponentValue.toString(2).padStart(exponentBits, '0');
+
+    console.log({ original, decimal, exponentValue, mantissa, exponent });
+
+    return {
+        mantissa: binaryFromString(mantissa),
+        exponent: binaryFromString(exponent)
+    };
+}
+
+/**
+ * Convert a floating point number to a decimal number.
+ * 
+ * @param fp The floating point number
+ * @returns The decimal number that this binary represents.
+ */
 export const getDecimalFromFloatingPoint = ({ mantissa, exponent }: FloatingPointNumber): number => {
     const mantissaDec = getDecimalFrom2sComplement(mantissa) / Math.pow(2, mantissa.length - 1);
     const exponentDec = getDecimalFrom2sComplement(exponent);
