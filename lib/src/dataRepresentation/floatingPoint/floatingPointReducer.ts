@@ -1,10 +1,10 @@
 
 export const DEFAULT_MANTISSA_BITS = 8;
 export const DEFAULT_EXPONENT_BITS = 4;
+export const DEFAULT_BIT_VALUE = false;
+export const DEFAULT_BIT_WIDTH = 8;
 
-export type BinaryDigit = 0 | 1;
-
-export type BinaryNumber = BinaryDigit[];
+export type BinaryNumber = boolean[];
 
 export interface FloatingPointNumber {
     mantissa: BinaryNumber;
@@ -13,7 +13,7 @@ export interface FloatingPointNumber {
 
 export interface ShiftAction {
     type: 'shift',
-    direction: BinaryDigit
+    direction: boolean
 }
 
 export type FloatingPointComponent = 'mantissa' | 'exponent';
@@ -37,13 +37,6 @@ export interface SetExponentAction {
 export type FloatingPointAction = ShiftAction | SetMantissaAction | SetExponentAction | ToggleBitAction;
 
 /**
- * Given a bit, toggles it to the other state.
- * @param bit The input bit
- * @returns The toggled output bit
- */
-export const toggleBit = (bit: BinaryDigit): BinaryDigit => bit === 0 ? 1 : 0;
-
-/**
  * Toggle a specific digit in a binary number.
  * 
  * @param bits The original number
@@ -55,7 +48,7 @@ export const toggleBitInBinary = (bits: BinaryNumber, digit: number): BinaryNumb
         throw new Error(`Cannot toggle bit ${digit} for a binary number of ${bits.length} digits`)
     }
 
-    return bits.map((v, i) => i === digit ? toggleBit(v) : v);
+    return bits.map((v, i) => i === digit ? !v : v);
 }
 
 /**
@@ -113,7 +106,7 @@ export const setExponent = ({ mantissa }: FloatingPointNumber, exponent: BinaryN
     }
 }
 
-export const shift = (state: FloatingPointNumber, direction: BinaryDigit): FloatingPointNumber => {
+export const shift = (state: FloatingPointNumber, direction: boolean): FloatingPointNumber => {
     return state;
 }
 
@@ -132,7 +125,7 @@ export const floatingPointToString = ({ mantissa: [sign, ...mantissa], exponent 
  * @param number The binary number
  * @returns A string representation
  */
-export const binaryToString = (number: BinaryNumber) => number.join('');
+export const binaryToString = (number: BinaryNumber) => number.map(b => b ? '1' : '0').join('');
 
 /**
  * Parse a binary string into a binary number.
@@ -142,7 +135,7 @@ export const binaryToString = (number: BinaryNumber) => number.join('');
  */
 export const binaryFromString = (value: string): BinaryNumber =>
     value.split('')
-        .map(x => parseInt(x) as BinaryDigit);
+        .map(x => parseInt(x) === 1);
 
 /**
  * Used to store the result of binary operation, and a flag to indicate if
@@ -163,8 +156,8 @@ interface ResultWithFlag {
  */
 export const shiftLeft = (binary: BinaryNumber): ResultWithFlag =>
 ({
-    result: binary.map((_, i) => i === binary.length - 1 ? 0 : binary[i + 1]),
-    flag: binary[0] === 1
+    result: binary.map((_, i) => i === binary.length - 1 ? false : binary[i + 1]),
+    flag: binary[0]
 })
 
 /**
@@ -174,8 +167,8 @@ export const shiftLeft = (binary: BinaryNumber): ResultWithFlag =>
  * @returns The binary number shifted, filled with zeroes on the left hand side
  */
 export const shiftRight = (binary: BinaryNumber): ResultWithFlag => ({
-    result: binary.map((_, i) => i === 0 ? 0 : binary[i - 1]),
-    flag: binary[binary.length - 1] === 1
+    result: binary.map((_, i) => i === 0 ? false : binary[i - 1]),
+    flag: binary[binary.length - 1]
 })
 
 /**
@@ -183,9 +176,12 @@ export const shiftRight = (binary: BinaryNumber): ResultWithFlag => ({
  * 
  * @param digits The number of binary digits
  * @param defaultValue The value to use for each digit
- * @returns The binary number (array of BinaryDigits)
+ * @returns The binary number (array of booleans)
  */
-export const createBinaryNumber = (digits: number, defaultValue: BinaryDigit = 0): BinaryNumber =>
+export const createBinaryNumber = (
+    digits: number = DEFAULT_BIT_WIDTH,
+    defaultValue: boolean = DEFAULT_BIT_VALUE
+): BinaryNumber =>
     Array(digits).fill(null).map(() => defaultValue);
 
 /**
@@ -211,7 +207,45 @@ export const createFloatingPoint = (
 export const getDecimalFrom2sComplement = (bits: BinaryNumber): number =>
     bits
         .filter((_, i) => i > 0)
-        .reduce((acc, curr, i) => acc + (curr * Math.pow(2, bits.length - 2 - i)), bits[0] * -Math.pow(2, bits.length - 1))
+        .reduce((acc, curr, i) => acc + (curr ? Math.pow(2, bits.length - 2 - i) : 0), bits[0] ? -Math.pow(2, bits.length - 1) : 0)
+
+export const countOnes = (...digits: boolean[]): number => digits.reduce((acc, curr) => curr ? acc + 1 : acc, 0);
+export const xor = (...digits: boolean[]): boolean => countOnes(...digits) === 1;
+export const and = (...digits: boolean[]): boolean => countOnes(...digits) === digits.length;
+export const or = (...digits: boolean[]): boolean => countOnes(...digits) > 0;
+
+interface AddBitResult {
+    sum: boolean;
+    carry: boolean;
+}
+
+export const halfAdder = (a: boolean, b: boolean): AddBitResult => ({
+    sum: xor(a, b),
+    carry: and(a, b)
+})
+
+export const fullAdder = (a: boolean, b: boolean, carry: boolean): AddBitResult => ({
+    sum: xor(a, b, carry),
+    carry: countOnes(a, b, carry) >= 2
+})
+
+export const binaryAddition = (a: BinaryNumber, b: BinaryNumber): ResultWithFlag => {
+    if (a.length !== b.length) throw new Error('Cannot add numbers with different bit lengths');
+
+    const result = createBinaryNumber(a.length);
+    let overflow = false;
+    let carry: boolean = false;
+
+    for (let digit = a.length - 1; digit === 0; digit--) {
+        result[digit] = xor(a[digit], b[digit], carry);
+        carry = and(a[digit], b[digit]);
+    }
+
+    return {
+        result,
+        flag: overflow
+    };
+}
 
 /**
  * Inverts all the bits in a binary number.
@@ -220,7 +254,7 @@ export const getDecimalFrom2sComplement = (bits: BinaryNumber): number =>
  * @returns The 1s complement of the input number.
  */
 export const get1sComplement = (binary: BinaryNumber): BinaryNumber => {
-    return binary.map(x => toggleBit(x));
+    return binary.map(x => !x);
 }
 
 /**

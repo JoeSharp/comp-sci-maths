@@ -1,6 +1,4 @@
 import {
-    BinaryDigit,
-    toggleBit,
     toggleBitInBinary,
     createBinaryNumber,
     getDecimalFrom2sComplement,
@@ -14,7 +12,11 @@ import {
     binaryFromString,
     floatingPointToString,
     getFloatingPointFromDecimal,
-    get1sComplement
+    get1sComplement,
+    or,
+    and,
+    xor,
+    countOnes
 } from "./floatingPointReducer";
 
 interface OnesComplementTestCase {
@@ -145,49 +147,51 @@ const SHIFT_LEFT_TEST_CASES: ShiftTestCase[] = [
     }
 ]
 
-describe("Floating Point Numbers", () => {
-    test("Toggle Bit", () => {
-        let value: BinaryDigit = 1;
-
-        value = toggleBit(value);
-        expect(value).toBe(0);
-
-        value = toggleBit(value);
-        expect(value).toBe(1);
+describe("Logical Operators", () => {
+    test("Count Ones", () => {
+        expect(countOnes(false, false, true, true)).toBe(2);
+        expect(countOnes(true, false, true, true)).toBe(3);
+        expect(countOnes(false, false, false, false)).toBe(0);
+        expect(countOnes(false, false, true, false)).toBe(1);
+        expect(countOnes(true, true, true, true)).toBe(4);
     })
 
-    test("Toggle Bit in Number", () => {
-        let value: BinaryDigit[] = [0, 1, 1, 0];
+    test("OR", () => {
+        expect(or(false, false)).toBe(false);
+        expect(or(true, false)).toBe(true);
+        expect(or(false, true)).toBe(true);
+        expect(or(true, true)).toBe(true);
+    })
 
-        value = toggleBitInBinary(value, 1);
-        expect(value).toEqual([0, 0, 1, 0]);
+    test("AND", () => {
+        expect(and(false, false)).toBe(false);
+        expect(and(true, false)).toBe(false);
+        expect(and(false, true)).toBe(false);
+        expect(and(true, true)).toBe(true);
+    })
+
+    test("XOR", () => {
+        expect(xor(false, false)).toBe(false);
+        expect(xor(true, false)).toBe(true);
+        expect(xor(false, true)).toBe(true);
+        expect(xor(true, true)).toBe(false);
+    })
+})
+
+describe("Maths", () => {
+    test("Toggle Bit in Binary Number", () => {
+        let value: boolean[] = [false, true, true, false];
+
+        value = toggleBitInBinary(value, 0);
+        expect(value).toEqual([true, true, true, false]);
 
         value = toggleBitInBinary(value, 3);
-        expect(value).toEqual([0, 0, 1, 1]);
+        expect(value).toEqual([true, true, true, true]);
 
         expect(() => toggleBitInBinary(value, -1)).toThrowError();
         expect(() => toggleBitInBinary(value, 4)).toThrowError();
         expect(() => toggleBitInBinary(value, 67)).toThrowError();
     })
-
-    test("Create Numbers", () => {
-        expect(createBinaryNumber(4)).toEqual([0, 0, 0, 0]);
-        expect(createBinaryNumber(4, 1)).toEqual([1, 1, 1, 1])
-        expect(createBinaryNumber(6, 0)).toEqual([0, 0, 0, 0, 0, 0])
-        expect(createFloatingPoint()).toEqual({
-            mantissa: [0, 0, 0, 0, 0, 0, 0, 0],
-            exponent: [0, 0, 0, 0]
-        })
-        expect(createFloatingPoint(4, 2)).toEqual({
-            mantissa: [0, 0, 0, 0],
-            exponent: [0, 0]
-        })
-    })
-
-    TWOS_COMPLEMMENT_TEST_CASES.forEach(({ binary, decimal }) =>
-        test(`Get Decimal from 2s Complement - ${binaryToString(binary)} -> ${decimal}`,
-            () => expect(getDecimalFrom2sComplement(binary)).toBe(decimal)
-        ))
 
     SHIFT_RIGHT_TEST_CASES.forEach(({ binary, result, flag }) =>
         test(`Shift Right ${binaryToString(binary)} -> ${binaryToString(result)} -> underflow: ${flag}`,
@@ -198,6 +202,27 @@ describe("Floating Point Numbers", () => {
         test(`Shift Left ${binaryToString(binary)} -> ${binaryToString(result)} -> underflow: ${flag}`,
             () => expect(shiftLeft(binary)).toEqual({ result, flag }))
     )
+})
+
+describe("Floating Point Numbers", () => {
+    test("Create Numbers", () => {
+        expect(createBinaryNumber(4)).toEqual([false, false, false, false]);
+        expect(createBinaryNumber(4, true)).toEqual([true, true, true, true])
+        expect(createBinaryNumber(6, false)).toEqual([false, false, false, false, false, false])
+        expect(createFloatingPoint()).toEqual({
+            mantissa: [false, false, false, false, false, false, false, false],
+            exponent: [false, false, false, false]
+        })
+        expect(createFloatingPoint(4, 2)).toEqual({
+            mantissa: [false, false, false, false],
+            exponent: [false, false]
+        })
+    })
+
+    TWOS_COMPLEMMENT_TEST_CASES.forEach(({ binary, decimal }) =>
+        test(`Get Decimal from 2s Complement - ${binaryToString(binary)} -> ${decimal}`,
+            () => expect(getDecimalFrom2sComplement(binary)).toBe(decimal)
+        ))
 
     FLOATING_POINT_TEST_CASES.forEach(({ floatingPoint, decimal }) =>
         test(`Floating Point to Decimal ${floatingPointToString(floatingPoint)} -> ${decimal}`, () => {
