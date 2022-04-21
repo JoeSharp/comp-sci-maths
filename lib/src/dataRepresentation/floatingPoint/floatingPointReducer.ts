@@ -225,7 +225,7 @@ export const halfAdder = (a: boolean, b: boolean): AddBitResult => ({
 })
 
 export const fullAdder = (a: boolean, b: boolean, carry: boolean): AddBitResult => ({
-    sum: xor(a, b, carry),
+    sum: xor(xor(a, b), carry),
     carry: countOnes(a, b, carry) >= 2
 })
 
