@@ -134,7 +134,7 @@ export const binaryToString = (number: BinaryNumber) => number.map(b => b ? '1' 
  * @returns The binary number
  */
 export const binaryFromString = (value: string): BinaryNumber =>
-    value.split('')
+    value.replace(/\s/g, '').split('')
         .map(x => parseInt(x) === 1);
 
 /**
@@ -204,7 +204,7 @@ export const createFloatingPoint = (
  * @param bits The bits of the number, from the MSB (index 0) to LSB (index length - 1)
  * @returns The decimal conversion. From -2^(length-1) to 2^(length-1) - 1
  */
-export const getDecimalFrom2sComplement = (bits: BinaryNumber): number =>
+export const getDecimalFromTwosComplement = (bits: BinaryNumber): number =>
     bits
         .filter((_, i) => i > 0)
         .reduce((acc, curr, i) => acc + (curr ? Math.pow(2, bits.length - 2 - i) : 0), bits[0] ? -Math.pow(2, bits.length - 1) : 0)
@@ -219,16 +219,38 @@ interface AddBitResult {
     carry: boolean;
 }
 
+/**
+ * Implementation of binary half adder.
+ * 
+ * @param a First digit to add
+ * @param b Second digit to add
+ * @returns Result of addition (sum and carry)
+ */
 export const halfAdder = (a: boolean, b: boolean): AddBitResult => ({
     sum: xor(a, b),
     carry: and(a, b)
 })
 
+/**
+ * Implementation of binary full addder.
+ * 
+ * @param a The first digit to add
+ * @param b The second digit to add
+ * @param carry Carry from the previous addition
+ * @returns The result of the bit addition.
+ */
 export const fullAdder = (a: boolean, b: boolean, carry: boolean): AddBitResult => ({
     sum: xor(xor(a, b), carry),
     carry: countOnes(a, b, carry) >= 2
 })
 
+/**
+ * Add two binary numbers together.
+ * 
+ * @param a The first number to add
+ * @param b The second number to add 
+ * @returns The result of the addition, it includes the number and a flag to indicate if overflow occurred
+ */
 export const binaryAddition = (a: BinaryNumber, b: BinaryNumber): ResultWithFlag => {
     if (a.length !== b.length) throw new Error('Cannot add numbers with different bit lengths');
 
@@ -253,21 +275,61 @@ export const binaryAddition = (a: BinaryNumber, b: BinaryNumber): ResultWithFlag
  * @param binary The binary number to take the 1's complement
  * @returns The 1s complement of the input number.
  */
-export const get1sComplement = (binary: BinaryNumber): BinaryNumber => {
+export const getOnesComplement = (binary: BinaryNumber): BinaryNumber => {
     return binary.map(x => !x);
 }
 
 /**
- * Convert a decimal number into 2s complement binary
+ * Takes the twos complement of the input number.
+ * This effectively converts between positive and negative numbers.
+ * 
+ * @param binary The input binary number
+ * @returns The twos complement of the input. Flag indicates if we converted the extreme negative to +ve, for which there isn't room
+ */
+export const getTwosComplement = (binary: BinaryNumber): ResultWithFlag => {
+    const one = createBinaryNumber(binary.length);
+    one[binary.length - 1] = true;
+
+    const { result } = binaryAddition(getOnesComplement(binary), one);
+    return {
+        result,
+        // Special case, if the number is the largest negative, then we cannot represent the equivalent positive number
+        flag: binary[0] && countOnes(...binary) === 1
+    }
+}
+
+/**
+ * Convert a decimal number into twos complement binary
  * 
  * @param decimal The decimal number to convert
  * @param bits The number of bits in the output number
  * @returns The twos complement binary number
  */
-export const get2sComplementFromDecimal = (decimal: number, bits: number): BinaryNumber => {
-    const result = createBinaryNumber(bits);
+export const getTwosComplementFromDecimal = (decimal: number, bits: number): ResultWithFlag => {
+    let result = createBinaryNumber(bits);
 
-    return result;
+    const isNegative = decimal < 0;
+    decimal = isNegative ? decimal * -1 : decimal;
+
+    let index = result.length - 1;
+    let flag = false;
+    while (decimal > 0 && index >= 0) {
+        if (decimal % 2 !== 0) {
+            result[index] = true;
+        }
+        decimal = Math.floor(decimal / 2);
+        index--;
+    }
+
+    if (decimal > 0) flag = true;
+
+    if (isNegative) {
+        const twosComplement = getTwosComplement(result);
+        result = twosComplement.result;
+        // if (twosComplement.flag) flag = true;
+    }
+
+    return { result, flag };
 }
 
 /**
@@ -316,8 +378,8 @@ export const getFloatingPointFromDecimal = (
  * @returns The decimal number that this binary represents.
  */
 export const getDecimalFromFloatingPoint = ({ mantissa, exponent }: FloatingPointNumber): number => {
-    const mantissaDec = getDecimalFrom2sComplement(mantissa) / Math.pow(2, mantissa.length - 1);
-    const exponentDec = getDecimalFrom2sComplement(exponent);
+    const mantissaDec = getDecimalFromTwosComplement(mantissa) / Math.pow(2, mantissa.length - 1);
+    const exponentDec = getDecimalFromTwosComplement(exponent);
     return mantissaDec * Math.pow(2, exponentDec);
 }
 
