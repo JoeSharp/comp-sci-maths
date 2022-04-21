@@ -18,7 +18,8 @@ import {
     xor,
     countOnes,
     halfAdder,
-    fullAdder
+    fullAdder,
+    binaryAddition
 } from "./floatingPointReducer";
 
 interface OnesComplementTestCase {
@@ -149,6 +150,58 @@ const SHIFT_LEFT_TEST_CASES: ShiftTestCase[] = [
     }
 ]
 
+interface BinaryAdditiontTestCase {
+    a: BinaryNumber;
+    b: BinaryNumber;
+    result: BinaryNumber;
+    overflow: boolean;
+}
+
+const BINARY_ADDITION_TEST_CASES: BinaryAdditiontTestCase[] = [
+    {
+        a: binaryFromString("0000"),
+        b: binaryFromString("0000"),
+        result: binaryFromString("0000"),
+        overflow: false
+    },
+    {
+        a: binaryFromString("0001"),
+        b: binaryFromString("0000"),
+        result: binaryFromString("0001"),
+        overflow: false
+    },
+    {
+        a: binaryFromString("1010"),
+        b: binaryFromString("0001"),
+        result: binaryFromString("1011"),
+        overflow: false
+    },
+    {
+        a: binaryFromString("0001"),
+        b: binaryFromString("0001"),
+        result: binaryFromString("0010"),
+        overflow: false
+    },
+    {
+        a: binaryFromString("0011"),
+        b: binaryFromString("0011"),
+        result: binaryFromString("0110"),
+        overflow: false
+    },
+    {
+        a: binaryFromString("1011"),
+        b: binaryFromString("0111"),
+        result: binaryFromString("0010"),
+        overflow: true
+    },
+    {
+        a: binaryFromString("1111"),
+        b: binaryFromString("1111"),
+        result: binaryFromString("1110"),
+        overflow: true
+    }
+]
+
 describe("Logical Operators", () => {
     test("Count Ones", () => {
         expect(countOnes(false, false, true, true)).toBe(2);
@@ -199,6 +252,12 @@ describe("Maths", () => {
         expect(fullAdder(true, false, true)).toEqual({ sum: false, carry: true });
         expect(fullAdder(true, true, true)).toEqual({ sum: true, carry: true });
     });
+
+    BINARY_ADDITION_TEST_CASES.forEach(({ a, b, result, overflow }) => {
+        test(`4 bit binary addition, ${binaryToString(a)} + ${binaryToString(b)} = ${binaryToString(result)}`, () => {
+            expect(binaryAddition(a, b)).toEqual({ result, flag: overflow });
+        })
+    })
 
     test("Toggle Bit in Binary Number", () => {
         let value: boolean[] = [false, true, true, false];

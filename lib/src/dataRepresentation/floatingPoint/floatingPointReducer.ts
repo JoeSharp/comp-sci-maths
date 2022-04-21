@@ -233,17 +233,17 @@ export const binaryAddition = (a: BinaryNumber, b: BinaryNumber): ResultWithFlag
     if (a.length !== b.length) throw new Error('Cannot add numbers with different bit lengths');
 
     const result = createBinaryNumber(a.length);
-    let overflow = false;
-    let carry: boolean = false;
+    let currentCarry: boolean = false;
 
-    for (let digit = a.length - 1; digit === 0; digit--) {
-        result[digit] = xor(a[digit], b[digit], carry);
-        carry = and(a[digit], b[digit]);
+    for (let digit = a.length - 1; digit >= 0; digit--) {
+        const { sum, carry } = fullAdder(a[digit], b[digit], currentCarry);
+        result[digit] = sum;
+        currentCarry = carry;
     }
 
     return {
         result,
-        flag: overflow
+        flag: currentCarry
     };
 }
 
