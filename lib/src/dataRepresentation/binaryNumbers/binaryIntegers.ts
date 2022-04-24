@@ -151,3 +151,34 @@ export const binaryAddition = (a: BinaryNumber, b: BinaryNumber): ResultWithFlag
         flag: currentCarry
     };
 }
+
+export interface BinaryNumberToggleBitAction {
+    type: 'toggle',
+    digit: number
+}
+
+export interface BinaryNumberShiftAction {
+    type: 'shift',
+    direction: ShiftDirection,
+    gapFill: boolean
+}
+
+export interface BinaryNumberAddAction {
+    type: 'add',
+    other: BinaryNumber
+}
+
+export type BinaryNumberAction = BinaryNumberToggleBitAction
+    | BinaryNumberShiftAction
+    | BinaryNumberAddAction;
+
+export const binaryPositiveIntegerReducer = (state: ResultWithFlag, action: BinaryNumberAction): ResultWithFlag => {
+    switch (action.type) {
+        case 'shift': return shiftBinaryInteger(state.result, action.direction, action.gapFill);
+        case 'toggle': return {
+            result: toggleBitInBinary(state.result, action.digit),
+            flag: false
+        }
+        case 'add': return binaryAddition(state.result, action.other);
+    }
+}

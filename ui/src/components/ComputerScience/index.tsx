@@ -24,6 +24,7 @@ import { page as soundPage } from "./DataRepresentation/Sound";
 import { page as bitmapImagesPage } from "./DataRepresentation/Images";
 import { page as asciiTextPage } from "./DataRepresentation/AsciiText";
 import { page as numberBases } from "./DataRepresentation/Numbers";
+import { page as binaryNumbers } from "./DataRepresentation/Binary";
 
 import { page as hackCpuSimulator } from "./Computation/HackCpu";
 import { page as nand } from "./Computation/NandComponent";
@@ -57,6 +58,7 @@ const dataStructurePages = [
 ];
 
 const dataRepresentationPages = [
+  binaryNumbers,
   numberBases,
   soundPage,
   bitmapImagesPage,
