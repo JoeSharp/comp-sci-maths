@@ -133,7 +133,15 @@ export const fixedPointToString = ({ bits, bitsAfterPoint }: FixedPointNumber): 
  * @returns The string representation
  */
 export const floatingPointToString = ({ mantissa: [sign, ...mantissa], exponent }: FloatingPointNumber): string =>
-    `${sign}.${binaryToString(mantissa)} exp ${binaryToString(exponent)}`
+    `${bitToString(sign)}.${binaryToString(mantissa)} exp ${binaryToString(exponent)}`
+
+/**
+ * Convert a boolean bit to a printable value.
+ * 
+ * @param bit The bit value
+ * @returns The string representation (1 or 0)
+ */
+export const bitToString = (bit: boolean): string => bit ? '1' : '0';
 
 /**
  * Create a printable representation of a binary number.
@@ -141,7 +149,7 @@ export const floatingPointToString = ({ mantissa: [sign, ...mantissa], exponent 
  * @param number The binary number
  * @returns A string representation
  */
-export const binaryToString = (number: BinaryNumber) => number.map(b => b ? '1' : '0').join('');
+export const binaryToString = (number: BinaryNumber) => number.map(bitToString).join('');
 
 /**
  * Parse a binary string into a binary number.
@@ -432,7 +440,7 @@ export const getFloatingPointFromDenary = (
     const original = denary;
 
     let exponentValue = 0;
-    while (Math.abs(denary) > 1 || Math.abs(denary) < 0.1) {
+    while (Math.abs(denary) > 1 || Math.abs(denary) < 0.5) {
         if (Math.abs(denary) > 1) {
             denary /= 2;
             exponentValue++;
@@ -442,12 +450,17 @@ export const getFloatingPointFromDenary = (
         }
     }
 
-    const mantissa = denary.toString(2).padEnd(mantissaBits, '0');
-    const exponent = exponentValue.toString(2).padStart(exponentBits, '0');
+    const mantissaString = denary.toString(2).padEnd(mantissaBits, '0').replace('-0', '1');
+    const exponentString = exponentValue.toString(2).padStart(exponentBits, '0').replace('-0', '1');
+
+    const mantissa = binaryFromString(mantissaString);
+    const exponent = binaryFromString(exponentString);
+
+    console.log({ original, mantissaValue: denary, exponentValue: exponentValue, mantissa: mantissaString, exponent: exponentString })
 
     return {
-        mantissa: binaryFromString(mantissa),
-        exponent: binaryFromString(exponent)
+        mantissa,
+        exponent
     };
 }
 

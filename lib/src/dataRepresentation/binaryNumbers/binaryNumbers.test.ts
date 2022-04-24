@@ -28,7 +28,7 @@ import {
     getDenaryFromFixedPoint,
     getDenaryFromBinaryInteger,
     getBinaryIntegerFromDenary,
-} from "./floatingPointReducer";
+} from "./binaryNumbers";
 
 interface BinaryIntegerTestCase {
     binary: BinaryNumber;
@@ -460,9 +460,9 @@ describe("Floating Point Numbers", () => {
         test(`getDenaryFromFloatingPoint ${denary} -> ${floatingPointToString(floatingPoint)}`, () => {
             expect(getDenaryFromFloatingPoint(floatingPoint)).toBe(denary)
         });
-        // test(`getDenaryFromFloatingPoint ${floatingPointToString(floatingPoint)} -> ${denary}`, () => {
-        //     expect(getFloatingPointFromDenary(denary)).toEqual(floatingPoint)
-        // })
+        test(`getFloatingPointFromDenary ${floatingPointToString(floatingPoint)} -> ${denary}`, () => {
+            expect(getFloatingPointFromDenary(denary)).toEqual(floatingPoint)
+        })
     });
 
     ONES_COMPLEMENT_TEST_CASES.forEach(({ input, output }) =>
