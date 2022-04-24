@@ -1,17 +1,17 @@
 import {
     toggleBitInBinary,
     createBinaryNumber,
-    getDecimalFromTwosComplement,
+    getDenaryFromTwosComplement,
     BinaryNumber,
     shiftLeft,
     shiftRight,
     binaryToString,
     createFloatingPoint,
     FloatingPointNumber,
-    getDecimalFromFloatingPoint,
+    getDenaryFromFloatingPoint,
     binaryFromString,
     floatingPointToString,
-    getFloatingPointFromDecimal,
+    getFloatingPointFromDenary,
     getOnesComplement,
     or,
     and,
@@ -20,9 +20,47 @@ import {
     halfAdder,
     fullAdder,
     binaryAddition,
-    getTwosComplementFromDecimal,
-    getTwosComplement
+    getTwosComplementFromDenary,
+    getTwosComplement,
+    FixedPointNumber,
+    createFixedPointBinaryNumber,
+    fixedPointToString,
+    getDenaryFromFixedPoint,
+    getDenaryFromBinaryInteger,
+    getBinaryIntegerFromDenary,
 } from "./floatingPointReducer";
+
+interface BinaryIntegerTestCase {
+    binary: BinaryNumber;
+    denary: number;
+}
+
+const BINARY_INTEGER_TEST_CASES: BinaryIntegerTestCase[] = [
+    {
+        binary: binaryFromString('0000'),
+        denary: 0
+    },
+    {
+        binary: binaryFromString('1000'),
+        denary: 8
+    },
+    {
+        binary: binaryFromString('1100'),
+        denary: 12
+    },
+    {
+        binary: binaryFromString('0110'),
+        denary: 6
+    },
+    {
+        binary: binaryFromString('0101'),
+        denary: 5
+    },
+    {
+        binary: binaryFromString('1110'),
+        denary: 14
+    }
+]
 
 interface OnesComplementTestCase {
     input: BinaryNumber;
@@ -48,39 +86,54 @@ const ONES_COMPLEMENT_TEST_CASES: OnesComplementTestCase[] = [
     }
 ]
 
+interface FixedPointTestCase {
+    binary: FixedPointNumber;
+    denary: number;
+}
+
+const FIXED_POINT_TEST_CASES: FixedPointTestCase[] = [
+    {
+        binary: {
+            bits: binaryFromString('00111001'),
+            bitsAfterPoint: 4
+        },
+        denary: 3.5625
+    }
+]
+
 interface TwosComplementTestCase {
     binary: BinaryNumber,
     twosComplement: BinaryNumber,
-    decimal: number
+    denary: number
 }
 
 const BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES: TwosComplementTestCase[] = [
     {
         binary: binaryFromString('0000'),
         twosComplement: binaryFromString('0000'),
-        decimal: 0
+        denary: 0
     }, {
         binary: binaryFromString('0001'),
         twosComplement: binaryFromString('1111'),
-        decimal: 1
+        denary: 1
     }, {
         binary: binaryFromString('0010'),
         twosComplement: binaryFromString('1110'),
-        decimal: 2
+        denary: 2
     }, {
         binary: binaryFromString('1100'),
         twosComplement: binaryFromString('0100'),
-        decimal: -4
+        denary: -4
     }, {
         binary: binaryFromString('1111'),
         twosComplement: binaryFromString('0001'),
-        decimal: -1
+        denary: -1
     }
 ]
 
 interface FloatingPointTestCase {
     floatingPoint: FloatingPointNumber,
-    decimal: number
+    denary: number
 }
 
 const FLOATING_POINT_TEST_CASES: FloatingPointTestCase[] = [
@@ -89,19 +142,19 @@ const FLOATING_POINT_TEST_CASES: FloatingPointTestCase[] = [
             mantissa: binaryFromString('01011010'),
             exponent: binaryFromString('0011'),
         },
-        decimal: 5.625
+        denary: 5.625
     }, {
         floatingPoint: {
             mantissa: binaryFromString('01000000'),
             exponent: binaryFromString('1110'),
         },
-        decimal: 0.125
+        denary: 0.125
     }, {
         floatingPoint: {
             mantissa: binaryFromString('10101101'),
             exponent: binaryFromString('0101'),
         },
-        decimal: -20.75
+        denary: -20.75
     }
 ]
 
@@ -289,6 +342,43 @@ describe("Maths", () => {
     )
 })
 
+describe('Fixed Point Numbers', () => {
+    test('createFixedPointBinaryNumber', () => {
+        expect(createFixedPointBinaryNumber(4, 2)).toEqual({
+            bits: [false, false, false, false],
+            bitsAfterPoint: 2
+        });
+
+        expect(() => createFixedPointBinaryNumber(4, 8)).toThrowError();
+    })
+
+    BINARY_INTEGER_TEST_CASES.forEach(({ binary, denary }) => {
+        test(`getDenaryFromBinaryInteger ${binaryToString(binary)} -> ${denary}`, () =>
+            expect(getDenaryFromBinaryInteger(binary)).toBe(denary))
+
+        test(`getBinaryIntegerFromDenary ${denary} -> ${binaryToString(binary)}`, () =>
+            expect(getBinaryIntegerFromDenary(denary, binary.length)).toEqual({ result: binary, flag: false }));
+
+        test('Successive Addition', () => {
+            const BITS = 8;
+            const { result: one } = getBinaryIntegerFromDenary(1, BITS);
+            let { result: value } = getBinaryIntegerFromDenary(0, BITS);
+
+            for (let i = 0; i < Math.pow(2, BITS); i++) {
+                let addResult = binaryAddition(value, one);
+                expect(getDenaryFromBinaryInteger(value)).toBe(i);
+                value = addResult.result;
+            }
+        })
+    });
+
+    FIXED_POINT_TEST_CASES.forEach(({ binary, denary }) => {
+        test(`getDenaryFromFixedPoint ${fixedPointToString(binary)} -> ${denary}`, () => {
+            expect(getDenaryFromFixedPoint(binary)).toBe(denary);
+        })
+    })
+})
+
 describe("Floating Point Numbers", () => {
     test("createBinaryNumber", () => {
         expect(createBinaryNumber(4)).toEqual([false, false, false, false]);
@@ -322,18 +412,18 @@ describe("Floating Point Numbers", () => {
         expect(getTwosComplement(binaryFromString('10000000')).flag).toBeTruthy();
     })
 
-    test('getDecimalFromTwosComplement (at limit)', () => {
-        expect(getDecimalFromTwosComplement(binaryFromString('1000'))).toBe(-8);
-        expect(getDecimalFromTwosComplement(binaryFromString('1000 0000'))).toBe(-128);
+    test('getDenaryFromTwosComplement (at limit)', () => {
+        expect(getDenaryFromTwosComplement(binaryFromString('1000'))).toBe(-8);
+        expect(getDenaryFromTwosComplement(binaryFromString('1000 0000'))).toBe(-128);
     })
 
-    test('getTwosComplementFromDecimal (at limit)', () => {
-        expect(getTwosComplementFromDecimal(-8, 4)).toEqual({ result: binaryFromString('1000'), flag: false });
-        expect(getTwosComplementFromDecimal(-128, 8)).toEqual({ result: binaryFromString('1000 0000'), flag: false });
+    test('getTwosComplementFromDenary (at limit)', () => {
+        expect(getTwosComplementFromDenary(-8, 4)).toEqual({ result: binaryFromString('1000'), flag: false });
+        expect(getTwosComplementFromDenary(-128, 8)).toEqual({ result: binaryFromString('1000 0000'), flag: false });
 
     })
 
-    BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, decimal }) => {
+    BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
         test(`getTwosComplement (forward): ${binaryToString(binary)} -> ${binaryToString(twosComplement)}`,
             () => {
                 expect(getTwosComplement(binary)).toEqual({ result: twosComplement, flag: false });
@@ -344,37 +434,35 @@ describe("Floating Point Numbers", () => {
                 expect(getTwosComplement(twosComplement)).toEqual({ result: binary, flag: false });
             }
         );
-        test(`getDecimalFromTwosComplement (+ve): ${binaryToString(binary)} -> ${decimal}`,
+        test(`getDenaryFromTwosComplement (+ve): ${binaryToString(binary)} -> ${denary}`,
             () => {
-                expect(getDecimalFromTwosComplement(binary)).toBe(decimal);
+                expect(getDenaryFromTwosComplement(binary)).toBe(denary);
             }
         )
-        test(`getDecimalFromTwosComplement (-ve): ${binaryToString(twosComplement)} -> ${-decimal}`,
+        test(`getDenaryFromTwosComplement (-ve): ${binaryToString(twosComplement)} -> ${-denary}`,
             () => {
-                expect(getDecimalFromTwosComplement(twosComplement) === -decimal).toBeTruthy();
+                expect(getDenaryFromTwosComplement(twosComplement) === -denary).toBeTruthy();
             }
         )
-        test(`getTwosComplementFromDecimal (+ve): ${binaryToString(binary)} -> ${decimal}`,
+        test(`getTwosComplementFromDenary (+ve): ${binaryToString(binary)} -> ${denary}`,
             () => {
-                expect(getTwosComplementFromDecimal(decimal, binary.length)).toEqual({ result: binary, flag: false });
+                expect(getTwosComplementFromDenary(denary, binary.length)).toEqual({ result: binary, flag: false });
             }
         );
-        test(`getTwosComplementFromDecimal (-ve): ${binaryToString(twosComplement)} -> ${-decimal}`,
+        test(`getTwosComplementFromDenary (-ve): ${binaryToString(twosComplement)} -> ${-denary}`,
             () => {
-                expect(getTwosComplementFromDecimal(-decimal, twosComplement.length)).toEqual({ result: twosComplement, flag: false });
+                expect(getTwosComplementFromDenary(-denary, twosComplement.length)).toEqual({ result: twosComplement, flag: false });
             }
         );
     });
 
-    FLOATING_POINT_TEST_CASES.forEach(({ floatingPoint, decimal }) => {
-        test(`getDecimalFromFloatingPoint ${decimal} -> ${floatingPointToString(floatingPoint)}`, () => {
-            expect(getDecimalFromFloatingPoint(floatingPoint)).toBe(decimal)
+    FLOATING_POINT_TEST_CASES.forEach(({ floatingPoint, denary }) => {
+        test(`getDenaryFromFloatingPoint ${denary} -> ${floatingPointToString(floatingPoint)}`, () => {
+            expect(getDenaryFromFloatingPoint(floatingPoint)).toBe(denary)
         });
-        test(`getDecimalFromFloatingPoint ${floatingPointToString(floatingPoint)} -> ${decimal}`, () => {
-            // expect(getDecimalFromFloatingPoint(floatingPoint)).toBe(decimal)
-            // expect(getFloatingPointFromDecimal(decimal)).toEqual(floatingPoint)
-            expect(true).toBeTruthy();
-        })
+        // test(`getDenaryFromFloatingPoint ${floatingPointToString(floatingPoint)} -> ${denary}`, () => {
+        //     expect(getFloatingPointFromDenary(denary)).toEqual(floatingPoint)
+        // })
     });
 
     ONES_COMPLEMENT_TEST_CASES.forEach(({ input, output }) =>

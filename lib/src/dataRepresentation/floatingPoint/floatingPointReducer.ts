@@ -3,12 +3,18 @@ export const DEFAULT_MANTISSA_BITS = 8;
 export const DEFAULT_EXPONENT_BITS = 4;
 export const DEFAULT_BIT_VALUE = false;
 export const DEFAULT_BIT_WIDTH = 8;
+export const DEFAULT_BITS_AFTER_POINT = 4;
 
 export type BinaryNumber = boolean[];
 
 export interface FloatingPointNumber {
     mantissa: BinaryNumber;
     exponent: BinaryNumber;
+}
+
+export interface FixedPointNumber {
+    bits: BinaryNumber;
+    bitsAfterPoint: number;
 }
 
 export interface ShiftAction {
@@ -111,6 +117,16 @@ export const shift = (state: FloatingPointNumber, direction: boolean): FloatingP
 }
 
 /**
+ * Create a printable representation of a fixed point number.
+ * 
+ * @param fp Fixed point number
+ * @returns The string representation
+ */
+export const fixedPointToString = ({ bits, bitsAfterPoint }: FixedPointNumber): string => {
+    return `${binaryToString(bits.slice(0, bitsAfterPoint - 1))}.${bits.slice(-bitsAfterPoint)}`
+}
+
+/**
  * Create a printable representation of a floating point number.
  * 
  * @param fp Floating point number
@@ -185,6 +201,25 @@ export const createBinaryNumber = (
     Array(digits).fill(null).map(() => defaultValue);
 
 /**
+ * Create a new fixed point binary number
+ * 
+ * @param digits The number of digits in total
+ * @param bitsAfterPoint The number of bits that are after the point.
+ * @returns The representation of the fixed point binary number.
+ */
+export const createFixedPointBinaryNumber = (
+    digits: number = DEFAULT_BIT_WIDTH,
+    bitsAfterPoint: number = DEFAULT_BITS_AFTER_POINT
+): FixedPointNumber => {
+    if (bitsAfterPoint > digits) throw new Error('Cannot have more digits after the point than we have digits');
+
+    return {
+        bits: createBinaryNumber(digits),
+        bitsAfterPoint
+    }
+}
+
+/**
  * Create a new blank floating point number.
  * 
  * @param mantissaBits The number of bits for the mantissa
@@ -198,16 +233,6 @@ export const createFloatingPoint = (
     mantissa: createBinaryNumber(mantissaBits),
     exponent: createBinaryNumber(exponentBits)
 })
-
-/**
- * Convert a 2's complement binary number to a decimal number.
- * @param bits The bits of the number, from the MSB (index 0) to LSB (index length - 1)
- * @returns The decimal conversion. From -2^(length-1) to 2^(length-1) - 1
- */
-export const getDecimalFromTwosComplement = (bits: BinaryNumber): number =>
-    bits
-        .filter((_, i) => i > 0)
-        .reduce((acc, curr, i) => acc + (curr ? Math.pow(2, bits.length - 2 - i) : 0), bits[0] ? -Math.pow(2, bits.length - 1) : 0)
 
 export const countOnes = (...digits: boolean[]): number => digits.reduce((acc, curr) => curr ? acc + 1 : acc, 0);
 export const xor = (...digits: boolean[]): boolean => countOnes(...digits) === 1;
@@ -280,6 +305,16 @@ export const getOnesComplement = (binary: BinaryNumber): BinaryNumber => {
 }
 
 /**
+ * Convert a 2's complement binary number to a denary number.
+ * @param bits The bits of the number, from the MSB (index 0) to LSB (index length - 1)
+ * @returns The denary conversion. From -2^(length-1) to 2^(length-1) - 1
+ */
+export const getDenaryFromTwosComplement = (bits: BinaryNumber): number =>
+    bits
+        .filter((_, i) => i > 0)
+        .reduce((acc, curr, i) => acc + (curr ? Math.pow(2, bits.length - 2 - i) : 0), bits[0] ? -Math.pow(2, bits.length - 1) : 0)
+
+/**
  * Takes the twos complement of the input number.
  * This effectively converts between positive and negative numbers.
  * 
@@ -287,8 +322,7 @@ export const getOnesComplement = (binary: BinaryNumber): BinaryNumber => {
  * @returns The twos complement of the input. Flag indicates if we converted the extreme negative to +ve, for which there isn't room
  */
 export const getTwosComplement = (binary: BinaryNumber): ResultWithFlag => {
-    const one = createBinaryNumber(binary.length);
-    one[binary.length - 1] = true;
+    const { result: one } = getBinaryIntegerFromDenary(1, binary.length);
 
     const { result } = binaryAddition(getOnesComplement(binary), one);
     return {
@@ -299,71 +333,117 @@ export const getTwosComplement = (binary: BinaryNumber): ResultWithFlag => {
 }
 
 /**
- * Convert a decimal number into twos complement binary
+ * Convert a denary number into twos complement binary
  * 
- * @param decimal The decimal number to convert
+ * @param denary The denary number to convert
  * @param bits The number of bits in the output number
  * @returns The twos complement binary number
  */
-export const getTwosComplementFromDecimal = (decimal: number, bits: number): ResultWithFlag => {
-    let result = createBinaryNumber(bits);
+export const getTwosComplementFromDenary = (denary: number, bits: number): ResultWithFlag => {
+    const isNegative = denary < 0;
+    denary = isNegative ? denary * -1 : denary;
 
-    const isNegative = decimal < 0;
-    decimal = isNegative ? decimal * -1 : decimal;
-
-    let index = result.length - 1;
-    let flag = false;
-    while (decimal > 0 && index >= 0) {
-        if (decimal % 2 !== 0) {
-            result[index] = true;
-        }
-        decimal = Math.floor(decimal / 2);
-        index--;
-    }
-
-    if (decimal > 0) flag = true;
+    let { result, flag } = getBinaryIntegerFromDenary(denary, bits);
 
     if (isNegative) {
         const twosComplement = getTwosComplement(result);
         result = twosComplement.result;
-        // if (twosComplement.flag) flag = true;
     }
 
     return { result, flag };
 }
 
 /**
- * Convert a decimal number into it's normalised floating point representation.
+ * Convert a binary number to denary.
+ * 
+ * @param bits The binary number
+ * @returns The denary equivalent.
+ */
+export const getDenaryFromBinaryInteger = (bits: BinaryNumber) => bits.reduce((acc, curr) => (2 * acc) + (curr ? 1 : 0), 0)
+
+/**
+ * 
+ * @param denary 
+ * @param bits 
+ */
+export const getBinaryIntegerFromDenary = (denary: number, bits: number = DEFAULT_BIT_WIDTH): ResultWithFlag => {
+
+    const result = createBinaryNumber(bits);
+    let index = result.length - 1;
+    while (denary > 0 && index >= 0) {
+        result[index] = (denary % 2 === 1);
+        denary = Math.floor(denary / 2);
+        index--;
+    }
+
+    return {
+        result,
+        flag: denary > 0
+    }
+}
+
+/**
+ * Convert a fixed point number into it's denary value.
+ * 
+ * @param fp the Fixed point number
+ * @returns The decimal equivalent.
+ */
+export const getDenaryFromFixedPoint = (
+    { bits, bitsAfterPoint }: FixedPointNumber
+): number => {
+    let wholePart: number = 0;
+    const bitsBeforePoint = bits.length - bitsAfterPoint;
+
+    for (let i = 0; i < bitsBeforePoint; i++) {
+        wholePart *= 2;
+
+        if (bits[i]) {
+            wholePart += 1;
+        }
+    }
+
+    let fractionalPart = 0;
+    for (let i = bitsBeforePoint; i < bits.length; i++) {
+        fractionalPart /= 2;
+
+        if (bits[i]) {
+            fractionalPart += 0.5;
+        }
+    }
+
+    return wholePart + fractionalPart;
+}
+
+/**
+ * Convert a denary number into it's normalised floating point representation.
  * TODO - Does not work yet.
- * @param decimal The number to turn into a floating point
+ * @param denary The number to turn into a floating point
  * @param mantissaBits Number of bits to allocate to the mantissa
  * @param exponentBits Number of bits to allocate to the exponent
  * @returns The floating point representation.
  */
-export const getFloatingPointFromDecimal = (
-    decimal: number,
+export const getFloatingPointFromDenary = (
+    denary: number,
     mantissaBits: number = DEFAULT_MANTISSA_BITS,
     exponentBits: number = DEFAULT_EXPONENT_BITS
 ): FloatingPointNumber => {
-    if (decimal === 0) return createFloatingPoint(mantissaBits, exponentBits);
+    if (denary === 0) return createFloatingPoint(mantissaBits, exponentBits);
 
-    const original = decimal;
+    const original = denary;
 
     let exponentValue = 0;
-    while (Math.abs(decimal) > 1 || Math.abs(decimal) < 0.1) {
-        if (Math.abs(decimal) > 1) {
-            decimal /= 2;
+    while (Math.abs(denary) > 1 || Math.abs(denary) < 0.1) {
+        if (Math.abs(denary) > 1) {
+            denary /= 2;
             exponentValue++;
         } else {
-            decimal *= 2;
+            denary *= 2;
             exponentValue--;
         }
     }
 
-    const mantissa = decimal.toString(2).padEnd(mantissaBits, '0');
+    const mantissa = denary.toString(2).padEnd(mantissaBits, '0');
     const exponent = exponentValue.toString(2).padStart(exponentBits, '0');
-
-    console.log({ original, decimal, exponentValue, mantissa, exponent });
 
     return {
         mantissa: binaryFromString(mantissa),
@@ -372,14 +452,14 @@ export const getFloatingPointFromDecimal = (
 }
 
 /**
- * Convert a floating point number to a decimal number.
+ * Convert a floating point number to a denary number.
  * 
  * @param fp The floating point number
- * @returns The decimal number that this binary represents.
+ * @returns The denary number that this binary represents.
  */
-export const getDecimalFromFloatingPoint = ({ mantissa, exponent }: FloatingPointNumber): number => {
-    const mantissaDec = getDecimalFromTwosComplement(mantissa) / Math.pow(2, mantissa.length - 1);
-    const exponentDec = getDecimalFromTwosComplement(exponent);
+export const getDenaryFromFloatingPoint = ({ mantissa, exponent }: FloatingPointNumber): number => {
+    const mantissaDec = getDenaryFromTwosComplement(mantissa) / Math.pow(2, mantissa.length - 1);
+    const exponentDec = getDenaryFromTwosComplement(exponent);
     return mantissaDec * Math.pow(2, exponentDec);
 }
 
