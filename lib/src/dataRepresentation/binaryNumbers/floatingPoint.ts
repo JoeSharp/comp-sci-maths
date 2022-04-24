@@ -160,12 +160,10 @@ export const normalise = (
 ): FloatingPointNumber => {
     let maxIters = fp.mantissa.length;
 
-    console.log("Lets normalise some SHIT ", floatingPointToString(fp));
     while (!isNormalised(fp) && maxIters > 0) {
         fp = shift(fp, ShiftDirection.left);
 
         maxIters--;
-        console.log(floatingPointToString(fp));
     }
 
     return fp;
