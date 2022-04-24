@@ -17,7 +17,7 @@ export const getOnesComplement = (binary: BinaryNumber): BinaryNumber => {
  * @param bits The bits of the number, from the MSB (index 0) to LSB (index length - 1)
  * @returns The denary conversion. From -2^(length-1) to 2^(length-1) - 1
  */
-export const getDenaryFromTwosComplement = (bits: BinaryNumber): number =>
+export const getDenaryFromTwosComplementInteger = (bits: BinaryNumber): number =>
     bits
         .filter((_, i) => i > 0)
         .reduce((acc, curr, i) => acc + (curr ? Math.pow(2, bits.length - 2 - i) : 0), bits[0] ? -Math.pow(2, bits.length - 1) : 0)
@@ -47,7 +47,7 @@ export const getTwosComplement = (binary: BinaryNumber): ResultWithFlag => {
  * @param bits The number of bits in the output number
  * @returns The twos complement binary number
  */
-export const getTwosComplementFromDenary = (denary: number, bits: number): ResultWithFlag => {
+export const getTwosComplementIntegerFromDenary = (denary: number, bits: number): ResultWithFlag => {
     const isNegative = denary < 0;
     denary = isNegative ? denary * -1 : denary;
 

@@ -1,4 +1,3 @@
-import { toggleBitInBinary } from "./binaryIntegers";
 import { countOnes, or, and, xor, halfAdder, fullAdder } from "./logicalOperators";
 
 describe("Logical Operators", () => {

@@ -62,9 +62,12 @@ export const binaryFromString = (value: string): BinaryNumber =>
  * @param binary The number to shift left
  * @returns The binary number shifted, filled with zeroes on the right hand side
  */
-export const shiftLeft = (binary: BinaryNumber): ResultWithFlag =>
+export const shiftLeft = (
+    binary: BinaryNumber,
+    gapFill: boolean = DEFAULT_BIT_VALUE
+): ResultWithFlag =>
 ({
-    result: binary.map((_, i) => i === binary.length - 1 ? false : binary[i + 1]),
+    result: binary.map((_, i) => i === binary.length - 1 ? gapFill : binary[i + 1]),
     flag: binary[0]
 })
 
@@ -74,8 +77,11 @@ export const shiftLeft = (binary: BinaryNumber): ResultWithFlag =>
  * @param binary The number to shift right
  * @returns The binary number shifted, filled with zeroes on the left hand side
  */
-export const shiftRight = (binary: BinaryNumber): ResultWithFlag => ({
-    result: binary.map((_, i) => i === 0 ? false : binary[i - 1]),
+export const shiftRight = (
+    binary: BinaryNumber,
+    gapFill: boolean = DEFAULT_BIT_VALUE
+): ResultWithFlag => ({
+    result: binary.map((_, i) => i === 0 ? gapFill : binary[i - 1]),
     flag: binary[binary.length - 1]
 })
 

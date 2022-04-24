@@ -8,7 +8,7 @@ import {
     toggleBitInBinary
 } from "./binaryIntegers";
 import { countOnes } from "./logicalOperators";
-import { getDenaryFromTwosComplement } from "./negativeNumbers";
+import { getDenaryFromTwosComplementInteger, getTwosComplementIntegerFromDenary } from "./negativeNumbers";
 import {
     BinaryNumber,
     DEFAULT_BITS_AFTER_POINT,
@@ -143,8 +143,6 @@ export const getFloatingPointFromDenary = (
 ): FloatingPointNumber => {
     if (denary === 0) return createFloatingPoint(mantissaBits, exponentBits);
 
-    const original = denary;
-
     let exponentValue = 0;
     while (Math.abs(denary) > 1 || Math.abs(denary) < 0.5) {
         if (Math.abs(denary) > 1) {
@@ -156,13 +154,9 @@ export const getFloatingPointFromDenary = (
         }
     }
 
-    const mantissaString = denary.toString(2).padEnd(mantissaBits, '0').replace('-0', '1');
-    const exponentString = exponentValue.toString(2).padStart(exponentBits, '0').replace('-0', '1');
-
-    const mantissa = binaryFromString(mantissaString);
-    const exponent = binaryFromString(exponentString);
-
-    console.log({ original, mantissaValue: denary, exponentValue: exponentValue, mantissa: mantissaString, exponent: exponentString })
+    // Push the denary number back up 'mantissa bits - 1' since there is then the implied decimal point.
+    const { result: mantissa } = getTwosComplementIntegerFromDenary(denary * Math.pow(2, mantissaBits - 1), mantissaBits);
+    const { result: exponent } = getTwosComplementIntegerFromDenary(exponentValue, exponentBits);
 
     return {
         mantissa,
@@ -177,8 +171,8 @@ export const getFloatingPointFromDenary = (
  * @returns The denary number that this binary represents.
  */
 export const getDenaryFromFloatingPoint = ({ mantissa, exponent }: FloatingPointNumber): number => {
-    const mantissaDec = getDenaryFromTwosComplement(mantissa) / Math.pow(2, mantissa.length - 1);
-    const exponentDec = getDenaryFromTwosComplement(exponent);
+    const mantissaDec = getDenaryFromTwosComplementInteger(mantissa) / Math.pow(2, mantissa.length - 1);
+    const exponentDec = getDenaryFromTwosComplementInteger(exponent);
     return mantissaDec * Math.pow(2, exponentDec);
 }
 

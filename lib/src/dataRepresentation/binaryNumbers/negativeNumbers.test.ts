@@ -1,8 +1,8 @@
 import { binaryFromString, binaryToString } from './binaryIntegers';
 import {
-    getDenaryFromTwosComplement,
+    getDenaryFromTwosComplementInteger,
     getOnesComplement,
-    getTwosComplementFromDenary,
+    getTwosComplementIntegerFromDenary,
     getTwosComplement
 } from './negativeNumbers';
 import { BinaryNumber } from './types';
@@ -73,52 +73,82 @@ describe("Negative Numbers", () => {
         expect(getTwosComplement(binaryFromString('10000000')).flag).toBeTruthy();
     })
 
-    test('getDenaryFromTwosComplement (at limit)', () => {
-        expect(getDenaryFromTwosComplement(binaryFromString('1000'))).toBe(-8);
-        expect(getDenaryFromTwosComplement(binaryFromString('1000 0000'))).toBe(-128);
+    test('getDenaryFromTwosComplementInteger (at limit)', () => {
+        expect(getDenaryFromTwosComplementInteger(binaryFromString('1000'))).toBe(-8);
+        expect(getDenaryFromTwosComplementInteger(binaryFromString('1000 0000'))).toBe(-128);
     })
 
-    test('getTwosComplementFromDenary (at limit)', () => {
-        expect(getTwosComplementFromDenary(-8, 4)).toEqual({ result: binaryFromString('1000'), flag: false });
-        expect(getTwosComplementFromDenary(-128, 8)).toEqual({ result: binaryFromString('1000 0000'), flag: false });
+    test('getTwosComplementIntegerFromDenary (at limit)', () => {
+        expect(getTwosComplementIntegerFromDenary(-8, 4)).toEqual({ result: binaryFromString('1000'), flag: false });
+        expect(getTwosComplementIntegerFromDenary(-128, 8)).toEqual({ result: binaryFromString('1000 0000'), flag: false });
 
     })
 
-    BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
-        test(`getTwosComplement (forward): ${binaryToString(binary)} -> ${binaryToString(twosComplement)}`,
-            () => {
-                expect(getTwosComplement(binary)).toEqual({ result: twosComplement, flag: false });
-            }
-        );
-        test(`getTwosComplement (reverse): ${binaryToString(twosComplement)} -> ${binaryToString(binary)}`,
-            () => {
-                expect(getTwosComplement(twosComplement)).toEqual({ result: binary, flag: false });
-            }
-        );
-        test(`getDenaryFromTwosComplement (+ve): ${binaryToString(binary)} -> ${denary}`,
-            () => {
-                expect(getDenaryFromTwosComplement(binary)).toBe(denary);
-            }
-        )
-        test(`getDenaryFromTwosComplement (-ve): ${binaryToString(twosComplement)} -> ${-denary}`,
-            () => {
-                expect(getDenaryFromTwosComplement(twosComplement) === -denary).toBeTruthy();
-            }
-        )
-        test(`getTwosComplementFromDenary (+ve): ${binaryToString(binary)} -> ${denary}`,
-            () => {
-                expect(getTwosComplementFromDenary(denary, binary.length)).toEqual({ result: binary, flag: false });
-            }
-        );
-        test(`getTwosComplementFromDenary (-ve): ${binaryToString(twosComplement)} -> ${-denary}`,
-            () => {
-                expect(getTwosComplementFromDenary(-denary, twosComplement.length)).toEqual({ result: twosComplement, flag: false });
-            }
-        );
+    describe('getTwosComplement (forward)', () => {
+        BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
+            test(`${binaryToString(binary)} -> ${binaryToString(twosComplement)}`,
+                () => {
+                    expect(getTwosComplement(binary)).toEqual({ result: twosComplement, flag: false });
+                }
+            );
+        })
     });
 
-    ONES_COMPLEMENT_TEST_CASES.forEach(({ input, output }) =>
-        test(`getOnesComplement ${binaryToString(input)} -> ${binaryToString(output)}`, () => {
-            expect(getOnesComplement(input)).toEqual(output);
-        }));
+    describe('getTwosComplement (reverse)', () => {
+        BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
+            test(`${binaryToString(twosComplement)} -> ${binaryToString(binary)}`,
+                () => {
+                    expect(getTwosComplement(twosComplement)).toEqual({ result: binary, flag: false });
+                }
+            );
+        });
+    })
+
+    describe('getDenaryFromTwosComplementInteger (+ve)', () => {
+        BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
+            test(`${binaryToString(binary)} -> ${denary}`,
+                () => {
+                    expect(getDenaryFromTwosComplementInteger(binary)).toBe(denary);
+                }
+            )
+        })
+    });
+
+    describe('getDenaryFromTwosComplementInteger (-ve)', () => {
+        BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
+            test(`${binaryToString(twosComplement)} -> ${-denary}`,
+                () => {
+                    expect(getDenaryFromTwosComplementInteger(twosComplement) === -denary).toBeTruthy();
+                }
+            )
+        })
+    });
+
+    describe('getTwosComplementIntegerFromDenary (+ve)', () => {
+
+        BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
+            test(`${binaryToString(binary)} -> ${denary}`,
+                () => {
+                    expect(getTwosComplementIntegerFromDenary(denary, binary.length)).toEqual({ result: binary, flag: false });
+                }
+            );
+        });
+    })
+
+    describe('getTwosComplementIntegerFromDenary (-ve)', () => {
+        BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES.forEach(({ binary, twosComplement, denary }) => {
+            test(`${binaryToString(twosComplement)} -> ${-denary}`,
+                () => {
+                    expect(getTwosComplementIntegerFromDenary(-denary, twosComplement.length)).toEqual({ result: twosComplement, flag: false });
+                }
+            );
+        });
+    })
+
+    describe('getOnesComplement', () => {
+        ONES_COMPLEMENT_TEST_CASES.forEach(({ input, output }) =>
+            test(`${binaryToString(input)} -> ${binaryToString(output)}`, () => {
+                expect(getOnesComplement(input)).toEqual(output);
+            }));
+    })
 })

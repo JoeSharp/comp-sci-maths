@@ -58,20 +58,20 @@ describe("Floating Point Numbers", () => {
             exponent: [false, false]
         })
     });
-    test('binaryFromString', () => {
-        expect(binaryFromString('1111')).toEqual([true, true, true, true]);
-        expect(binaryFromString('11 11')).toEqual([true, true, true, true]);
-        expect(binaryFromString('0101')).toEqual([false, true, false, true]);
-        expect(binaryFromString('01 01')).toEqual([false, true, false, true]);
-        expect(binaryFromString('1 1 1 1')).toEqual([true, true, true, true]);
-    })
 
-    FLOATING_POINT_TEST_CASES.forEach(({ floatingPoint, denary }) => {
-        test(`getDenaryFromFloatingPoint ${denary} -> ${floatingPointToString(floatingPoint)}`, () => {
-            expect(getDenaryFromFloatingPoint(floatingPoint)).toBe(denary)
-        });
-        test(`getFloatingPointFromDenary ${floatingPointToString(floatingPoint)} -> ${denary}`, () => {
-            // expect(getFloatingPointFromDenary(denary)).toEqual(floatingPoint)
+    describe('getDenaryFromFloatingPoint', () => {
+        FLOATING_POINT_TEST_CASES.forEach(({ floatingPoint, denary }) => {
+            test(`${floatingPointToString(floatingPoint)} -> ${denary}`, () => {
+                expect(getDenaryFromFloatingPoint(floatingPoint)).toBe(denary)
+            });
         })
+    });
+
+    describe('getFloatingPointFromDenary', () => {
+        FLOATING_POINT_TEST_CASES.forEach(({ floatingPoint, denary }) => {
+            test(`${denary} -> ${floatingPointToString(floatingPoint)}`, () => {
+                expect(getFloatingPointFromDenary(denary)).toEqual(floatingPoint)
+            })
+        });
     });
 })

@@ -39,9 +39,11 @@ describe('Fixed Point Numbers', () => {
         expect(() => createFixedPointBinaryNumber(4, 8)).toThrowError();
     })
 
-    FIXED_POINT_TEST_CASES.forEach(({ binary, denary }) => {
-        test(`getDenaryFromFixedPoint ${fixedPointToString(binary)} -> ${denary}`, () => {
-            expect(getDenaryFromFixedPoint(binary)).toBe(denary);
+    describe('getDenaryFromFixedPoint', () => {
+        FIXED_POINT_TEST_CASES.forEach(({ binary, denary }) => {
+            test(`${fixedPointToString(binary)} -> ${denary}`, () => {
+                expect(getDenaryFromFixedPoint(binary)).toBe(denary);
+            })
         })
     })
 })

@@ -1,5 +1,5 @@
 import {
-    BinaryNumber
+    BinaryNumber, DEFAULT_BIT_VALUE
 } from './types';
 
 import {
@@ -15,6 +15,7 @@ import {
 interface ShiftTestCase {
     binary: BinaryNumber,
     result: BinaryNumber,
+    gapFill?: boolean,
     flag: boolean;
 }
 
@@ -30,6 +31,21 @@ const SHIFT_RIGHT_TEST_CASES: ShiftTestCase[] = [
     }, {
         binary: binaryFromString('1000'),
         result: binaryFromString('0100'),
+        flag: false
+    }, {
+        binary: binaryFromString('0110'),
+        result: binaryFromString('1011'),
+        gapFill: true,
+        flag: false
+    }, {
+        binary: binaryFromString('0111'),
+        result: binaryFromString('1011'),
+        gapFill: true,
+        flag: true
+    }, {
+        binary: binaryFromString('1000'),
+        result: binaryFromString('1100'),
+        gapFill: true,
         flag: false
     }, {
         binary: binaryFromString('1001'),
@@ -56,8 +72,29 @@ const SHIFT_LEFT_TEST_CASES: ShiftTestCase[] = [
         result: binaryFromString('0000'),
         flag: true
     }, {
+        binary: binaryFromString('0110'),
+        result: binaryFromString('1101'),
+        gapFill: true,
+        flag: false
+    }, {
+        binary: binaryFromString('0001'),
+        result: binaryFromString('0011'),
+        gapFill: true,
+        flag: false
+    }, {
+        binary: binaryFromString('1110'),
+        result: binaryFromString('1101'),
+        gapFill: true,
+        flag: true
+    }, {
+        binary: binaryFromString('1000'),
+        result: binaryFromString('0001'),
+        gapFill: true,
+        flag: true
+    }, {
         binary: binaryFromString('1001'),
-        result: binaryFromString('0010'),
+        result: binaryFromString('0011'),
+        gapFill: true,
         flag: true
     }
 ]
@@ -147,6 +184,13 @@ const BINARY_ADDITION_TEST_CASES: BinaryAdditionTestCase[] = [
 ]
 
 describe("Binary Integers", () => {
+    test('binaryFromString', () => {
+        expect(binaryFromString('1111')).toEqual([true, true, true, true]);
+        expect(binaryFromString('11 11')).toEqual([true, true, true, true]);
+        expect(binaryFromString('0101')).toEqual([false, true, false, true]);
+        expect(binaryFromString('01 01')).toEqual([false, true, false, true]);
+        expect(binaryFromString('1 1 1 1')).toEqual([true, true, true, true]);
+    })
 
     test("toggleBitInBinary", () => {
         let value: boolean[] = [false, true, true, false];
@@ -162,39 +206,45 @@ describe("Binary Integers", () => {
         expect(() => toggleBitInBinary(value, 67)).toThrowError();
     })
 
-    BINARY_ADDITION_TEST_CASES.forEach(({ a, b, result, overflow }) => {
-        test(`binaryAddition: ${binaryToString(a)} + ${binaryToString(b)} = ${binaryToString(result)}`, () => {
-            expect(binaryAddition(a, b)).toEqual({ result, flag: overflow });
+    describe('binaryAddition', () => {
+        BINARY_ADDITION_TEST_CASES.forEach(({ a, b, result, overflow }) => {
+            test(`${binaryToString(a)} + ${binaryToString(b)} = ${binaryToString(result)}`, () => {
+                expect(binaryAddition(a, b)).toEqual({ result, flag: overflow });
+            })
         })
     })
 
-    SHIFT_RIGHT_TEST_CASES.forEach(({ binary, result, flag }) =>
-        test(`shiftRight: ${binaryToString(binary)} -> ${binaryToString(result)} -> underflow: ${flag}`,
-            () => expect(shiftRight(binary)).toEqual({ result, flag }))
-    )
+    describe('shiftRight', () => {
+        SHIFT_RIGHT_TEST_CASES.forEach(({ binary, result, gapFill = DEFAULT_BIT_VALUE, flag }) =>
+            test(`${binaryToString(binary)} (fill ${gapFill}) -> ${binaryToString(result)} -> underflow: ${flag}`,
+                () => expect(shiftRight(binary, gapFill)).toEqual({ result, flag }))
+        )
+    })
 
-    SHIFT_LEFT_TEST_CASES.forEach(({ binary, result, flag }) =>
-        test(`shiftLeft: ${binaryToString(binary)} -> ${binaryToString(result)} -> underflow: ${flag}`,
-            () => expect(shiftLeft(binary)).toEqual({ result, flag }))
-    )
+    describe('shiftLeft', () => {
+        SHIFT_LEFT_TEST_CASES.forEach(({ binary, result, gapFill = DEFAULT_BIT_VALUE, flag }) =>
+            test(`${binaryToString(binary)} (fill ${gapFill}) -> ${binaryToString(result)} -> underflow: ${flag}`,
+                () => expect(shiftLeft(binary, gapFill)).toEqual({ result, flag }))
+        )
+    })
 
-    BINARY_INTEGER_TEST_CASES.forEach(({ binary, denary }) => {
-        test(`getDenaryFromBinaryInteger ${binaryToString(binary)} -> ${denary}`, () =>
-            expect(getDenaryFromBinaryInteger(binary)).toBe(denary))
+    describe('getDenaryFromBinaryInteger', () => {
+        BINARY_INTEGER_TEST_CASES.forEach(({ binary, denary }) => {
+            test(`${binaryToString(binary)} -> ${denary}`, () =>
+                expect(getDenaryFromBinaryInteger(binary)).toBe(denary))
 
-        test(`getBinaryIntegerFromDenary ${denary} -> ${binaryToString(binary)}`, () =>
-            expect(getBinaryIntegerFromDenary(denary, binary.length)).toEqual({ result: binary, flag: false }));
-
-        test('Successive Addition', () => {
-            const BITS = 8;
-            const { result: one } = getBinaryIntegerFromDenary(1, BITS);
-            let { result: value } = getBinaryIntegerFromDenary(0, BITS);
-
-            for (let i = 0; i < Math.pow(2, BITS); i++) {
-                let addResult = binaryAddition(value, one);
-                expect(getDenaryFromBinaryInteger(value)).toBe(i);
-                value = addResult.result;
-            }
         })
     });
+
+    test('Successive Addition', () => {
+        const BITS = 8;
+        const { result: one } = getBinaryIntegerFromDenary(1, BITS);
+        let { result: value } = getBinaryIntegerFromDenary(0, BITS);
+
+        for (let i = 0; i < Math.pow(2, BITS); i++) {
+            let addResult = binaryAddition(value, one);
+            expect(getDenaryFromBinaryInteger(value)).toBe(i);
+            value = addResult.result;
+        }
+    })
 })
