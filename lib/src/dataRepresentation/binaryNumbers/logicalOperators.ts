@@ -10,7 +10,7 @@ interface AddBitResult {
 
 /**
  * Implementation of binary half adder.
- * 
+ *
  * @param a First digit to add
  * @param b Second digit to add
  * @returns Result of addition (sum and carry)
@@ -22,7 +22,7 @@ export const halfAdder = (a: boolean, b: boolean): AddBitResult => ({
 
 /**
  * Implementation of binary full addder.
- * 
+ *
  * @param a The first digit to add
  * @param b The second digit to add
  * @param carry Carry from the previous addition

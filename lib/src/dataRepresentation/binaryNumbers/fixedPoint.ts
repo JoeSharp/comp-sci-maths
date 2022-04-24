@@ -3,7 +3,7 @@ import { DEFAULT_BITS_AFTER_POINT, DEFAULT_BIT_WIDTH, FixedPointNumber } from ".
 
 /**
  * Create a new fixed point binary number
- * 
+ *
  * @param digits The number of digits in total
  * @param bitsAfterPoint The number of bits that are after the point.
  * @returns The representation of the fixed point binary number.
@@ -22,7 +22,7 @@ export const createFixedPointBinaryNumber = (
 
 /**
  * Create a printable representation of a fixed point number.
- * 
+ *
  * @param fp Fixed point number
  * @returns The string representation
  */
@@ -33,7 +33,7 @@ export const fixedPointToString = ({ bits, bitsAfterPoint }: FixedPointNumber): 
 
 /**
  * Convert a fixed point number into it's denary value.
- * 
+ *
  * @param fp the Fixed point number
  * @returns The decimal equivalent.
  */

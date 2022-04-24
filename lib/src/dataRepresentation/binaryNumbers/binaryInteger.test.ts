@@ -242,7 +242,7 @@ describe("Binary Integers", () => {
         let { result: value } = getBinaryIntegerFromDenary(0, BITS);
 
         for (let i = 0; i < Math.pow(2, BITS); i++) {
-            let addResult = binaryAddition(value, one);
+            const addResult = binaryAddition(value, one);
             expect(getDenaryFromBinaryInteger(value)).toBe(i);
             value = addResult.result;
         }

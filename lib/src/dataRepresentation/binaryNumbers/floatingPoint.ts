@@ -43,11 +43,11 @@ export type FloatingPointAction = ShiftAction | SetMantissaAction | SetExponentA
 
 /**
  * Toggle a bit within a floating point number.
- * 
- * @param fp The floating point number 
+ *
+ * @param fp The floating point number
  * @param component The component we are toggling a bit in
  * @param digit The digit we are toggling within that component
- * @returns The new floating point number with the required bit toggled. 
+ * @returns The new floating point number with the required bit toggled.
  */
 export const toggleBitInFloatingPoint = (
     { mantissa, exponent }: FloatingPointNumber,
@@ -70,7 +70,7 @@ export const toggleBitInFloatingPoint = (
 
 /**
  * Replace the mantissa with a new value
- * 
+ *
  * @param fp The floating point number
  * @param mantissa The new mantissa
  * @returns The new floating point number
@@ -84,7 +84,7 @@ export const setMantissa = ({ exponent }: FloatingPointNumber, mantissa: BinaryN
 
 /**
  * Replace the exponent with a new value
- * 
+ *
  * @param fp The floating point number
  * @param exponent The new exponent
  * @returns The new floating point number
@@ -99,7 +99,7 @@ export const setExponent = ({ mantissa }: FloatingPointNumber, exponent: BinaryN
 /**
  * This takes the floating point number and increments or decrements the exponent.
  * It then adjust the mantissa to keep the value the same.
- * 
+ *
  * @param state The floating point number
  * @param direction true = increment exponent, false = decrement exponent
  * @returns the shifted floating point number
@@ -117,7 +117,7 @@ export const shift = (fp: FloatingPointNumber, direction: ShiftDirection): Float
 
 /**
  * Create a printable representation of a floating point number.
- * 
+ *
  * @param fp Floating point number
  * @returns The string representation
  */
@@ -126,7 +126,7 @@ export const floatingPointToString = ({ mantissa: [sign, ...mantissa], exponent 
 
 /**
  * Create a new blank floating point number.
- * 
+ *
  * @param mantissaBits The number of bits for the mantissa
  * @param exponentBits The number of bits for the exponent
  * @returns The full floating point number
@@ -143,7 +143,7 @@ export const createFloatingPoint = (
  * Determines if a floating point number is normalised.
  * It is normalised if the first two digits are 0.1 OR 1.0.
  * This is effectively an XOR on those most significant bits
- * 
+ *
  * @param fp The floating point number to evaluate
  * @returns True if the floating point representation is normalised.
  */
@@ -151,7 +151,7 @@ export const isNormalised = ({ mantissa: [sign, msb] }: FloatingPointNumber): bo
 
 /**
  * Normalise a twos complement value.
- * 
+ *
  * @param input A Floating point number that may not be normalised
  * @returns The normalised form of the same value.
  */
@@ -207,7 +207,7 @@ export const getFloatingPointFromDenary = (
 
 /**
  * Convert a floating point number to a denary number.
- * 
+ *
  * @param fp The floating point number
  * @returns The denary number that this binary represents.
  */

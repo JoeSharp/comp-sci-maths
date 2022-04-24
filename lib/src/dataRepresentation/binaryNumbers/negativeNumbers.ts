@@ -4,7 +4,7 @@ import { BinaryNumber, ResultWithFlag } from "./types";
 
 /**
  * Inverts all the bits in a binary number.
- * 
+ *
  * @param binary The binary number to take the 1's complement
  * @returns The 1s complement of the input number.
  */
@@ -25,7 +25,7 @@ export const getDenaryFromTwosComplementInteger = (bits: BinaryNumber): number =
 /**
  * Takes the twos complement of the input number.
  * This effectively converts between positive and negative numbers.
- * 
+ *
  * @param binary The input binary number
  * @returns The twos complement of the input. Flag indicates if we converted the extreme negative to +ve, for which there isn't room
  */
@@ -42,7 +42,7 @@ export const getTwosComplement = (binary: BinaryNumber): ResultWithFlag => {
 
 /**
  * Convert a denary number into twos complement binary
- * 
+ *
  * @param denary The denary number to convert
  * @param bits The number of bits in the output number
  * @returns The twos complement binary number
@@ -51,12 +51,13 @@ export const getTwosComplementIntegerFromDenary = (denary: number, bits: number)
     const isNegative = denary < 0;
     denary = isNegative ? denary * -1 : denary;
 
-    let { result, flag } = getBinaryIntegerFromDenary(denary, bits);
+    const binary = getBinaryIntegerFromDenary(denary, bits);
+    let { result } = binary;
 
     if (isNegative) {
         const twosComplement = getTwosComplement(result);
         result = twosComplement.result;
     }
 
-    return { result, flag };
+    return { result, flag: binary.flag };
 }
