@@ -9,7 +9,7 @@ import {
     shiftRight,
     binaryFromString,
     binaryToString,
-    getBinaryIntegerFromDenary, getDenaryFromBinaryInteger,
+    getBinaryIntegerFromDenary, getDenaryFromBinaryInteger, bitToString,
 } from './binaryIntegers';
 
 interface ShiftTestCase {
@@ -216,14 +216,14 @@ describe("Binary Integers", () => {
 
     describe('shiftRight', () => {
         SHIFT_RIGHT_TEST_CASES.forEach(({ binary, result, gapFill = DEFAULT_BIT_VALUE, flag }) =>
-            test(`${binaryToString(binary)} (fill ${gapFill}) -> ${binaryToString(result)} -> underflow: ${flag}`,
+            test(`${binaryToString(binary)} (fill ${bitToString(gapFill)}) -> ${binaryToString(result)} -> underflow: ${flag}`,
                 () => expect(shiftRight(binary, gapFill)).toEqual({ result, flag }))
         )
     })
 
     describe('shiftLeft', () => {
         SHIFT_LEFT_TEST_CASES.forEach(({ binary, result, gapFill = DEFAULT_BIT_VALUE, flag }) =>
-            test(`${binaryToString(binary)} (fill ${gapFill}) -> ${binaryToString(result)} -> underflow: ${flag}`,
+            test(`${binaryToString(binary)} (fill ${bitToString(gapFill)}) -> ${binaryToString(result)} -> underflow: ${flag}`,
                 () => expect(shiftLeft(binary, gapFill)).toEqual({ result, flag }))
         )
     })

@@ -1,5 +1,5 @@
 import { fullAdder } from "./logicalOperators";
-import { BinaryNumber, ResultWithFlag, DEFAULT_BIT_VALUE, DEFAULT_BIT_WIDTH } from "./types";
+import { BinaryNumber, ResultWithFlag, DEFAULT_BIT_VALUE, DEFAULT_BIT_WIDTH, ShiftDirection } from "./types";
 
 /**
  * Create a binary number of a given width.
@@ -55,6 +55,19 @@ export const binaryFromString = (value: string): BinaryNumber =>
     value.replace(/\s/g, '').split('')
         .map(x => parseInt(x) === 1);
 
+/**
+ * Shift a binary number in a given direction.
+ * 
+ * @param binary The binary number
+ * @param direction The direction to shift it
+ * @param gapFill The value to use to fill the vacated spots (defaults to false).
+ * @returns The shifted number.
+ */
+export const shiftBinaryInteger = (
+    binary: BinaryNumber,
+    direction: ShiftDirection,
+    gapFill: boolean = DEFAULT_BIT_VALUE
+) => direction === ShiftDirection.left ? shiftLeft(binary, gapFill) : shiftRight(binary, gapFill);
 
 /**
  * Multiply a number by 2 by shifting it's bits to the left.

@@ -1,28 +1,24 @@
 import {
     binaryAddition,
-    binaryFromString,
     binaryToString,
     bitToString,
     createBinaryNumber,
-    getBinaryIntegerFromDenary,
+    shiftBinaryInteger,
     toggleBitInBinary
 } from "./binaryIntegers";
-import { countOnes } from "./logicalOperators";
+import { xor } from "./logicalOperators";
 import { getDenaryFromTwosComplementInteger, getTwosComplementIntegerFromDenary } from "./negativeNumbers";
 import {
     BinaryNumber,
-    DEFAULT_BITS_AFTER_POINT,
-    DEFAULT_BIT_WIDTH,
     DEFAULT_EXPONENT_BITS,
     DEFAULT_MANTISSA_BITS,
-    FixedPointNumber,
     FloatingPointNumber,
-    ResultWithFlag
+    ShiftDirection
 } from "./types";
 
 export interface ShiftAction {
     type: 'shift',
-    direction: boolean
+    direction: ShiftDirection
 }
 
 export type FloatingPointComponent = 'mantissa' | 'exponent';
@@ -100,8 +96,23 @@ export const setExponent = ({ mantissa }: FloatingPointNumber, exponent: BinaryN
     }
 }
 
-export const shift = (state: FloatingPointNumber, direction: boolean): FloatingPointNumber => {
-    return state;
+/**
+ * This takes the floating point number and increments or decrements the exponent.
+ * It then adjust the mantissa to keep the value the same.
+ * 
+ * @param state The floating point number
+ * @param direction true = increment exponent, false = decrement exponent
+ * @returns the shifted floating point number
+ */
+export const shift = (fp: FloatingPointNumber, direction: ShiftDirection): FloatingPointNumber => {
+    const { result: increment } = getTwosComplementIntegerFromDenary(direction ? 1 : -1, fp.exponent.length)
+    const { result: exponent, flag: incrementFlag } = binaryAddition(fp.exponent, increment);
+    const { result: mantissa, flag: mantissaFlag } = shiftBinaryInteger(fp.mantissa, direction);
+
+    return {
+        mantissa,
+        exponent,
+    };
 }
 
 /**
@@ -127,6 +138,38 @@ export const createFloatingPoint = (
     mantissa: createBinaryNumber(mantissaBits),
     exponent: createBinaryNumber(exponentBits)
 })
+
+/**
+ * Determines if a floating point number is normalised.
+ * It is normalised if the first two digits are 0.1 OR 1.0.
+ * This is effectively an XOR on those most significant bits
+ * 
+ * @param fp The floating point number to evaluate
+ * @returns True if the floating point representation is normalised.
+ */
+export const isNormalised = ({ mantissa: [sign, msb] }: FloatingPointNumber): boolean => xor(sign, msb);
+
+/**
+ * Normalise a twos complement value.
+ * 
+ * @param input A Floating point number that may not be normalised
+ * @returns The normalised form of the same value.
+ */
+export const normalise = (
+    fp: FloatingPointNumber
+): FloatingPointNumber => {
+    let maxIters = fp.mantissa.length;
+
+    console.log("Lets normalise some SHIT ", floatingPointToString(fp));
+    while (!isNormalised(fp) && maxIters > 0) {
+        fp = shift(fp, ShiftDirection.left);
+
+        maxIters--;
+        console.log(floatingPointToString(fp));
+    }
+
+    return fp;
+}
 
 /**
  * Convert a denary number into it's normalised floating point representation.

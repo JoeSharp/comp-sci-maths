@@ -6,6 +6,11 @@ export const DEFAULT_BITS_AFTER_POINT = 4;
 
 export type BinaryNumber = boolean[];
 
+export enum ShiftDirection {
+    left,
+    right
+}
+
 export interface FloatingPointNumber {
     mantissa: BinaryNumber;
     exponent: BinaryNumber;
