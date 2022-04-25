@@ -2,7 +2,7 @@ export const DEFAULT_MANTISSA_BITS = 8;
 export const DEFAULT_EXPONENT_BITS = 4;
 export const DEFAULT_BIT_VALUE = false;
 export const DEFAULT_BIT_WIDTH = 8;
-export const DEFAULT_BITS_AFTER_POINT = 4;
+export const DEFAULT_BITS_BEFORE_POINT = 4;
 
 export type BinaryNumber = boolean[];
 
@@ -18,7 +18,7 @@ export interface FloatingPointNumber {
 
 export interface FixedPointNumber {
     bits: BinaryNumber;
-    bitsAfterPoint: number;
+    bitsBeforePoint: number;
 }
 
 /**

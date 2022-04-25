@@ -168,9 +168,22 @@ export interface BinaryNumberAddAction {
     other: BinaryNumber
 }
 
+export interface BinaryNumberSetAction {
+    type: 'replace',
+    value: BinaryNumber
+    flag?: boolean
+}
+
+export interface BinaryNumberSetDenaryAction {
+    type: 'setDenary',
+    value: number
+}
+
 export type BinaryNumberAction = BinaryNumberToggleBitAction
     | BinaryNumberShiftAction
-    | BinaryNumberAddAction;
+    | BinaryNumberAddAction
+    | BinaryNumberSetAction
+    | BinaryNumberSetDenaryAction;
 
 export const binaryPositiveIntegerReducer = (state: ResultWithFlag, action: BinaryNumberAction): ResultWithFlag => {
     switch (action.type) {
@@ -180,5 +193,10 @@ export const binaryPositiveIntegerReducer = (state: ResultWithFlag, action: Bina
             flag: false
         }
         case 'add': return binaryAddition(state.result, action.other);
+        case 'replace': return {
+            result: action.value,
+            flag: action.flag || false
+        }
+        case 'setDenary': return getBinaryIntegerFromDenary(action.value);
     }
 }

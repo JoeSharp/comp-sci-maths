@@ -7,7 +7,7 @@ import {
     toggleBitInBinary
 } from "./binaryIntegers";
 import { xor } from "./logicalOperators";
-import { getDenaryFromTwosComplementInteger, getTwosComplementIntegerFromDenary } from "./negativeNumbers";
+import { getDenaryFromTwosComplementInteger, getTwosComplementIntegerFromDenary } from "./twosComplement";
 import {
     BinaryNumber,
     DEFAULT_EXPONENT_BITS,

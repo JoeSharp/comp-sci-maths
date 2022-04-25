@@ -131,7 +131,7 @@ const BINARY_INTEGER_TEST_CASES: BinaryIntegerTestCase[] = [
     }
 ]
 
-interface BinaryAdditionTestCase {
+export interface BinaryAdditionTestCase {
     a: BinaryNumber;
     b: BinaryNumber;
     result: BinaryNumber;

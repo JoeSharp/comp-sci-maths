@@ -1,10 +1,11 @@
-import { binaryFromString, binaryToString } from './binaryIntegers';
+import { BinaryAdditionTestCase } from './binaryInteger.test';
+import { binaryAddition, binaryFromString, binaryToString } from './binaryIntegers';
 import {
     getDenaryFromTwosComplementInteger,
     getOnesComplement,
     getTwosComplementIntegerFromDenary,
     getTwosComplement
-} from './negativeNumbers';
+} from './twosComplement';
 import { BinaryNumber } from './types';
 
 interface OnesComplementTestCase {
@@ -63,6 +64,15 @@ const BI_DIRECTIONAL_TWOS_COMPLEMENT_TEST_CASES: TwosComplementTestCase[] = [
 ]
 
 
+const BINARY_ADDITION_TEST_CASES: BinaryAdditionTestCase[] = [
+    {
+        a: binaryFromString("1111"),
+        b: binaryFromString("0001"),
+        result: binaryFromString("0000"),
+        overflow: false // TODO figure this out, it's not working yet.
+    },
+]
+
 describe("Negative Numbers", () => {
 
     test('getTwosComplement (over limit)', () => {
@@ -71,6 +81,14 @@ describe("Negative Numbers", () => {
 
         // Can't turn -128 around to +128 in 8 bits
         expect(getTwosComplement(binaryFromString('10000000')).flag).toBeTruthy();
+    })
+
+    describe('binaryAddition', () => {
+        BINARY_ADDITION_TEST_CASES.forEach(({ a, b, result, overflow }) => {
+            test.skip(`${binaryToString(a)} + ${binaryToString(b)} = ${binaryToString(result)}`, () => {
+                expect(binaryAddition(a, b)).toEqual({ result, flag: overflow });
+            })
+        })
     })
 
     test('getDenaryFromTwosComplementInteger (at limit)', () => {

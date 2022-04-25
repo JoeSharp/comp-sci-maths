@@ -23,9 +23,15 @@ const FIXED_POINT_TEST_CASES: FixedPointTestCase[] = [
     {
         binary: {
             bits: binaryFromString('00111001'),
-            bitsAfterPoint: 4
+            bitsBeforePoint: 4
         },
         denary: 3.5625
+    }, {
+        binary: {
+            bits: binaryFromString('1010 11'),
+            bitsBeforePoint: 4
+        },
+        denary: 10.75
     }
 ]
 
@@ -33,7 +39,7 @@ describe('Fixed Point Numbers', () => {
     test('createFixedPointBinaryNumber', () => {
         expect(createFixedPointBinaryNumber(4, 2)).toEqual({
             bits: [false, false, false, false],
-            bitsAfterPoint: 2
+            bitsBeforePoint: 2
         });
 
         expect(() => createFixedPointBinaryNumber(4, 8)).toThrowError();

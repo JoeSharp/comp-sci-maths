@@ -1,5 +1,5 @@
 import { binaryToString, createBinaryNumber } from "./binaryIntegers";
-import { DEFAULT_BITS_AFTER_POINT, DEFAULT_BIT_WIDTH, FixedPointNumber } from "./types";
+import { DEFAULT_BITS_BEFORE_POINT, DEFAULT_BIT_WIDTH, FixedPointNumber } from "./types";
 
 /**
  * Create a new fixed point binary number
@@ -10,13 +10,13 @@ import { DEFAULT_BITS_AFTER_POINT, DEFAULT_BIT_WIDTH, FixedPointNumber } from ".
  */
 export const createFixedPointBinaryNumber = (
     digits: number = DEFAULT_BIT_WIDTH,
-    bitsAfterPoint: number = DEFAULT_BITS_AFTER_POINT
+    bitsBeforePoint: number = DEFAULT_BITS_BEFORE_POINT
 ): FixedPointNumber => {
-    if (bitsAfterPoint > digits) throw new Error('Cannot have more digits after the point than we have digits');
+    if (bitsBeforePoint > digits) throw new Error('Cannot have more digits after the point than we have digits');
 
     return {
         bits: createBinaryNumber(digits),
-        bitsAfterPoint
+        bitsBeforePoint
     }
 }
 
@@ -26,8 +26,8 @@ export const createFixedPointBinaryNumber = (
  * @param fp Fixed point number
  * @returns The string representation
  */
-export const fixedPointToString = ({ bits, bitsAfterPoint }: FixedPointNumber): string => {
-    return `${binaryToString(bits.slice(0, bitsAfterPoint - 1))}.${bits.slice(-bitsAfterPoint)}`
+export const fixedPointToString = ({ bits, bitsBeforePoint }: FixedPointNumber): string => {
+    return `${binaryToString(bits.slice(0, bitsBeforePoint))}.${bits.slice(-bitsBeforePoint)}`
 }
 
 
@@ -38,10 +38,9 @@ export const fixedPointToString = ({ bits, bitsAfterPoint }: FixedPointNumber): 
  * @returns The decimal equivalent.
  */
 export const getDenaryFromFixedPoint = (
-    { bits, bitsAfterPoint }: FixedPointNumber
+    { bits, bitsBeforePoint }: FixedPointNumber
 ): number => {
     let wholePart: number = 0;
-    const bitsBeforePoint = bits.length - bitsAfterPoint;
 
     for (let i = 0; i < bitsBeforePoint; i++) {
         wholePart *= 2;
