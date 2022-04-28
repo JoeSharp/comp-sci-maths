@@ -5,7 +5,6 @@ import { ResultWithFlag } from '@comp-sci-maths/lib/dist/dataRepresentation/bina
 import Button from '../../../Bootstrap/Buttons/Button';
 
 import {
-    BinaryNumberAction,
     bitToString,
     getDenaryFromBinaryInteger,
 } from '@comp-sci-maths/lib/dist/dataRepresentation/binaryNumbers/binaryIntegers';
@@ -17,17 +16,17 @@ interface Props {
     label: string;
     isTwosComplement: boolean;
     value: ResultWithFlag
-    dispatch: (action: BinaryNumberAction) => any;
+    toggleBit: (digit: number) => void;
 }
 
-const BinaryEditor: React.FunctionComponent<Props> = ({ label, isTwosComplement, value: { result, flag }, dispatch }) => {
+const BinaryEditor: React.FunctionComponent<Props> = ({ label, isTwosComplement, value: { result, flag }, toggleBit }) => {
     const bitsWithHandlers = React.useMemo(() => result.map((bit, digit) => {
         return {
             bit,
             label: bitToString(bit),
-            onToggle: () => dispatch({ type: 'toggle', digit })
+            onToggle: () => toggleBit(digit)
         }
-    }), [result, dispatch]);
+    }), [result, toggleBit]);
 
     const denary = React.useMemo(() => isTwosComplement ?
         getDenaryFromTwosComplementInteger(result) : getDenaryFromBinaryInteger(result), [isTwosComplement, result]);
