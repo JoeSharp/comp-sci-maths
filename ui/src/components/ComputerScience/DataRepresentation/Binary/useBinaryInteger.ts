@@ -1,9 +1,11 @@
 import React from 'react';
 
 import {
-    binaryPositiveIntegerReducer, createBinaryNumber,
+    binaryPositiveIntegerReducer, createBinaryNumber, getDenaryFromBinaryInteger,
 } from '@comp-sci-maths/lib/dist/dataRepresentation/binaryNumbers/binaryIntegers';
 import {
+    getOnesComplement,
+    getTwosComplement,
     getTwosComplementIntegerFromDenary
 } from '@comp-sci-maths/lib/dist/dataRepresentation/binaryNumbers/twosComplement';
 import { BinaryNumber, DEFAULT_BIT_WIDTH, ResultWithFlag, ShiftDirection } from '@comp-sci-maths/lib/dist/dataRepresentation/binaryNumbers/types';
@@ -13,8 +15,11 @@ const defaultValue = {
     flag: false
 }
 
-interface UseBinaryNumber {
+export interface UseBinaryNumber {
     value: ResultWithFlag;
+    denary: number;
+    onesComplement: ResultWithFlag;
+    twosComplement: ResultWithFlag;
     toggleBit: (digit: number) => void;
     addition: (other: BinaryNumber) => void;
     setDenaryValue: (value: number) => void;
@@ -28,8 +33,9 @@ interface UseBinaryNumber {
  * @param isTwosComplement Indicates if we are using twos complement
  * @returns The API for manipulating the binary number.
  */
-const useBinaryNumber = (isTwosComplement: boolean): UseBinaryNumber => {
+const useBinaryInteger = (isTwosComplement: boolean): UseBinaryNumber => {
     const [value, dispatch] = React.useReducer(binaryPositiveIntegerReducer, defaultValue);
+    const denary = React.useMemo(() => getDenaryFromBinaryInteger(value.result), [value.result]);
     const toggleBit = React.useCallback((digit: number) => dispatch({ type: 'toggle', digit }), []);
     const shiftLeft = React.useCallback(() => dispatch({ type: 'shift', gapFill: false, direction: ShiftDirection.left }), []);
     const shiftRight = React.useCallback(() => dispatch({ type: 'shift', gapFill: false, direction: ShiftDirection.right }), []);
@@ -41,10 +47,19 @@ const useBinaryNumber = (isTwosComplement: boolean): UseBinaryNumber => {
             dispatch({ type: 'setDenary', value: newDenaryValue });
         }
     }, [isTwosComplement]);
-    const addition = React.useCallback((other) => dispatch({ type: 'add', other: other.result }), []);
+    const addition = React.useCallback((other: BinaryNumber) => dispatch({ type: 'add', other }), []);
+
+    const onesComplement = React.useMemo(() => ({
+        result: getOnesComplement(value.result),
+        flag: false
+    }), [value.result]);
+    const twosComplement = React.useMemo(() => getTwosComplement(value.result), [value.result]);
 
     return {
         value,
+        denary,
+        onesComplement,
+        twosComplement,
         toggleBit,
         shiftLeft,
         shiftRight,
@@ -53,4 +68,4 @@ const useBinaryNumber = (isTwosComplement: boolean): UseBinaryNumber => {
     }
 }
 
-export default useBinaryNumber;
+export default useBinaryInteger;

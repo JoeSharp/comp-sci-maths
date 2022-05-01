@@ -39,7 +39,16 @@ export interface SetExponentAction {
     exponent: BinaryNumber
 }
 
-export type FloatingPointAction = ShiftAction | SetMantissaAction | SetExponentAction | ToggleBitAction;
+export interface SetDenaryAction {
+    type: 'setDenary',
+    denary: number
+}
+
+export type FloatingPointAction = ShiftAction
+    | SetMantissaAction
+    | SetExponentAction
+    | ToggleBitAction
+    | SetDenaryAction;
 
 /**
  * Toggle a bit within a floating point number.
@@ -220,6 +229,7 @@ export const getDenaryFromFloatingPoint = ({ mantissa, exponent }: FloatingPoint
 export const reducer = (state: FloatingPointNumber, action: FloatingPointAction): FloatingPointNumber => {
 
     switch (action.type) {
+        case 'setDenary': return getFloatingPointFromDenary(action.denary);
         case 'setMantissa': return setExponent(state, action.mantissa);
         case 'setExponent': return setExponent(state, action.exponent);
         case 'shift': return shift(state, action.direction);

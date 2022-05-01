@@ -5,7 +5,7 @@ import { DEFAULT_BITS_BEFORE_POINT, DEFAULT_BIT_WIDTH, FixedPointNumber } from "
  * Create a new fixed point binary number
  *
  * @param digits The number of digits in total
- * @param bitsAfterPoint The number of bits that are after the point.
+ * @param bitsBeforePoint The number of bits that are before the point.
  * @returns The representation of the fixed point binary number.
  */
 export const createFixedPointBinaryNumber = (

@@ -4,8 +4,7 @@ import Button from '../../../Bootstrap/Buttons/Button';
 
 import BinaryEditor from './BinaryEditor';
 import Checkbox from '../../../Bootstrap/Checkbox';
-import useBinaryNumber from './useBinaryNumber';
-
+import useBinaryInteger from './useBinaryInteger';
 
 const BinaryNumbers: React.FunctionComponent = () => {
     const [isTwosComplement, onToggleTwosComplement] = React.useReducer((state) => !state, false);
@@ -17,28 +16,30 @@ const BinaryNumbers: React.FunctionComponent = () => {
         shiftRight,
         setDenaryValue,
         addition
-    } = useBinaryNumber(isTwosComplement);
+    } = useBinaryInteger(isTwosComplement);
     const {
         value: valueB,
         toggleBit: toggleBitB,
-    } = useBinaryNumber(isTwosComplement);
+    } = useBinaryInteger(isTwosComplement);
 
     const [newDenaryValue, setNewDenaryValue] = React.useState(0);
 
-    const onAddB = React.useCallback(() => addition(valueB.result), [valueB.result, addition]);
+    const onAddB = React.useCallback(
+        () => addition(valueB.result),
+        [valueB.result, addition]);
     const onDenaryChange: ChangeEventHandler<HTMLInputElement> = React.useCallback(
-        ({ target: { value } }) => setNewDenaryValue(parseInt(value, 10)),
+        ({ target: { value } }) => setNewDenaryValue(value ? parseInt(value, 10) : 0),
         [setNewDenaryValue]);
     const onSetDenaryValue: MouseEventHandler = React.useCallback(() => setDenaryValue(newDenaryValue), [newDenaryValue, setDenaryValue]);
 
     return <div>
-        <BinaryEditor label='A' isTwosComplement={isTwosComplement} toggleBit={toggleBitA} value={valueA} />
-        <BinaryEditor label='B' isTwosComplement={isTwosComplement} toggleBit={toggleBitB} value={valueB} />
+        <BinaryEditor label='A' toggleBit={toggleBitA} value={valueA} />
+        <BinaryEditor label='B' toggleBit={toggleBitB} value={valueB} />
 
         <div className='btn-group'>
             <Button styleType='light' onClick={shiftLeft} text='Shift Left' />
             <Button styleType='light' onClick={shiftRight} text='Shift Right' />
-            <Button styleType='light' onClick={onAddB} text='Add A+B' />
+            <Button styleType='light' onClick={onAddB} text='A = A + B' />
         </div>
 
         <div>
