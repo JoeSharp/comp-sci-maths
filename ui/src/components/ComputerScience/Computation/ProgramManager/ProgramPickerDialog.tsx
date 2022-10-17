@@ -13,7 +13,8 @@ interface Props {
 }
 
 const ProgramPickerDialog: React.FunctionComponent<Props> = (props) => {
-  const { selectedProgram, onSelectChange, onConfirm, onCancel } = props;
+  const { selectedProgram, isOpen, onSelectChange, onConfirm, onCancel } =
+    props;
 
   const { names } = useSavedPrograms();
 
@@ -35,7 +36,7 @@ const ProgramPickerDialog: React.FunctionComponent<Props> = (props) => {
 
   return (
     <ModalDialog
-      {...props}
+      {...{ selectedProgram, isOpen, onSelectChange, onConfirm, onCancel }}
       header={<h4>Select Address to Display</h4>}
       content={
         <div className="form-group">
@@ -72,12 +73,13 @@ export const useDialog = (
 
   const [selectedProgram, setProgramName] = React.useState<string>(names[0]);
 
-  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> = React.useCallback(
-    ({ target: { value } }) => {
-      setProgramName(value);
-    },
-    [setProgramName]
-  );
+  const onSelectChange: React.ChangeEventHandler<HTMLSelectElement> =
+    React.useCallback(
+      ({ target: { value } }) => {
+        setProgramName(value);
+      },
+      [setProgramName]
+    );
 
   const onCancel = React.useCallback(() => setIsOpen(false), [setIsOpen]);
   const showDialog = React.useCallback(() => setIsOpen(true), [setIsOpen]);

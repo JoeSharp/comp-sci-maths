@@ -20,7 +20,8 @@ interface Props extends BaseProps {
 }
 
 const StartAddressDialog: React.FunctionComponent<Props> = (props) => {
-  const { value, onValueChange, numberBase, onConfirm, onCancel } = props;
+  const { value, isOpen, onValueChange, numberBase, onConfirm, onCancel } =
+    props;
 
   const buttons: ButtonProps[] = React.useMemo(
     () => [
@@ -40,7 +41,7 @@ const StartAddressDialog: React.FunctionComponent<Props> = (props) => {
 
   return (
     <ModalDialog
-      {...props}
+      {...{ value, isOpen, onValueChange, numberBase, onConfirm, onCancel }}
       header={<h4>Select Address to Display</h4>}
       content={
         <form className="form">
@@ -75,10 +76,11 @@ export const useDialog = (baseProps: BaseProps): UseDialog => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const [value, setValue] = React.useState<number>(startAddress);
-  const onValueChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setValue(numberBase.fromString(value)),
-    [numberBase, setValue]
-  );
+  const onValueChange: React.ChangeEventHandler<HTMLInputElement> =
+    React.useCallback(
+      ({ target: { value } }) => setValue(numberBase.fromString(value)),
+      [numberBase, setValue]
+    );
 
   const onCancel = React.useCallback(() => setIsOpen(false), [setIsOpen]);
   const showDialog = React.useCallback(() => setIsOpen(true), [setIsOpen]);
