@@ -1,33 +1,16 @@
-import Link from 'next/link';
-import React, { useState } from 'react';
+import { NextPage } from "next";
+import Link from "next/link";
 
-function Header({ title }) {
-  return <h1>{title ? title : "Default title"}</h1>
-}
-
-function HomePage() {
-  const names = ["Ada Lovelace", "Grace Hopper", "Margaret Hamilton", "Joe Sharp"]
-
-  const [likes, setLikes] = useState(0)
-
-  function handleClick() {
-    setLikes(likes + 1)
-  }
-
+const HomePage: NextPage = () => {
   return (
     <div>
-      <Header title="Computer Science and Maths" />
-      <ul>
-        {names.map((name) => (
-          <li key={name}>{name}</li>
-        ))}
-      </ul>
+      <h1>Computer Science and Maths</h1>
 
-      <button onClick={handleClick}>Like ({likes})</button>
-
-      <Link href={'/tom-binary'}>Tom Binary</Link>
+      <h2>Maths</h2>
+      <Link href={"/maths/divisibility"}>Divisibility Rules</Link>
+      <Link href={"/tom-binary"}>Tom Binary</Link>
     </div>
-  )
-}
+  );
+};
 
 export default HomePage;
