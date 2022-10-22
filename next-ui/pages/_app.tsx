@@ -1,6 +1,6 @@
-// add bootstrap css
-import "bootstrap/dist/css/bootstrap.css";
+import '@/styles/global.css'
+import type { AppProps } from 'next/app'
 
-export default function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+export default function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />
 }

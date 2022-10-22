@@ -1,16 +1,42 @@
-import { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+
+import styles from "@/pages/index.module.css";
 import Link from "next/link";
 
-const HomePage: NextPage = () => {
+export default function Home() {
   return (
-    <div>
-      <h1>Computer Science and Maths</h1>
+    <div className={styles.container}>
+      <Head>
+        <title>Computer Science and Maths</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-      <h2>Maths</h2>
-      <Link href={"/maths/divisibility"}>Divisibility Rules</Link>
-      <Link href={"/tom-binary"}>Tom Binary</Link>
+      <main>
+        <h1 className={styles.title}>Computer Science and Maths</h1>
+
+        <p className={styles.description}>
+          Contains interactive examples of concepts from Computer Science A
+          Level.
+        </p>
+
+        <h2>Computer Science</h2>
+        <div className={styles.grid}></div>
+
+        <h2>Maths</h2>
+        <div className={styles.grid}>
+          <div className={styles.card}>
+            <h3>
+              <Link href="/maths/divisibility">Divisibility Rules</Link>
+            </h3>
+            <p>
+              Break down methods for determining the divisibility of numbers.
+            </p>
+          </div>
+        </div>
+      </main>
+
+      <footer className={styles.footer}>Created by Joe Sharp</footer>
     </div>
   );
-};
-
-export default HomePage;
+}

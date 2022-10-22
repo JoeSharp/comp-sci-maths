@@ -35,6 +35,7 @@ const DivisibilityRulePicker: FC<Props> = ({ value, onChange, className }) => {
       className={className}
       onChange={onSelectChange}
       value={value && value.factor}
+      data-testid="div-rule-select"
     >
       <option />
       {divisibilityRules.map(({ factor }) => (
