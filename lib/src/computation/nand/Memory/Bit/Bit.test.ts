@@ -2,29 +2,34 @@ import BinaryPin from "../../BinaryPin";
 import Clock from "../../Clock";
 import { PIN_INPUT, PIN_LOAD, PIN_OUTPUT } from "../../types";
 import Bit from "./Bit";
-import SimpleCounter from '../../SimpleCounter';
+import SimpleCounter from "../../SimpleCounter";
 import loadTestChip from "../../HDL/loadTestChip";
 
-describe("D-Type Flip Flop", () => {
+describe("Single Bit Register", () => {
   const nandCounter = new SimpleCounter();
-  const nandReceiver = new BinaryPin().withNewValueObserver(() => nandCounter.increment());
+  const nandReceiver = new BinaryPin().withNewValueObserver(() =>
+    nandCounter.increment()
+  );
   const nandClock = new Clock();
   const nandChip = new Bit(nandClock);
   nandChip.getPin(PIN_OUTPUT).connectRecipient(nandReceiver);
 
   const hdlCounter = new SimpleCounter();
-  const hdlReceiver = new BinaryPin().withNewValueObserver(() => hdlCounter.increment());
+  const hdlReceiver = new BinaryPin().withNewValueObserver(() =>
+    hdlCounter.increment()
+  );
   const hdlClock = new Clock();
-  const hdlChip = loadTestChip('03/a/', 'Bit.hdl');
+  const hdlChip = loadTestChip("03/a/", "Bit.hdl");
   hdlChip.getPin(PIN_OUTPUT).connectRecipient(hdlReceiver);
 
-  [{
-    testName: 'NAND',
-    chip: nandChip,
-    receiver: nandReceiver,
-    clock: nandClock,
-    counter: nandCounter,
-  },
+  [
+    {
+      testName: "NAND",
+      chip: nandChip,
+      receiver: nandReceiver,
+      clock: nandClock,
+      counter: nandCounter,
+    },
     // {
     //   testName: 'HDL',
     //   chip: hdlChip,
@@ -54,7 +59,6 @@ describe("D-Type Flip Flop", () => {
       chip.getPin(PIN_LOAD).send(true);
       clock.ticktock();
       expect(receiver.lastOutput).toBe(false); // fourth call
-
-    })
+    });
   });
 });

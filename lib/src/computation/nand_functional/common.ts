@@ -1,10 +1,13 @@
 import assert from "assert";
 
-export const BUS_WIDTH = 16;
-
-export const BINARY_ONE = Array(BUS_WIDTH)
-  .fill(false)
-  .map((_, i) => i === 0);
+export const WORD_LENGTH = 16;
 
 export const validateBus = (arr: boolean[]) =>
-  assert(arr.length === BUS_WIDTH, "Invalid Bus Width");
+  assert(arr.length === WORD_LENGTH, "Invalid Bus Width");
+
+export type Memory = boolean[][];
+
+export const createMemory = (registers: number): Memory =>
+  Array(registers)
+    .fill(null)
+    .map(() => Array(WORD_LENGTH).fill(false));

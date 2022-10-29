@@ -14,6 +14,9 @@ export interface ChipFactory {
 
 export const WORD_LENGTH = 16;
 export const ZERO_WORD = Array(WORD_LENGTH).fill(false);
+export const BINARY_ONE = Array(WORD_LENGTH)
+  .fill(false)
+  .map((_, i) => i === 0);
 
 // Arrays need reversing, binary numbers are read right to left
 export const getTestName = (parameters: object) =>
