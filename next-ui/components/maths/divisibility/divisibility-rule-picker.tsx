@@ -37,7 +37,9 @@ const DivisibilityRulePicker: FC<Props> = ({ value, onChange, className }) => {
       value={value && value.factor}
       data-testid="div-rule-select"
     >
-      <option />
+      <option disabled selected>
+        -- factor --
+      </option>
       {divisibilityRules.map(({ factor }) => (
         <option key={factor} value={factor}>
           {factor}
@@ -53,9 +55,8 @@ interface UsePicker {
 }
 
 export const useDivisibilityRulePicker = (className?: string): UsePicker => {
-  const [value, onChange] = useState<NamedDivisibilityRule | undefined>(
-    undefined
-  );
+  const [value, onChange] =
+    useState<NamedDivisibilityRule | undefined>(undefined);
 
   return {
     divisibilityRule: value || defaultNamedDivisibilityRule,
