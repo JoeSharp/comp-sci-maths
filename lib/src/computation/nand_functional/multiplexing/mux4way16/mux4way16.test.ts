@@ -1,6 +1,6 @@
 import {
-  binaryToBoolArray,
-  booleanToBinArray,
+  binaryToBoolArray as bin,
+  booleanToBinArray as arr,
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import mux4way16 from "./mux4way16";
 
@@ -16,14 +16,14 @@ describe("MUX4WAY16 - Functional", () => {
   `(
     "A: $a, B: $b, C: $c, D: $d, Sel: $sel = $expected",
     ({ a, b, c, d, sel, expected }) => {
-      const aBool = binaryToBoolArray(a);
-      const bBool = binaryToBoolArray(b);
-      const cBool = binaryToBoolArray(c);
-      const dBool = binaryToBoolArray(d);
-      const selBool = binaryToBoolArray(sel);
+      const aBool = bin(a);
+      const bBool = bin(b);
+      const cBool = bin(c);
+      const dBool = bin(d);
+      const selBool = bin(sel);
 
       const resultBool = mux4way16(aBool, bBool, cBool, dBool, selBool);
-      const result = booleanToBinArray(resultBool);
+      const result = arr(resultBool);
       expect(result).toBe(expected);
     }
   );

@@ -1,6 +1,6 @@
 import {
-  binaryToBoolArray,
-  booleanToBinArray,
+  binaryToBoolArray as bin,
+  booleanToBinArray as arr,
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import mux8way16 from "./mux8way16";
 
@@ -19,15 +19,15 @@ describe("MUX8WAY16 - Functional", () => {
   `(
     "A: $a, B: $b, C: $c, D: $d, Sel: $sel = $expected",
     ({ a, b, c, d, e, f, g, h, sel, expected }) => {
-      const aBool = binaryToBoolArray(a);
-      const bBool = binaryToBoolArray(b);
-      const cBool = binaryToBoolArray(c);
-      const dBool = binaryToBoolArray(d);
-      const eBool = binaryToBoolArray(e);
-      const fBool = binaryToBoolArray(f);
-      const gBool = binaryToBoolArray(g);
-      const hBool = binaryToBoolArray(h);
-      const selBool = binaryToBoolArray(sel);
+      const aBool = bin(a);
+      const bBool = bin(b);
+      const cBool = bin(c);
+      const dBool = bin(d);
+      const eBool = bin(e);
+      const fBool = bin(f);
+      const gBool = bin(g);
+      const hBool = bin(h);
+      const selBool = bin(sel);
 
       const resultBool = mux8way16(
         aBool,
@@ -40,7 +40,7 @@ describe("MUX8WAY16 - Functional", () => {
         hBool,
         selBool
       );
-      const result = booleanToBinArray(resultBool);
+      const result = arr(resultBool);
       expect(result).toBe(expected);
     }
   );

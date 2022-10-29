@@ -11,3 +11,13 @@ export const createMemory = (registers: number): Memory =>
   Array(registers)
     .fill(null)
     .map(() => Array(WORD_LENGTH).fill(false));
+
+export type MemoryFn = (
+  input: boolean[],
+  address: boolean[],
+  load: boolean,
+  contents?: Memory
+) => {
+  out: boolean[];
+  contents: Memory;
+};

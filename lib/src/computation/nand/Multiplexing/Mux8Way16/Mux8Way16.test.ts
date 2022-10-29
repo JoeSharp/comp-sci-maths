@@ -1,6 +1,11 @@
 import { PIN_C, PIN_D } from "../../Multiplexing/Dmux4Way/Dmux4Way";
-import { PIN_E, PIN_F, PIN_G, PIN_H } from "../../Multiplexing/Dmux8Way/Dmux8Way";
-import { binaryToBoolArray } from "../../../../dataRepresentation/numberBases/simpleBinary";
+import {
+  PIN_E,
+  PIN_F,
+  PIN_G,
+  PIN_H,
+} from "../../Multiplexing/Dmux8Way/Dmux8Way";
+import { binaryToBoolArray as bin } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import {
   getTestName,
   PIN_A,
@@ -244,17 +249,17 @@ describe("Mux 8 way 16", () => {
 
   TEST_CASES.forEach(({ a, b, c, d, e, f, g, h, sel, expected }) => {
     test(getTestName({ a, b, c, d, e, f, g, h, sel, expected }), () => {
-      mux.getBus(PIN_A).send(binaryToBoolArray(a));
-      mux.getBus(PIN_B).send(binaryToBoolArray(b));
-      mux.getBus(PIN_C).send(binaryToBoolArray(c));
-      mux.getBus(PIN_D).send(binaryToBoolArray(d));
-      mux.getBus(PIN_E).send(binaryToBoolArray(e));
-      mux.getBus(PIN_F).send(binaryToBoolArray(f));
-      mux.getBus(PIN_G).send(binaryToBoolArray(g));
-      mux.getBus(PIN_H).send(binaryToBoolArray(h));
-      mux.getBus(PIN_SELECTOR).send(binaryToBoolArray(sel));
+      mux.getBus(PIN_A).send(bin(a));
+      mux.getBus(PIN_B).send(bin(b));
+      mux.getBus(PIN_C).send(bin(c));
+      mux.getBus(PIN_D).send(bin(d));
+      mux.getBus(PIN_E).send(bin(e));
+      mux.getBus(PIN_F).send(bin(f));
+      mux.getBus(PIN_G).send(bin(g));
+      mux.getBus(PIN_H).send(bin(h));
+      mux.getBus(PIN_SELECTOR).send(bin(sel));
 
-      const expectedArr = binaryToBoolArray(expected);
+      const expectedArr = bin(expected);
       receivers.pins.forEach((r, i) =>
         expect(r.lastOutput).toBe(expectedArr[i])
       );

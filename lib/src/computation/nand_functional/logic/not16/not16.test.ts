@@ -1,6 +1,6 @@
 import {
-  binaryToBoolArray,
-  booleanToBinArray,
+  binaryToBoolArray as bin,
+  booleanToBinArray as arr,
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import not16 from "./not16";
 
@@ -13,10 +13,10 @@ describe("NOT16 - Functional", () => {
     ${"0011110011000011"} | ${"1100001100111100"}
     ${"0001001000110100"} | ${"1110110111001011"}
   `("NOT16 $input = $expected", ({ input, expected }) => {
-    const aBool = binaryToBoolArray(input);
+    const aBool = bin(input);
 
     const resultBool = not16(aBool);
-    const result = booleanToBinArray(resultBool);
+    const result = arr(resultBool);
     expect(result).toBe(expected);
   });
 });

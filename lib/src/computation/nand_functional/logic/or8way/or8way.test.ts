@@ -1,4 +1,4 @@
-import { binaryToBoolArray } from "../../../../dataRepresentation/numberBases/simpleBinary";
+import { binaryToBoolArray as bin } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import or8way from "./or8way";
 
 describe("OR8Way - Functional", () => {
@@ -10,7 +10,7 @@ describe("OR8Way - Functional", () => {
     ${"00000001"} | ${true}
     ${"00100110"} | ${true}
   `("8wayOr $input = $expected", ({ input, expected }) => {
-    const inputBool = binaryToBoolArray(input);
+    const inputBool = bin(input);
     const result = or8way(inputBool);
     expect(result).toBe(expected);
   });

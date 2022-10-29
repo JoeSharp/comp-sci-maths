@@ -1,6 +1,6 @@
 import {
-  binaryToBoolArray,
-  booleanToBinArray,
+  binaryToBoolArray as bin,
+  booleanToBinArray as arr,
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import BinaryBus from "../../BinaryBus";
 import { getTestName, PIN_INPUT, PIN_OUTPUT } from "../../types";
@@ -13,20 +13,20 @@ interface TestCase {
 
 const TEST_CASES: TestCase[] = [
   {
-    input: binaryToBoolArray("0000000000000000"),
-    expected: binaryToBoolArray("0000000000000001"),
+    input: bin("0000000000000000"),
+    expected: bin("0000000000000001"),
   },
   {
-    input: binaryToBoolArray("1111111111111111"),
-    expected: binaryToBoolArray("0000000000000000"),
+    input: bin("1111111111111111"),
+    expected: bin("0000000000000000"),
   },
   {
-    input: binaryToBoolArray("0000000000000101"),
-    expected: binaryToBoolArray("0000000000000110"),
+    input: bin("0000000000000101"),
+    expected: bin("0000000000000110"),
   },
   {
-    input: binaryToBoolArray("1111111111111011"),
-    expected: binaryToBoolArray("1111111111111100"),
+    input: bin("1111111111111011"),
+    expected: bin("1111111111111100"),
   },
 ];
 
@@ -37,8 +37,8 @@ describe("Inc 16", () => {
 
   TEST_CASES.forEach(({ input, expected }) => {
     const testName = getTestName({
-      input: booleanToBinArray(input),
-      expected: booleanToBinArray(expected),
+      input: arr(input),
+      expected: arr(expected),
     });
     test(testName, () => {
       // inc16.getBus(PIN_INPUT).send(input);

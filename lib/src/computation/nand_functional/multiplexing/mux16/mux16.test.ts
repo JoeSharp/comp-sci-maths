@@ -1,6 +1,6 @@
 import {
-  binaryToBoolArray,
-  booleanToBinArray,
+  binaryToBoolArray as bin,
+  booleanToBinArray as arr,
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import mux16 from "./mux16";
 
@@ -16,11 +16,11 @@ describe("MUX16 - Functional", () => {
     ${"1010101010101010"} | ${"0101010101010101"} | ${false} | ${"1010101010101010"}
     ${"1010101010101010"} | ${"0101010101010101"} | ${true}  | ${"0101010101010101"}
   `("$a AND16 $b = $expected", ({ a, b, sel, expected }) => {
-    const aBool = binaryToBoolArray(a);
-    const bBool = binaryToBoolArray(b);
+    const aBool = bin(a);
+    const bBool = bin(b);
 
     const resultBool = mux16(aBool, bBool, sel);
-    const result = booleanToBinArray(resultBool);
+    const result = arr(resultBool);
     expect(result).toBe(expected);
   });
 });

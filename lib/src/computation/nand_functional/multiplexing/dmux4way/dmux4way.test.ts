@@ -1,4 +1,4 @@
-import { binaryToBoolArray } from "../../../../dataRepresentation/numberBases/simpleBinary";
+import { binaryToBoolArray as bin } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import dmux4way from "./dmux4way";
 
 describe("Dmux4Way - Functional", () => {
@@ -12,7 +12,7 @@ describe("Dmux4Way - Functional", () => {
   `(
     "input $input, sel: $sel, a=$a, b=$b, c=$c, d=$d",
     ({ input, sel, a, b, c, d }) => {
-      const selBool = binaryToBoolArray(sel);
+      const selBool = bin(sel);
       const result = dmux4way(input, selBool);
       expect(result.a).toBe(a);
       expect(result.b).toBe(b);

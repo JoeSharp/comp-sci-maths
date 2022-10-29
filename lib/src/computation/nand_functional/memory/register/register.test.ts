@@ -1,6 +1,6 @@
 import {
-  binaryToBoolArray,
-  booleanToBinArray,
+  binaryToBoolArray as bin,
+  booleanToBinArray as arr,
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import register from "./register";
 
@@ -14,13 +14,11 @@ describe("Register", () => {
   `(
     "Input: $input, PrevOut: $previousOutput, Load: $load, Expected: $expected",
     ({ input, previousOutput, load, expected }) => {
-      const inputBool = binaryToBoolArray(input);
-      const prevOutBool = previousOutput
-        ? binaryToBoolArray(previousOutput)
-        : undefined;
+      const inputBool = bin(input);
+      const prevOutBool = previousOutput ? bin(previousOutput) : undefined;
 
       const resultBool = register(inputBool, load, prevOutBool);
-      const result = booleanToBinArray(resultBool);
+      const result = arr(resultBool);
       expect(result).toBe(expected);
     }
   );

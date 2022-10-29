@@ -1,11 +1,6 @@
 import { PIN_C, PIN_D } from "../../Multiplexing/Dmux4Way/Dmux4Way";
-import { binaryToBoolArray } from "../../../../dataRepresentation/numberBases/simpleBinary";
-import {
-  PIN_A,
-  PIN_B,
-  PIN_OUTPUT,
-  PIN_SELECTOR,
-} from "../../types";
+import { binaryToBoolArray as bin } from "../../../../dataRepresentation/numberBases/simpleBinary";
+import { PIN_A, PIN_B, PIN_OUTPUT, PIN_SELECTOR } from "../../types";
 import Mux4Way16 from "../../Multiplexing/Mux4Way16";
 import BinaryBus from "../../BinaryBus";
 
@@ -97,12 +92,12 @@ describe("Mux 4 way 16", () => {
       .join(", ");
     const testName = `${inputStr}, sel: ${sel}, expected: ${expected}`;
     test(testName, () => {
-      mux.getBus(PIN_A).send(binaryToBoolArray(a));
-      mux.getBus(PIN_B).send(binaryToBoolArray(b));
-      mux.getBus(PIN_C).send(binaryToBoolArray(c));
-      mux.getBus(PIN_D).send(binaryToBoolArray(d));
-      mux.getBus(PIN_SELECTOR).send(binaryToBoolArray(sel));
-      const expectedArr = binaryToBoolArray(expected);
+      mux.getBus(PIN_A).send(bin(a));
+      mux.getBus(PIN_B).send(bin(b));
+      mux.getBus(PIN_C).send(bin(c));
+      mux.getBus(PIN_D).send(bin(d));
+      mux.getBus(PIN_SELECTOR).send(bin(sel));
+      const expectedArr = bin(expected);
       receivers.pins.forEach((r, i) =>
         expect(r.lastOutput).toBe(expectedArr[i])
       );
