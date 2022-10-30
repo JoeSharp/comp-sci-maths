@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const decodeTomBinary = (number1s: number, number0s: number): string => {
   switch (number1s) {
     case 1:
@@ -17,10 +15,6 @@ const decodeTomBinary = (number1s: number, number0s: number): string => {
 const TomBinary = () => {
   return (
     <div>
-      <h1>Tom Binary</h1>
-
-      <Link href={"/"}>Home</Link>
-
       <table className="table table-striped">
         <thead>
           <tr>
