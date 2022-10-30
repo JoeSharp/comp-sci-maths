@@ -25,7 +25,7 @@ const ram4K: MemoryFn = (
     f: lf,
     g: lg,
     h: lh,
-  } = dmux8way(load, address0_2);
+  } = dmux8way({ input: load, sel: address0_2 });
 
   const [
     { out: ra, contents: ca },
@@ -40,7 +40,17 @@ const ram4K: MemoryFn = (
     ram512(input, address3_11, l, contents.slice(i * 512, (i + 1) * 512))
   );
 
-  const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address0_2);
+  const out = mux8way16({
+    a: ra,
+    b: rb,
+    c: rc,
+    d: rd,
+    e: re,
+    f: rf,
+    g: rg,
+    h: rh,
+    sel: address0_2,
+  });
 
   return {
     out,

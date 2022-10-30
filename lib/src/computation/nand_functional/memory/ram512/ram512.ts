@@ -23,7 +23,7 @@ const ram512: MemoryFn = (
     f: lf,
     g: lg,
     h: lh,
-  } = dmux8way(load, address0_2);
+  } = dmux8way({ input: load, sel: address0_2 });
 
   const [
     { out: ra, contents: ca },
@@ -38,7 +38,17 @@ const ram512: MemoryFn = (
     ram64(input, address3_8, l, contents.slice(i * 64, (i + 1) * 64))
   );
 
-  const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address0_2);
+  const out = mux8way16({
+    a: ra,
+    b: rb,
+    c: rc,
+    d: rd,
+    e: re,
+    f: rf,
+    g: rg,
+    h: rh,
+    sel: address0_2,
+  });
 
   return {
     out,

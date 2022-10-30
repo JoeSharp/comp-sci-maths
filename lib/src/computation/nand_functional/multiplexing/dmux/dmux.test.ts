@@ -10,7 +10,7 @@ describe("DMUX - Functional", () => {
   `(
     "DMUX $input with $selector, a=$a, b=$b",
     ({ input, sel, expectedA, expectedB }) => {
-      const { a, b } = dmux(input, sel);
+      const { a, b } = dmux({ input, sel });
       expect(a).toBe(expectedA);
       expect(b).toBe(expectedB);
     }

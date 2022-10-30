@@ -22,7 +22,13 @@ describe("MUX4WAY16 - Functional", () => {
       const dBool = bin(d);
       const selBool = bin(sel);
 
-      const resultBool = mux4way16(aBool, bBool, cBool, dBool, selBool);
+      const resultBool = mux4way16({
+        a: aBool,
+        b: bBool,
+        c: cBool,
+        d: dBool,
+        sel: selBool,
+      });
       const result = arr(resultBool);
       expect(result).toBe(expected);
     }

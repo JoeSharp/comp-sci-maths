@@ -17,7 +17,7 @@ describe("Dmux8Way - Functional", () => {
     "input $input, sel: $sel, a=$a, b=$b, c=$c, d=$d",
     ({ input, sel, a, b, c, d, e, f, g, h }) => {
       const selBool = bin(sel);
-      const result = dmux4way(input, selBool);
+      const result = dmux4way({ input, sel: selBool });
       expect(result.a).toBe(a);
       expect(result.b).toBe(b);
       expect(result.c).toBe(c);
