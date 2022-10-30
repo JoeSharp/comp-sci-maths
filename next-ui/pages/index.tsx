@@ -33,6 +33,12 @@ export default function Home() {
               Break down methods for determining the divisibility of numbers.
             </p>
           </div>
+          <div className={styles.card}>
+            <h3>
+              <Link href="/tom-binary">Tom Binary</Link>
+            </h3>
+            <p>Tom's custom method of representing with binary.</p>
+          </div>
         </div>
       </main>
 

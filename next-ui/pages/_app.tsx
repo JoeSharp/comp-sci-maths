@@ -1,6 +1,19 @@
-import '@/styles/global.css'
-import type { AppProps } from 'next/app'
+// add bootstrap css
+import "bootstrap/dist/css/bootstrap.css";
+
+// Add custom style
+import "@/styles/global.css";
+
+import Head from "next/head";
+import type { AppProps } from "next/app";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }

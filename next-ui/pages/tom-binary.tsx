@@ -1,5 +1,19 @@
 import Link from "next/link";
 
+const decodeTomBinary = (number1s: number, number0s: number): string => {
+  switch (number1s) {
+    case 1:
+      // A number
+      return (number0s - 1).toString(10);
+    case 2:
+      // A negative number
+      return (-1 * (number0s - 1)).toString(10);
+    case 3:
+      return String.fromCharCode("A".charCodeAt(0) + number0s - 1);
+  }
+  return "❌";
+};
+
 const TomBinary = () => {
   return (
     <div>
@@ -7,30 +21,24 @@ const TomBinary = () => {
 
       <Link href={"/"}>Home</Link>
 
-      <table>
+      <table className="table table-striped">
         <thead>
           <tr>
-            {Array(4)
-              .fill(true)
-              .map((_, i) => (
-                <th key={i}>{i}</th>
-              ))}
+            <th>⬇️ Number 0's, ➡️ Number 1's</th>
+            {[1, 2, 3].map((ones) => (
+              <th key={ones}>{ones}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {Array(4)
-            .fill(true)
-            .map((_, row) => (
-              <tr key={row}>
-                {Array(4)
-                  .fill(true)
-                  .map((_, column) => (
-                    <td key={column}>
-                      {row},{column}
-                    </td>
-                  ))}
-              </tr>
-            ))}
+          {[1, 2, 3].map((zeros) => (
+            <tr key={zeros}>
+              <th>{zeros}</th>
+              {[1, 2, 3].map((ones) => (
+                <td key={ones}>{decodeTomBinary(ones, zeros)}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@comp-sci-maths/lib": "10.3.0",
+    "bootstrap": "^5.2.2",
     "next": "latest",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
