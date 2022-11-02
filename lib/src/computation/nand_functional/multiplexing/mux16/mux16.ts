@@ -1,10 +1,5 @@
-import mux from "../mux/mux";
-
-interface Mux16Input {
-  a: boolean[];
-  b: boolean[];
-  sel: boolean;
-}
+import { ZERO_WORD } from "../../../nand/types";
+import mux from "../mux";
 
 /**
  * 16-bit multiplexor:
@@ -13,3 +8,12 @@ interface Mux16Input {
  */
 export default (a: boolean[], b: boolean[], sel: boolean) =>
   a.map((ai, i) => mux(ai, b[i], sel));
+
+export const createMux16 = (output: boolean[] = [...ZERO_WORD]) => ({
+  output,
+  op: (a: boolean[], b: boolean[], sel: boolean) => {
+    a.forEach((ai, i) => (output[i] = mux(ai, b[i], sel)));
+
+    return output;
+  },
+});

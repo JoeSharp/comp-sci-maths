@@ -1,6 +1,5 @@
 import { ZERO_WORD } from "../../../nand/types";
 import and from "../and";
-import { BusLogicalOperator, BusLogicalOperatorFactory } from "../types";
 
 /**
  * 16-bit bitwise And:
@@ -12,13 +11,10 @@ export default (a: boolean[], b: boolean[]): boolean[] =>
 /**
  * Create an AND16 with a consistent output bus
  */
-export const createAnd16: BusLogicalOperatorFactory =
-  (): BusLogicalOperator => {
-    const output = [...ZERO_WORD];
-
-    return (a, b) => {
-      a.forEach((ai, i) => (output[i] = and(ai, b[i])));
-
-      return output;
-    };
-  };
+export const createAnd16 = (output: boolean[] = [...ZERO_WORD]) => ({
+  output,
+  op: (a: boolean[], b: boolean[]) => {
+    a.forEach((ai, i) => (output[i] = and(ai, b[i])));
+    return output;
+  },
+});

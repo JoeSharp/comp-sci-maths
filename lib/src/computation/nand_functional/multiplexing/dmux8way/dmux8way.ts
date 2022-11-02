@@ -27,3 +27,39 @@ export default (input: boolean, sel: boolean[]): Dmux8WayOutput => {
 
   return { a, b, c, d, e, f, g, h };
 };
+
+export const createDemux8Way = (
+  output: Dmux8WayOutput = {
+    a: false,
+    b: false,
+    c: false,
+    d: false,
+    e: false,
+    f: false,
+    g: false,
+    h: false,
+  }
+) => ({
+  output,
+  op: (input: boolean, sel: boolean[]) => {
+    const notSel2 = not(sel[2]);
+
+    const inAndNotSel2 = and(input, notSel2);
+    ({
+      a: output.a,
+      b: output.b,
+      c: output.c,
+      d: output.d,
+    } = dmux4way(inAndNotSel2, sel.slice(0, 2)));
+
+    const inAndSel2 = and(input, sel[2]);
+    ({
+      a: output.e,
+      b: output.f,
+      c: output.g,
+      d: output.h,
+    } = dmux4way(inAndSel2, sel.slice(0, 2)));
+
+    return output;
+  },
+});

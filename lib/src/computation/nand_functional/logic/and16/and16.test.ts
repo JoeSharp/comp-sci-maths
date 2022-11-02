@@ -4,10 +4,12 @@ import {
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import and16, { createAnd16 } from "./and16";
 
+const { op: built } = createAnd16();
+
 describe("AND16 - Functional", () => {
   describe.each([
     ["simple", and16],
-    ["factory", createAnd16()],
+    ["built", built],
   ])("%s", (_name, op) => {
     it.each`
       a                     | b                     | expected

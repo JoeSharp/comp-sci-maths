@@ -26,3 +26,28 @@ export default (input: boolean, sel: boolean[]): Dmux4WayOutput => {
 
   return { a, b, c, d };
 };
+
+/**
+ * Create a 4 way demux that re-uses the output object.
+ * @returns A demux function with a consistent output object.
+ */
+export const createDmux4Way = (
+  output: Dmux4WayOutput = {
+    a: false,
+    b: false,
+    c: false,
+    d: false,
+  }
+) => ({
+  output,
+  op: (input: boolean, sel: boolean[]) => {
+    const notSel1 = not(sel[1]);
+    const inAndNotSel1 = and(input, notSel1);
+    ({ a: output.a, b: output.b } = dmux(inAndNotSel1, sel[0]));
+
+    const inAndSel1 = and(input, sel[1]);
+    ({ a: output.c, b: output.d } = dmux(inAndSel1, sel[0]));
+
+    return output;
+  },
+});
