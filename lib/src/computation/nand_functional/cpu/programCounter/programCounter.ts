@@ -27,13 +27,13 @@ export default ({
 }: Partial<ProgramCounterInput> = {}): boolean[] => {
   // Increment the last value, select the incremented one if possible
   const { sum: lastPCPlusOne } = inc16(lastPC);
-  const io = mux16({ a: lastPC, b: lastPCPlusOne, sel: increment });
+  const io = mux16(lastPC, lastPCPlusOne, increment);
 
   // Loading input takes precendence over incremented value
-  const lo = mux16({ a: io, b: input, sel: load });
+  const lo = mux16(io, input, load);
 
   // Reset has highest priority
-  const ro = mux16({ a: lo, b: ZERO_WORD, sel: reset });
+  const ro = mux16(lo, ZERO_WORD, reset);
 
   // Create the time spacing
   return register(ro, true);

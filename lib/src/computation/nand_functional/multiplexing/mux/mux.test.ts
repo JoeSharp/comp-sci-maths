@@ -12,6 +12,6 @@ describe("MUX - Functional", () => {
     ${true}  | ${false} | ${true}  | ${false}
     ${true}  | ${true}  | ${true}  | ${true}
   `("$a mux $b, sel: $sel expect $expecte", ({ a, b, sel, expected }) => {
-    expect(mux({ a, b, sel })).toBe(expected);
+    expect(mux(a, b, sel)).toBe(expected);
   });
 });

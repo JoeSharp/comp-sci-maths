@@ -9,11 +9,6 @@ import and from "../../logic/and";
 import not from "../../logic/not";
 import dmux from "../dmux";
 
-export interface DmuxNWayInput {
-  input: boolean;
-  sel: boolean[];
-}
-
 export interface Dmux4WayOutput {
   a: boolean;
   b: boolean;
@@ -21,13 +16,13 @@ export interface Dmux4WayOutput {
   d: boolean;
 }
 
-export default ({ input, sel }: DmuxNWayInput): Dmux4WayOutput => {
+export default (input: boolean, sel: boolean[]): Dmux4WayOutput => {
   const notSel1 = not(sel[1]);
   const inAndNotSel1 = and(input, notSel1);
-  const { a, b } = dmux({ input: inAndNotSel1, sel: sel[0] });
+  const { a, b } = dmux(inAndNotSel1, sel[0]);
 
   const inAndSel1 = and(input, sel[1]);
-  const { a: c, b: d } = dmux({ input: inAndSel1, sel: sel[0] });
+  const { a: c, b: d } = dmux(inAndSel1, sel[0]);
 
   return { a, b, c, d };
 };

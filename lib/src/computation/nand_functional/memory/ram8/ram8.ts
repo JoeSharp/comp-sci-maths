@@ -20,23 +20,13 @@ const ram8: MemoryFn = (
     f: lf,
     g: lg,
     h: lh,
-  } = dmux8way({ input: load, sel: address });
+  } = dmux8way(load, address);
 
   const [ra, rb, rc, rd, re, rf, rg, rh] = [la, lb, lc, ld, le, lf, lg, lh].map(
     (l, i) => register(input, l, contents[i])
   );
 
-  const out = mux8way16({
-    a: ra,
-    b: rb,
-    c: rc,
-    d: rd,
-    e: re,
-    f: rf,
-    g: rg,
-    h: rh,
-    sel: address,
-  });
+  const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address);
 
   return {
     out,

@@ -38,23 +38,23 @@ interface AluOutput {
 
 export default ({ x, y, zx, nx, zy, ny, f, no }: AluInput): AluOutput => {
   // Use the flags for the x input to generate xProcessed
-  const xZero = mux16({ a: x, b: ZERO_WORD, sel: zx });
+  const xZero = mux16(x, ZERO_WORD, zx);
   const notXZero = not16(xZero);
-  const xProcessed = mux16({ a: xZero, b: notXZero, sel: nx });
+  const xProcessed = mux16(xZero, notXZero, nx);
 
   // Use the flags for the y input to generate yProcessed
-  const yZero = mux16({ a: y, b: ZERO_WORD, sel: zy });
+  const yZero = mux16(y, ZERO_WORD, zy);
   const notYZero = not16(yZero);
-  const yProcessed = mux16({ a: yZero, b: notYZero, sel: ny });
+  const yProcessed = mux16(yZero, notYZero, ny);
 
   // Calculate both results of combining x and y, select the correct one into fOut
   const { sum: xPlusY } = add16(xProcessed, yProcessed);
   const xAndY = and16(xProcessed, yProcessed);
-  const fOut = mux16({ a: xAndY, b: xPlusY, sel: f });
+  const fOut = mux16(xAndY, xPlusY, f);
 
   // Calculate negation of output and select negative flag, output, and split version of output for evaluation of zero
   const notFOut = not16(fOut);
-  const output = mux16({ a: fOut, b: notFOut, sel: no });
+  const output = mux16(fOut, notFOut, no);
 
   // Set the is zero flag
   const zrLsb = or8way(output.slice(0, 8));

@@ -43,15 +43,18 @@ describe("ALU - Functional", () => {
     ${"0000000000010001"} | ${"0000000000000011"} | ${false} | ${false} | ${false} | ${true}  | ${true}  | ${true}  | ${"1111111111110010"} | ${false} | ${true}
     ${"0000000000010001"} | ${"0000000000000011"} | ${false} | ${false} | ${false} | ${false} | ${false} | ${false} | ${"0000000000000001"} | ${false} | ${false}
     ${"0000000000010001"} | ${"0000000000000011"} | ${false} | ${true}  | ${false} | ${true}  | ${false} | ${true}  | ${"0000000000010011"} | ${false} | ${false}
-  `("ALU", ({ x, y, zx, nx, zy, ny, f, no, output, zr, ng }) => {
-    const xStr = bin(x);
-    const yStr = bin(y);
+  `(
+    "ALU x: $x, y: $y, zx: $zx, nx: $nx, zy: $zy, ny: $ny, f: $f, no: $no",
+    ({ x, y, zx, nx, zy, ny, f, no, output, zr, ng }) => {
+      const xStr = bin(x);
+      const yStr = bin(y);
 
-    const result = alu({ x: xStr, y: yStr, zx, nx, zy, ny, f, no });
-    const outStr = arr(result.output);
+      const result = alu({ x: xStr, y: yStr, zx, nx, zy, ny, f, no });
+      const outStr = arr(result.output);
 
-    expect(outStr).toBe(output);
-    expect(zr).toBe(result.zr);
-    expect(ng).toBe(result.ng);
-  });
+      expect(outStr).toBe(output);
+      expect(zr).toBe(result.zr);
+      expect(ng).toBe(result.ng);
+    }
+  );
 });

@@ -19,7 +19,7 @@ describe("MUX16 - Functional", () => {
     const aBool = bin(a);
     const bBool = bin(b);
 
-    const resultBool = mux16({ a: aBool, b: bBool, sel });
+    const resultBool = mux16(aBool, bBool, sel);
     const result = arr(resultBool);
     expect(result).toBe(expected);
   });

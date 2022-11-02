@@ -29,17 +29,17 @@ describe("MUX8WAY16 - Functional", () => {
       const hBool = bin(h);
       const selBool = bin(sel);
 
-      const resultBool = mux8way16({
-        a: aBool,
-        b: bBool,
-        c: cBool,
-        d: dBool,
-        e: eBool,
-        f: fBool,
-        g: gBool,
-        h: hBool,
-        sel: selBool,
-      });
+      const resultBool = mux8way16(
+        aBool,
+        bBool,
+        cBool,
+        dBool,
+        eBool,
+        fBool,
+        gBool,
+        hBool,
+        selBool
+      );
       const result = arr(resultBool);
       expect(result).toBe(expected);
     }

@@ -1,11 +1,6 @@
 import and from "../../logic/and";
 import not from "../../logic/not";
 
-interface DmuxInput {
-  input: boolean;
-  sel: boolean;
-}
-
 interface DmuxOutput {
   a: boolean;
   b: boolean;
@@ -16,10 +11,28 @@ interface DmuxOutput {
  * {a, b} = {in, 0} if sel == 0
  *          {0, in} if sel == 1
  */
-export default ({ input, sel }: DmuxInput): DmuxOutput => {
+export default (input: boolean, sel: boolean): DmuxOutput => {
   const notSel = not(sel);
   const a = and(input, notSel);
   const b = and(input, sel);
 
   return { a, b };
+};
+
+/**
+ * Create a demux that re-uses the output object.
+ * @returns A demux function with a consistent output object.
+ */
+export const createDmux = () => {
+  const output: DmuxOutput = {
+    a: false,
+    b: false,
+  };
+
+  return (input: boolean, sel: boolean) => {
+    const notSel = not(sel);
+    output.a = and(input, notSel);
+    output.b = and(input, sel);
+    return output;
+  };
 };
