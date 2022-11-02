@@ -2,7 +2,33 @@ import {
   binaryToBoolArray as bin,
   booleanToBinArray as arr,
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
-import register from "./register";
+import { ZERO_WORD } from "../../../nand/types";
+import register, { createRegister } from "./register";
+
+describe("Register - Built", () => {
+  let { op: built } = createRegister();
+
+  beforeEach(() => {
+    ({ op: built } = createRegister());
+  });
+
+  it("initialises correctly", () => {
+    const output = built(ZERO_WORD, false);
+    expect(output).toStrictEqual(ZERO_WORD);
+  });
+
+  it("ignores value if load = false", () => {
+    const VALUE = bin("0010110110101010");
+    const output = built(VALUE, false);
+    expect(output).toStrictEqual(ZERO_WORD);
+  });
+
+  it("Takes on value correctly", () => {
+    const VALUE = bin("0010110110101010");
+    const output = built(VALUE, true);
+    expect(output).toStrictEqual(VALUE);
+  });
+});
 
 describe("Register", () => {
   it.each`
