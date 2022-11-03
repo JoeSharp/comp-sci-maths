@@ -13,13 +13,10 @@ export default (a: boolean, b: boolean): BitAdderOutput => {
   };
 };
 
-export const createHalfAdder = (
-  output: BitAdderOutput = { sum: false, carry: false }
-) => ({
-  output,
-  op: (a: boolean, b: boolean): BitAdderOutput => {
+export const createHalfAdder =
+  (output: BitAdderOutput = { sum: false, carry: false }) =>
+  (a: boolean, b: boolean): BitAdderOutput => {
     output.sum = xor(a, b);
     output.carry = and(a, b);
     return output;
-  },
-});
+  };

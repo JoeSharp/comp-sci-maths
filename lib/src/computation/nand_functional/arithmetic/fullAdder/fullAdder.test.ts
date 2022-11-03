@@ -1,6 +1,6 @@
 import fullAdder, { createFullAdder } from "./fullAdder";
 
-const { op: built } = createFullAdder();
+const built = createFullAdder();
 
 describe("Full Adder - Functional", () => {
   describe.each([

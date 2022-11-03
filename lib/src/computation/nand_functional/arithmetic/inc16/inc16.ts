@@ -9,11 +9,9 @@ export const createInc16 = (
     carry: false,
   }
 ) => {
-  const { op: theAdd16 } = createAdd16(output);
+  const theAdd16 = createAdd16(output);
 
-  return {
-    op: (input: boolean[]): Add16Output => {
-      return theAdd16(input, BINARY_ONE);
-    },
+  return (input: boolean[]): Add16Output => {
+    return theAdd16(input, BINARY_ONE);
   };
 };

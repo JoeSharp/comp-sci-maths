@@ -4,7 +4,7 @@ import {
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import add16, { createAdd16 } from "./add16";
 
-const { op: built } = createAdd16();
+const built = createAdd16();
 
 describe("Add16 - Functional", () => {
   describe.each([

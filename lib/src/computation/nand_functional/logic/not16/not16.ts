@@ -10,11 +10,10 @@ export default (a: boolean[]): boolean[] => a.map((ai) => not(ai));
 /**
  * Create an AND16 with a consistent output bus
  */
-export const createNot16 = (output: boolean[] = [...ZERO_WORD]) => ({
-  output,
-  op: (a: boolean[]) => {
+export const createNot16 =
+  (output: boolean[] = [...ZERO_WORD]) =>
+  (a: boolean[]) => {
     a.forEach((ai, i) => (output[i] = not(ai)));
 
     return output;
-  },
-});
+  };

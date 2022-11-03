@@ -1,6 +1,6 @@
 import dmux, { createDmux } from "./dmux";
 
-const { op: built } = createDmux();
+const built = createDmux();
 
 describe("AND16 - Functional", () => {
   describe.each([

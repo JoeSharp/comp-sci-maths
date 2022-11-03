@@ -4,7 +4,7 @@ import {
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import inc16, { createInc16 } from "./inc16";
 
-const { op: built } = createInc16();
+const built = createInc16();
 
 describe("Inc16 - Functional", () => {
   describe.each([

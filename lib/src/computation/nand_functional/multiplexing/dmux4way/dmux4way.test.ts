@@ -1,7 +1,7 @@
 import { binaryToBoolArray as bin } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import dmux4way, { createDmux4Way } from "./dmux4way";
 
-const { op: built } = createDmux4Way();
+const built = createDmux4Way();
 
 describe("Demux4Way - Functional", () => {
   describe.each([

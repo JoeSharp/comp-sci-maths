@@ -9,11 +9,10 @@ import mux from "../mux";
 export default (a: boolean[], b: boolean[], sel: boolean) =>
   a.map((ai, i) => mux(ai, b[i], sel));
 
-export const createMux16 = (output: boolean[] = [...ZERO_WORD]) => ({
-  output,
-  op: (a: boolean[], b: boolean[], sel: boolean) => {
+export const createMux16 =
+  (output: boolean[] = [...ZERO_WORD]) =>
+  (a: boolean[], b: boolean[], sel: boolean) => {
     a.forEach((ai, i) => (output[i] = mux(ai, b[i], sel)));
 
     return output;
-  },
-});
+  };

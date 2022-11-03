@@ -40,20 +40,17 @@ export const createDmux4Way = (
     d: false,
   }
 ) => {
-  const { op: dmux_ab } = createDmux();
-  const { op: dmux_bc } = createDmux();
+  const dmux_ab = createDmux();
+  const dmux_bc = createDmux();
 
-  return {
-    output,
-    op: (input: boolean, sel: boolean[]) => {
-      const notSel1 = not(sel[1]);
-      const inAndNotSel1 = and(input, notSel1);
-      ({ a: output.a, b: output.b } = dmux_ab(inAndNotSel1, sel[0]));
+  return (input: boolean, sel: boolean[]) => {
+    const notSel1 = not(sel[1]);
+    const inAndNotSel1 = and(input, notSel1);
+    ({ a: output.a, b: output.b } = dmux_ab(inAndNotSel1, sel[0]));
 
-      const inAndSel1 = and(input, sel[1]);
-      ({ a: output.c, b: output.d } = dmux_bc(inAndSel1, sel[0]));
+    const inAndSel1 = and(input, sel[1]);
+    ({ a: output.c, b: output.d } = dmux_bc(inAndSel1, sel[0]));
 
-      return output;
-    },
+    return output;
   };
 };

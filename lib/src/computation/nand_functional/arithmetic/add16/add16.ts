@@ -55,33 +55,30 @@ export const createAdd16 = (
     carry: false,
   }
 ) => {
-  const { op: halfAdder0 } = createHalfAdder();
-  const { op: fullAdder1_15 } = createFullAdder();
+  const halfAdder0 = createHalfAdder();
+  const fullAdder1_15 = createFullAdder();
 
   const carry: boolean[] = [...ZERO_WORD];
 
-  return {
-    output,
-    op: (a: boolean[], b: boolean[]): Add16Output => {
-      // First digit doesn't have a carry to take in
-      ({ sum: output.sum[0], carry: carry[0] } = halfAdder0(a[0], b[0]));
+  return (a: boolean[], b: boolean[]): Add16Output => {
+    // First digit doesn't have a carry to take in
+    ({ sum: output.sum[0], carry: carry[0] } = halfAdder0(a[0], b[0]));
 
-      for (let i = 1; i < 15; i++) {
-        ({ sum: output.sum[i], carry: carry[i] } = fullAdder1_15(
-          a[i],
-          b[i],
-          carry[i - 1]
-        ));
-      }
-
-      // Last digit needs to send the carry to this chip's output
-      ({ sum: output.sum[15], carry: output.carry } = fullAdder1_15(
-        a[15],
-        b[15],
-        carry[14]
+    for (let i = 1; i < 15; i++) {
+      ({ sum: output.sum[i], carry: carry[i] } = fullAdder1_15(
+        a[i],
+        b[i],
+        carry[i - 1]
       ));
+    }
 
-      return output;
-    },
+    // Last digit needs to send the carry to this chip's output
+    ({ sum: output.sum[15], carry: output.carry } = fullAdder1_15(
+      a[15],
+      b[15],
+      carry[14]
+    ));
+
+    return output;
   };
 };

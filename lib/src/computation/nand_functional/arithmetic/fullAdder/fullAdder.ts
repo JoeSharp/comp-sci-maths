@@ -11,14 +11,11 @@ export default (a: boolean, b: boolean, c: boolean) => {
 export const createFullAdder = (
   output: BitAdderOutput = { sum: false, carry: false }
 ) => {
-  return {
-    output,
-    op: (a: boolean, b: boolean, c: boolean): BitAdderOutput => {
-      const { sum: sumAB, carry: carryAB } = halfAdder(a, b);
-      let carryABC = false;
-      ({ sum: output.sum, carry: carryABC } = halfAdder(sumAB, c));
-      output.carry = or(carryAB, carryABC);
-      return output;
-    },
+  return (a: boolean, b: boolean, c: boolean): BitAdderOutput => {
+    const { sum: sumAB, carry: carryAB } = halfAdder(a, b);
+    let carryABC = false;
+    ({ sum: output.sum, carry: carryABC } = halfAdder(sumAB, c));
+    output.carry = or(carryAB, carryABC);
+    return output;
   };
 };

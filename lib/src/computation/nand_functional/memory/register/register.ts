@@ -6,10 +6,9 @@ export default (input: boolean[], load: boolean, previousOutput?: boolean[]) =>
     bit(value, load, previousOutput && previousOutput[i])
   );
 
-export const createRegister = (output: boolean[] = [...ZERO_WORD]) => ({
-  output,
-  op: (input: boolean[], load: boolean) => {
+export const createRegister =
+  (output: boolean[] = [...ZERO_WORD]) =>
+  (input: boolean[], load: boolean) => {
     input.forEach((value, i) => (output[i] = bit(value, load, output[i])));
     return output;
-  },
-});
+  };

@@ -11,10 +11,9 @@ export default (a: boolean[], b: boolean[]): boolean[] =>
 /**
  * Create an AND16 with a consistent output bus
  */
-export const createAnd16 = (output: boolean[] = [...ZERO_WORD]) => ({
-  output,
-  op: (a: boolean[], b: boolean[]) => {
+export const createAnd16 =
+  (output: boolean[] = [...ZERO_WORD]) =>
+  (a: boolean[], b: boolean[]) => {
     a.forEach((ai, i) => (output[i] = and(ai, b[i])));
     return output;
-  },
-});
+  };

@@ -28,26 +28,23 @@ export default (
 };
 
 export const createMux8Way16 = (output: boolean[] = [...ZERO_WORD]) => {
-  const { op: mux4way16_abcd } = createMux4Way16();
-  const { op: mux4way16_efgh } = createMux4Way16();
-  const { op: mux16_output } = createMux16(output);
+  const mux4way16_abcd = createMux4Way16();
+  const mux4way16_efgh = createMux4Way16();
+  const mux16_output = createMux16(output);
 
-  return {
-    output,
-    op: (
-      a: boolean[],
-      b: boolean[],
-      c: boolean[],
-      d: boolean[],
-      e: boolean[],
-      f: boolean[],
-      g: boolean[],
-      h: boolean[],
-      sel: boolean[]
-    ) => {
-      const abcd = mux4way16_abcd(a, b, c, d, sel.slice(0, 2));
-      const efgh = mux4way16_efgh(e, f, g, h, sel.slice(0, 2));
-      return mux16_output(abcd, efgh, sel[2]);
-    },
+  return (
+    a: boolean[],
+    b: boolean[],
+    c: boolean[],
+    d: boolean[],
+    e: boolean[],
+    f: boolean[],
+    g: boolean[],
+    h: boolean[],
+    sel: boolean[]
+  ) => {
+    const abcd = mux4way16_abcd(a, b, c, d, sel.slice(0, 2));
+    const efgh = mux4way16_efgh(e, f, g, h, sel.slice(0, 2));
+    return mux16_output(abcd, efgh, sel[2]);
   };
 };

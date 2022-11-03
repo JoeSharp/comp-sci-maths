@@ -1,6 +1,6 @@
 import halfAdder, { createHalfAdder } from "./halfAdder";
 
-const { op: built } = createHalfAdder();
+const built = createHalfAdder();
 
 describe("Half Adder - Functional", () => {
   describe.each([

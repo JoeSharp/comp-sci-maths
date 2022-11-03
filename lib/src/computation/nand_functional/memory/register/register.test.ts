@@ -6,10 +6,10 @@ import { ZERO_WORD } from "../../../nand/types";
 import register, { createRegister } from "./register";
 
 describe("Register - Built", () => {
-  let { op: built } = createRegister();
+  let built = createRegister();
 
   beforeEach(() => {
-    ({ op: built } = createRegister());
+    built = createRegister();
   });
 
   it("initialises correctly", () => {
