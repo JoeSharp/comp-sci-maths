@@ -29,10 +29,13 @@ export const createDmux = () => {
     b: false,
   };
 
-  return (input: boolean, sel: boolean) => {
-    const notSel = not(sel);
-    output.a = and(input, notSel);
-    output.b = and(input, sel);
-    return output;
+  return {
+    output,
+    op: (input: boolean, sel: boolean) => {
+      const notSel = not(sel);
+      output.a = and(input, notSel);
+      output.b = and(input, sel);
+      return output;
+    },
   };
 };

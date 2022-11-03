@@ -1,7 +1,14 @@
+import { ZERO_WORD } from "../../../nand/types";
 import fullAdder from "../fullAdder";
-import halfAdder from "../halfAdder";
+import { createFullAdder } from "../fullAdder/fullAdder";
+import halfAdder, { createHalfAdder } from "../halfAdder";
 
-export default (a: boolean[], b: boolean[]) => {
+export interface Add16Output {
+  sum: boolean[];
+  carry: boolean;
+}
+
+export default (a: boolean[], b: boolean[]): Add16Output => {
   const { sum: sum0, carry: c0 } = halfAdder(a[0], b[0]);
   const { sum: sum1, carry: c1 } = fullAdder(a[1], b[1], c0);
   const { sum: sum2, carry: c2 } = fullAdder(a[2], b[2], c1);
@@ -39,5 +46,42 @@ export default (a: boolean[], b: boolean[]) => {
       sum15,
     ],
     carry,
+  };
+};
+
+export const createAdd16 = (
+  output: Add16Output = {
+    sum: [...ZERO_WORD],
+    carry: false,
+  }
+) => {
+  const { op: halfAdder0 } = createHalfAdder();
+  const { op: fullAdder1_15 } = createFullAdder();
+
+  const carry: boolean[] = [...ZERO_WORD];
+
+  return {
+    output,
+    op: (a: boolean[], b: boolean[]): Add16Output => {
+      // First digit doesn't have a carry to take in
+      ({ sum: output.sum[0], carry: carry[0] } = halfAdder0(a[0], b[0]));
+
+      for (let i = 1; i < 15; i++) {
+        ({ sum: output.sum[i], carry: carry[i] } = fullAdder1_15(
+          a[i],
+          b[i],
+          carry[i - 1]
+        ));
+      }
+
+      // Last digit needs to send the carry to this chip's output
+      ({ sum: output.sum[15], carry: output.carry } = fullAdder1_15(
+        a[15],
+        b[15],
+        carry[14]
+      ));
+
+      return output;
+    },
   };
 };

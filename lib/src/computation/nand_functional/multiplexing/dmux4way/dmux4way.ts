@@ -8,6 +8,7 @@
 import and from "../../logic/and";
 import not from "../../logic/not";
 import dmux from "../dmux";
+import { createDmux } from "../dmux/dmux";
 
 export interface Dmux4WayOutput {
   a: boolean;
@@ -38,16 +39,21 @@ export const createDmux4Way = (
     c: false,
     d: false,
   }
-) => ({
-  output,
-  op: (input: boolean, sel: boolean[]) => {
-    const notSel1 = not(sel[1]);
-    const inAndNotSel1 = and(input, notSel1);
-    ({ a: output.a, b: output.b } = dmux(inAndNotSel1, sel[0]));
+) => {
+  const { op: dmux_ab } = createDmux();
+  const { op: dmux_bc } = createDmux();
 
-    const inAndSel1 = and(input, sel[1]);
-    ({ a: output.c, b: output.d } = dmux(inAndSel1, sel[0]));
+  return {
+    output,
+    op: (input: boolean, sel: boolean[]) => {
+      const notSel1 = not(sel[1]);
+      const inAndNotSel1 = and(input, notSel1);
+      ({ a: output.a, b: output.b } = dmux_ab(inAndNotSel1, sel[0]));
 
-    return output;
-  },
-});
+      const inAndSel1 = and(input, sel[1]);
+      ({ a: output.c, b: output.d } = dmux_bc(inAndSel1, sel[0]));
+
+      return output;
+    },
+  };
+};

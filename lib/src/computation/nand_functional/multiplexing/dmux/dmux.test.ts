@@ -1,9 +1,11 @@
 import dmux, { createDmux } from "./dmux";
 
+const { op: built } = createDmux();
+
 describe("AND16 - Functional", () => {
   describe.each([
     ["simple", dmux],
-    ["factory", createDmux()],
+    ["built", built],
   ])("%s", (_name, op) => {
     it.each`
       input    | sel      | expectedA | expectedB
