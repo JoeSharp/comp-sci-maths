@@ -1,7 +1,9 @@
-interface Output<T> {
+export interface Output<T> {
   now: T;
   prev: T;
 }
+
+export type OutputSupplier<T> = () => Output<T>;
 
 /**
  * Create a storage system that hands between two instances which are created once and re-used.
@@ -12,7 +14,7 @@ interface Output<T> {
  */
 export const createToggledStorage = <T>(
   factory: () => T
-): (() => Output<T>) => {
+): OutputSupplier<T> => {
   const a: T = factory();
   const b: T = factory();
   let toggle = false;

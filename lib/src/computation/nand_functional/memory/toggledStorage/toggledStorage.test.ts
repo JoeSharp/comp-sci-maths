@@ -12,7 +12,8 @@ describe("Toggled Storage", () => {
 
     const state = s();
 
-    expect(state).toStrictEqual({ input: [false, false, false] });
+    expect(state.now).toStrictEqual({ input: [false, false, false] });
+    expect(state.prev).toStrictEqual({ input: [false, false, false] });
   });
 
   it("Toggles correctly", () => {
@@ -20,13 +21,13 @@ describe("Toggled Storage", () => {
       input: [false, false, false],
     }));
 
-    const s1 = s();
-    const s2 = s();
-    const s3 = s();
-    const s4 = s();
+    const { now: s1 } = s();
+    const { now: s2 } = s();
+    const { now: s3 } = s();
+    const { now: s4 } = s();
 
-    expect(s1.now === s3.now).toBeTruthy();
-    expect(s2.now === s4.now).toBeTruthy();
-    expect(s1.now === s2.now).toBeFalsy();
+    expect(s1 === s3).toBeTruthy();
+    expect(s2 === s4).toBeTruthy();
+    expect(s1 === s2).toBeFalsy();
   });
 });

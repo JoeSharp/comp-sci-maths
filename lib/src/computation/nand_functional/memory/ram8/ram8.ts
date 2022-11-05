@@ -1,3 +1,4 @@
+import { DEFAULT_BUS_FACTORY } from "../../../nand/types";
 import { createMemory, Memory, MemoryFn } from "../../common";
 import dmux8way, { createDemux8Way } from "../../multiplexing/dmux8way";
 import mux8way16, { createMux8Way16 } from "../../multiplexing/mux8way16";
@@ -36,24 +37,3 @@ const ram8: MemoryFn = (
 };
 
 export default ram8;
-
-export const createRam8 = () => {
-  const toggleContents = createToggledStorage(() => createMemory(8));
-  const loadDmux = createDemux8Way();
-  const selMux = createMux8Way16();
-
-  return (input: boolean[], address: boolean[], load: boolean) => {
-    const { now, prev } = toggleContents();
-
-    const {
-      a: la,
-      b: lb,
-      c: lc,
-      d: ld,
-      e: le,
-      f: lf,
-      g: lg,
-      h: lh,
-    } = loadDmux(load, address);
-  };
-};
