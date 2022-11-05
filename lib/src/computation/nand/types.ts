@@ -12,6 +12,9 @@ export interface ChipFactory {
   [name: string]: ChipProducer;
 }
 
+export type BusFactory = () => boolean[];
+export const DEFAULT_BUS_FACTORY: BusFactory = () => [...ZERO_WORD];
+
 export const WORD_LENGTH = 16;
 export const ZERO_WORD = Array(WORD_LENGTH).fill(false);
 export const BINARY_ONE = Array(WORD_LENGTH)
