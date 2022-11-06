@@ -1,9 +1,7 @@
-import { DEFAULT_BUS_FACTORY } from "../../../nand/types";
 import { createMemory, Memory, MemoryFn } from "../../common";
-import dmux8way, { createDemux8Way } from "../../multiplexing/dmux8way";
-import mux8way16, { createMux8Way16 } from "../../multiplexing/mux8way16";
-import register from "../register";
-import createToggledStorage from "../toggledStorage";
+import dmux8way from "../../multiplexing/dmux8way";
+import mux8way16 from "../../multiplexing/mux8way16";
+import simpleRegister from "../register";
 
 const DEFAULT_CONTENTS = createMemory(8);
 
@@ -25,7 +23,7 @@ const ram8: MemoryFn = (
   } = dmux8way(load, address);
 
   const [ra, rb, rc, rd, re, rf, rg, rh] = [la, lb, lc, ld, le, lf, lg, lh].map(
-    (l, i) => register(input, l, contents[i])
+    (l, i) => simpleRegister(input, l, contents[i])
   );
 
   const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address);

@@ -1,4 +1,4 @@
-import simpleBit, { bit } from "./bit";
+import simpleBit, { createBit } from "./bit";
 
 describe("bit - Functional", () => {
   it.each`
@@ -35,19 +35,18 @@ describe("bit - Functional", () => {
   });
 
   it("Using the staged bit", () => {
-    const myBit = bit.create();
+    const myBit = createBit();
 
-    const v1 = myBit(false, false);
+    myBit.bit(false, false);
+    expect(myBit.state.output).toBe(false);
 
-    expect(bit.read(v1)).toBe(false);
-
-    const v2 = myBit(true, true);
-    expect(bit.read(v2)).toBe(false);
-    bit.clock(v2);
-    expect(bit.read(v2)).toBe(true);
-    const v3 = myBit(false, true);
-    expect(bit.read(v3)).toBe(true);
-    bit.clock(v3);
-    expect(bit.read(v3)).toBe(false);
+    myBit.bit(true, true);
+    expect(myBit.state.output).toBe(false);
+    myBit.clock();
+    expect(myBit.state.output).toBe(true);
+    myBit.bit(false, true);
+    expect(myBit.state.output).toBe(true);
+    myBit.clock();
+    expect(myBit.state.output).toBe(false);
   });
 });

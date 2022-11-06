@@ -2,39 +2,34 @@
  * The most primitive sequential logic chip we have is the single bit register.
  * Calling this function is the equivalent of a 'clock'.
  */
-export default (
+const simpleBit = (
   input: boolean,
   load: boolean,
   previousOutput: boolean = false
 ) => (load ? input : previousOutput);
+export default simpleBit;
 
 export interface BitState {
-  current: boolean;
-  next: boolean;
+  input: boolean;
+  load: boolean;
+  output: boolean;
 }
 
-export type Clock<T> = (input: T) => void;
-export type BitChip = (input: boolean, load: boolean) => BitState;
+const createBitState = () => ({
+  input: false,
+  load: false,
+  output: false,
+});
 
-export interface SequentialChipApi<STATE, VALUE, CHIP> {
-  clock: Clock<STATE>;
-  read: (state: STATE) => VALUE;
-  createState: () => STATE;
-  create: (state?: STATE) => CHIP;
-}
-
-export type BitChipApi = SequentialChipApi<BitState, boolean, BitChip>;
-
-export const createState = (): BitState => ({ current: false, next: false });
-
-export const bit: BitChipApi = {
-  clock: (bit) => (bit.current = bit.next),
-  read: ({ current }: BitState) => current,
-  createState,
-  create:
-    (bitState = createState()) =>
-    (input, load) => {
-      bitState.next = load ? input : bitState.current;
-      return bitState;
+export const createBit = (state: BitState = createBitState()) => {
+  return {
+    state,
+    clock: () => {
+      state.output = simpleBit(state.input, state.load, state.output);
     },
+    bit: (input: boolean, load: boolean) => {
+      state.input = input;
+      state.load = load;
+    },
+  };
 };
