@@ -36,27 +36,66 @@ interface AluOutput {
   ng: boolean;
 }
 
-export default ({ x, y, zx, nx, zy, ny, f, no }: AluInput): AluOutput => {
-  // Use the flags for the x input to generate xProcessed
-  const xZero = mux16(x, ZERO_WORD, zx);
-  const notXZero = not16(xZero);
-  const xProcessed = mux16(xZero, notXZero, nx);
+/**
+ * Use the flags for the input to generate a processed version
+ * @param input The input bus
+ * @param zero Should we zero the input?
+ * @param negate Should we then negate it?
+ * @returns Output based on those decision.
+ */
+const alu_input_proc = (
+  input: boolean[],
+  zero: boolean,
+  negate: boolean
+): boolean[] => {
+  const zeroed = mux16(input, ZERO_WORD, zero);
+  const notZeroed = not16(zeroed);
+  return mux16(zeroed, notZeroed, negate);
+};
 
-  // Use the flags for the y input to generate yProcessed
-  const yZero = mux16(y, ZERO_WORD, zy);
-  const notYZero = not16(yZero);
-  const yProcessed = mux16(yZero, notYZero, ny);
-
+/**
+ * Generate the output value based on processed inputs and flags.
+ *
+ * @param x The processed version of x input
+ * @param y The processed version of y input
+ * @param f Which function? False = x AND y, True = x ADD16 y
+ * @param no Negate the output?
+ * @returns The output
+ */
+const alu_function_calc = (
+  x: boolean[],
+  y: boolean[],
+  f: boolean,
+  no: boolean
+): boolean[] => {
   // Calculate both results of combining x and y, select the correct one into fOut
-  const { sum: xPlusY } = add16(xProcessed, yProcessed);
-  const xAndY = and16(xProcessed, yProcessed);
+  const { sum: xPlusY } = add16(x, y);
+  const xAndY = and16(x, y);
   const fOut = mux16(xAndY, xPlusY, f);
 
   // Calculate negation of output and select negative flag, output, and split version of output for evaluation of zero
   const notFOut = not16(fOut);
-  const output = mux16(fOut, notFOut, no);
+  return mux16(fOut, notFOut, no);
+};
 
-  // Set the is zero flag
+export default (
+  x: boolean[],
+  y: boolean[],
+  zx: boolean,
+  nx: boolean,
+  zy: boolean,
+  ny: boolean,
+  f: boolean,
+  no: boolean
+): AluOutput => {
+  // Generate processed versions of the inputs based on the flags
+  const xProcessed = alu_input_proc(x, zx, nx);
+  const yProcessed = alu_input_proc(y, zy, ny);
+
+  // Calculate output value
+  const output = alu_function_calc(xProcessed, yProcessed, f, no);
+
+  // Assess output
   const zrLsb = or8way(output.slice(0, 8));
   const zrMsb = or8way(output.slice(8, 16));
   const ng = output[15];
