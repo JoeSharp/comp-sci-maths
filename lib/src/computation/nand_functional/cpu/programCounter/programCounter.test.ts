@@ -8,7 +8,7 @@ import {
 
 describe("CPU Program Counter - Functional", () => {
   it("Initialises correctly", () => {
-    const pc = programCounter({});
+    const pc = programCounter();
 
     expect(pc).toStrictEqual(ZERO_WORD);
   });
@@ -17,7 +17,7 @@ describe("CPU Program Counter - Functional", () => {
     const pc = Array(5)
       .fill(null)
       .reduce(
-        (acc, curr) => programCounter({ lastPC: acc, increment: true }),
+        (acc, curr) => programCounter(ZERO_WORD, false, true, false, acc),
         programCounter()
       );
 
@@ -28,7 +28,7 @@ describe("CPU Program Counter - Functional", () => {
 
   it("loads correctly", () => {
     const INITIAL_VALUE = bin("0001010111110000");
-    const pc = programCounter({ input: INITIAL_VALUE, load: true });
+    const pc = programCounter(INITIAL_VALUE, true, false, false);
     const pcStr = arr(pc);
     expect(pcStr).toBe("0001010111110000");
   });
@@ -37,8 +37,7 @@ describe("CPU Program Counter - Functional", () => {
     const pcAfterCounting = Array(5)
       .fill(null)
       .reduce(
-        (acc, curr) =>
-          programCounter({ input: ZERO_WORD, increment: true, lastPC: acc }),
+        (acc, curr) => programCounter(ZERO_WORD, false, true, false, acc),
         programCounter()
       );
 
@@ -46,10 +45,13 @@ describe("CPU Program Counter - Functional", () => {
 
     expect(pcAfterCountingStr).toBe("0000000000000101");
 
-    const pcAfterReset = programCounter({
-      reset: true,
-      lastPC: pcAfterCounting,
-    });
+    const pcAfterReset = programCounter(
+      ZERO_WORD,
+      false,
+      false,
+      true,
+      pcAfterCounting
+    );
     expect(pcAfterReset).toStrictEqual(ZERO_WORD);
   });
 
@@ -57,12 +59,7 @@ describe("CPU Program Counter - Functional", () => {
     const LAST_PC = bin("0000000000000101");
     const LOAD_VALUE = bin("0001010111110000");
 
-    const pc = programCounter({
-      input: LOAD_VALUE,
-      load: true,
-      increment: true,
-      lastPC: LAST_PC,
-    });
+    const pc = programCounter(LOAD_VALUE, true, true, false, LAST_PC);
 
     const pcStr = arr(pc);
     expect(pcStr).toBe("0001010111110000");
@@ -72,13 +69,7 @@ describe("CPU Program Counter - Functional", () => {
     const LAST_PC = bin("0000000000000101");
     const LOAD_VALUE = bin("0001010111110000");
 
-    const pc = programCounter({
-      input: LOAD_VALUE,
-      load: true,
-      increment: true,
-      reset: true,
-      lastPC: LAST_PC,
-    });
+    const pc = programCounter(LOAD_VALUE, true, true, true, LAST_PC);
 
     expect(pc).toStrictEqual(ZERO_WORD);
   });

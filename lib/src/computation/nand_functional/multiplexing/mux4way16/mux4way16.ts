@@ -22,19 +22,22 @@ export default (
 };
 
 export const createMux4Way16 = (output: boolean[] = [...ZERO_WORD]) => {
-  const mux16_aOrB = createMux16();
-  const mux16_cOrD = createMux16();
-  const mux16_output = createMux16(output);
+  const { op: mux16_aOrB } = createMux16();
+  const { op: mux16_cOrD } = createMux16();
+  const { op: mux16_output } = createMux16(output);
 
-  return (
-    a: boolean[],
-    b: boolean[],
-    c: boolean[],
-    d: boolean[],
-    sel: boolean[]
-  ) => {
-    const aOrB = mux16_aOrB(a, b, sel[0]);
-    const cOrD = mux16_cOrD(c, d, sel[0]);
-    return mux16_output(aOrB, cOrD, sel[1]);
+  return {
+    output,
+    op: (
+      a: boolean[],
+      b: boolean[],
+      c: boolean[],
+      d: boolean[],
+      sel: boolean[]
+    ) => {
+      const aOrB = mux16_aOrB(a, b, sel[0]);
+      const cOrD = mux16_cOrD(c, d, sel[0]);
+      return mux16_output(aOrB, cOrD, sel[1]);
+    },
   };
 };

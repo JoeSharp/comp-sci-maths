@@ -49,7 +49,7 @@ describe("ALU - Functional", () => {
       const xStr = bin(x);
       const yStr = bin(y);
 
-      const result = alu({ x: xStr, y: yStr, zx, nx, zy, ny, f, no });
+      const result = alu(xStr, yStr, zx, nx, zy, ny, f, no);
       const outStr = arr(result.output);
 
       expect(outStr).toBe(output);

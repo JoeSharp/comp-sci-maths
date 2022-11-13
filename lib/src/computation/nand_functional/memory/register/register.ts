@@ -1,34 +1,30 @@
 import { ZERO_WORD } from "../../../nand/types";
-import simpleBit, { createBit } from "../bit";
+import simpleBit, { BitState, createBit, createBitState } from "../bit";
 
-export default (input: boolean[], load: boolean, previousOutput?: boolean[]) =>
-  input.map((value, i) =>
-    simpleBit(value, load, previousOutput && previousOutput[i])
-  );
+export default (
+  input: boolean[],
+  load: boolean,
+  previousOutput: boolean[] = ZERO_WORD
+) => input.map((value, i) => simpleBit(value, load, previousOutput[i]));
 
-interface RegisterState {
-  input: boolean[];
-  load: boolean;
-  output: boolean[];
-}
+export type RegisterState = BitState[];
 
-const createState = (): RegisterState => ({
-  input: [...ZERO_WORD],
-  load: false,
-  output: [...ZERO_WORD],
-});
+export const createRegisterState = (): RegisterState =>
+  [...ZERO_WORD].map(() => createBitState());
 
-export const createRegister = (state: RegisterState = createState()) => {
-  const bits = ZERO_WORD.map(() => createBit());
+export const createRegister = (
+  state: RegisterState = createRegisterState()
+) => {
+  const bits = state.map(createBit);
 
   return {
     state,
     clock: () => {
       bits.forEach((b) => b.clock());
-      bits.forEach((b, i) => (state.output[i] = b.state.output));
     },
     register: (input: boolean[], load: boolean) => {
       input.forEach((value, i) => bits[i].bit(value, load));
     },
+    readOutput: () => state.map(({ output }) => output),
   };
 };

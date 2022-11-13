@@ -4,7 +4,7 @@ import {
 } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import mux4way16, { createMux4Way16 } from "./mux4way16";
 
-const built = createMux4Way16();
+const { op: built } = createMux4Way16();
 
 describe("MUX4WAY16 - Functional", () => {
   describe.each([

@@ -3,14 +3,6 @@ import inc16 from "../../arithmetic/inc16";
 import register from "../../memory/register";
 import mux16 from "../../multiplexing/mux16";
 
-interface ProgramCounterInput {
-  input: boolean[];
-  load: boolean;
-  increment: boolean;
-  reset: boolean;
-  lastPC: boolean[];
-}
-
 /**
  * A 16-bit counter with load and reset control bits.
  * if      (reset[t] == 1) out[t+1] = 0
@@ -18,13 +10,13 @@ interface ProgramCounterInput {
  * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
  * else                    out[t+1] = out[t]
  */
-export default ({
-  input = ZERO_WORD,
-  load = false,
-  increment = false,
-  reset = false,
-  lastPC = ZERO_WORD,
-}: Partial<ProgramCounterInput> = {}): boolean[] => {
+export default (
+  input: boolean[] = ZERO_WORD,
+  load: boolean = false,
+  increment: boolean = false,
+  reset: boolean = false,
+  lastPC: boolean[] = ZERO_WORD
+): boolean[] => {
   // Increment the last value, select the incremented one if possible
   const { sum: lastPCPlusOne } = inc16(lastPC);
   const io = mux16(lastPC, lastPCPlusOne, increment);

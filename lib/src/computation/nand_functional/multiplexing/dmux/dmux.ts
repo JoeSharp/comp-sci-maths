@@ -23,11 +23,12 @@ export default (input: boolean, sel: boolean): DmuxOutput => {
  * Create a demux that re-uses the output object.
  * @returns A demux function with a consistent output object.
  */
-export const createDmux =
-  (output: DmuxOutput = { a: false, b: false }) =>
-  (input: boolean, sel: boolean) => {
+export const createDmux = (output: DmuxOutput = { a: false, b: false }) => ({
+  output,
+  op: (input: boolean, sel: boolean) => {
     const notSel = not(sel);
     output.a = and(input, notSel);
     output.b = and(input, sel);
     return output;
-  };
+  },
+});

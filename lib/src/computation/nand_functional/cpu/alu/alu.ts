@@ -19,17 +19,6 @@ import or from "../../logic/or";
 import or8way from "../../logic/or8way";
 import mux16 from "../../multiplexing/mux16";
 
-interface AluInput {
-  x: boolean[];
-  y: boolean[];
-  zx: boolean;
-  nx: boolean;
-  zy: boolean;
-  ny: boolean;
-  f: boolean;
-  no: boolean;
-}
-
 interface AluOutput {
   output: boolean[];
   zr: boolean;

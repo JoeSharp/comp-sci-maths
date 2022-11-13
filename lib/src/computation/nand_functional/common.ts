@@ -1,4 +1,5 @@
 import assert from "assert";
+import { createRegisterState, RegisterState } from "./memory/register";
 
 export const WORD_LENGTH = 16;
 
@@ -11,6 +12,13 @@ export const createMemory = (registers: number): Memory =>
   Array(registers)
     .fill(null)
     .map(() => Array(WORD_LENGTH).fill(false));
+
+export type PersistentMemory = RegisterState[];
+
+export const createPersistentMemory = (registers: number): PersistentMemory =>
+  Array(registers)
+    .fill(null)
+    .map(() => createRegisterState());
 
 export type MemoryFn = (
   input: boolean[],

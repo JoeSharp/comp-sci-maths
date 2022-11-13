@@ -1,7 +1,7 @@
 import { binaryToBoolArray as bin } from "../../../../dataRepresentation/numberBases/simpleBinary";
 import dmux8way, { createDemux8Way } from "./dmux8way";
 
-const built = createDemux8Way();
+const { op: built } = createDemux8Way();
 
 describe("Dmux8Way - Functional", () => {
   describe.each([

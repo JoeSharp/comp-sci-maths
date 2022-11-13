@@ -40,28 +40,31 @@ export const createDemux8Way = (
     h: false,
   }
 ) => {
-  const dmux4way_inAndNotSel2 = createDmux4Way();
-  const dmux4way_inAndSel2 = createDmux4Way();
+  const { op: dmux4way_inAndNotSel2 } = createDmux4Way();
+  const { op: dmux4way_inAndSel2 } = createDmux4Way();
 
-  return (input: boolean, sel: boolean[]) => {
-    const notSel2 = not(sel[2]);
+  return {
+    output,
+    op: (input: boolean, sel: boolean[]) => {
+      const notSel2 = not(sel[2]);
 
-    const inAndNotSel2 = and(input, notSel2);
-    ({
-      a: output.a,
-      b: output.b,
-      c: output.c,
-      d: output.d,
-    } = dmux4way_inAndNotSel2(inAndNotSel2, sel.slice(0, 2)));
+      const inAndNotSel2 = and(input, notSel2);
+      ({
+        a: output.a,
+        b: output.b,
+        c: output.c,
+        d: output.d,
+      } = dmux4way_inAndNotSel2(inAndNotSel2, sel.slice(0, 2)));
 
-    const inAndSel2 = and(input, sel[2]);
-    ({
-      a: output.e,
-      b: output.f,
-      c: output.g,
-      d: output.h,
-    } = dmux4way_inAndSel2(inAndSel2, sel.slice(0, 2)));
+      const inAndSel2 = and(input, sel[2]);
+      ({
+        a: output.e,
+        b: output.f,
+        c: output.g,
+        d: output.h,
+      } = dmux4way_inAndSel2(inAndSel2, sel.slice(0, 2)));
 
-    return output;
+      return output;
+    },
   };
 };

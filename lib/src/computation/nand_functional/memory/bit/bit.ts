@@ -15,7 +15,7 @@ export interface BitState {
   output: boolean;
 }
 
-const createBitState = () => ({
+export const createBitState = () => ({
   input: false,
   load: false,
   output: false,
