@@ -16,19 +16,10 @@ const ram8: MemoryFn = (
   load: boolean,
   contents: Memory = DEFAULT_CONTENTS
 ) => {
-  const {
-    a: la,
-    b: lb,
-    c: lc,
-    d: ld,
-    e: le,
-    f: lf,
-    g: lg,
-    h: lh,
-  } = dmux8way(load, address);
+  const loadBits = dmux8way(load, address);
 
-  const [ra, rb, rc, rd, re, rf, rg, rh] = [la, lb, lc, ld, le, lf, lg, lh].map(
-    (l, i) => simpleRegister(input, l, contents[i])
+  const [ra, rb, rc, rd, re, rf, rg, rh] = loadBits.map((l, i) =>
+    simpleRegister(input, l, contents[i])
   );
 
   const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address);

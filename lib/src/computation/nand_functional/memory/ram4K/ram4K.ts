@@ -14,16 +14,7 @@ const ram4K: MemoryFn = (
   const address0_2 = address.slice(0, 3);
   const address3_11 = address.slice(3, 12);
 
-  const {
-    a: la,
-    b: lb,
-    c: lc,
-    d: ld,
-    e: le,
-    f: lf,
-    g: lg,
-    h: lh,
-  } = dmux8way(load, address0_2);
+  const loadBits = dmux8way(load, address0_2);
 
   const [
     { out: ra, contents: ca },
@@ -34,7 +25,7 @@ const ram4K: MemoryFn = (
     { out: rf, contents: cf },
     { out: rg, contents: cg },
     { out: rh, contents: ch },
-  ] = [la, lb, lc, ld, le, lf, lg, lh].map((l, i) =>
+  ] = loadBits.map((l, i) =>
     ram512(input, address3_11, l, contents.slice(i * 512, (i + 1) * 512))
   );
 

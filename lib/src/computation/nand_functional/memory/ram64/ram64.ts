@@ -14,16 +14,7 @@ const ram64: MemoryFn = (
   const address0_2 = address.slice(0, 3);
   const address3_5 = address.slice(3, 6);
 
-  const {
-    a: la,
-    b: lb,
-    c: lc,
-    d: ld,
-    e: le,
-    f: lf,
-    g: lg,
-    h: lh,
-  } = dmux8way(load, address0_2);
+  const loadBits = dmux8way(load, address0_2);
 
   const [
     { out: ra, contents: ca },
@@ -34,7 +25,7 @@ const ram64: MemoryFn = (
     { out: rf, contents: cf },
     { out: rg, contents: cg },
     { out: rh, contents: ch },
-  ] = [la, lb, lc, ld, le, lf, lg, lh].map((l, i) =>
+  ] = loadBits.map((l, i) =>
     ram8(input, address3_5, l, contents.slice(i * 8, (i + 1) * 8))
   );
 

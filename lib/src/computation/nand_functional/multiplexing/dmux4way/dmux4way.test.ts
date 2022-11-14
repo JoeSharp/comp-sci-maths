@@ -20,10 +20,10 @@ describe("Demux4Way - Functional", () => {
       ({ input, sel, a, b, c, d }) => {
         const selBool = bin(sel);
         const result = op(input, selBool);
-        expect(result.a).toBe(a);
-        expect(result.b).toBe(b);
-        expect(result.c).toBe(c);
-        expect(result.d).toBe(d);
+        expect(result[0]).toBe(a);
+        expect(result[1]).toBe(b);
+        expect(result[2]).toBe(c);
+        expect(result[3]).toBe(d);
       }
     );
   });

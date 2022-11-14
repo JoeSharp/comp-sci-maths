@@ -7,38 +7,25 @@
  */
 import and from "../../logic/and";
 import not from "../../logic/not";
-import dmux4way, { Dmux4WayOutput, createDmux4Way } from "../dmux4way/dmux4way";
+import dmux4way, { createDmux4Way } from "../dmux4way/dmux4way";
 
-interface Dmux8WayOutput extends Dmux4WayOutput {
-  e: boolean;
-  f: boolean;
-  g: boolean;
-  h: boolean;
-}
+// 8 output booleans
+export type Dmux8WayOutput = boolean[];
 
 export default (input: boolean, sel: boolean[]): Dmux8WayOutput => {
   const notSel2 = not(sel[2]);
 
   const inAndNotSel2 = and(input, notSel2);
-  const { a, b, c, d } = dmux4way(inAndNotSel2, sel.slice(0, 2));
+  const out1 = dmux4way(inAndNotSel2, sel.slice(0, 2));
 
   const inAndSel2 = and(input, sel[2]);
-  const { a: e, b: f, c: g, d: h } = dmux4way(inAndSel2, sel.slice(0, 2));
+  const out2 = dmux4way(inAndSel2, sel.slice(0, 2));
 
-  return { a, b, c, d, e, f, g, h };
+  return [...out1, ...out2];
 };
 
 export const createDemux8Way = (
-  output: Dmux8WayOutput = {
-    a: false,
-    b: false,
-    c: false,
-    d: false,
-    e: false,
-    f: false,
-    g: false,
-    h: false,
-  }
+  output: Dmux8WayOutput = Array(8).fill(false)
 ) => {
   const { op: dmux4way_inAndNotSel2 } = createDmux4Way();
   const { op: dmux4way_inAndSel2 } = createDmux4Way();
@@ -50,18 +37,18 @@ export const createDemux8Way = (
 
       const inAndNotSel2 = and(input, notSel2);
       ({
-        a: output.a,
-        b: output.b,
-        c: output.c,
-        d: output.d,
+        [0]: output[0],
+        [1]: output[1],
+        [2]: output[2],
+        [3]: output[3],
       } = dmux4way_inAndNotSel2(inAndNotSel2, sel.slice(0, 2)));
 
       const inAndSel2 = and(input, sel[2]);
       ({
-        a: output.e,
-        b: output.f,
-        c: output.g,
-        d: output.h,
+        [0]: output[4],
+        [1]: output[5],
+        [2]: output[6],
+        [3]: output[7],
       } = dmux4way_inAndSel2(inAndSel2, sel.slice(0, 2)));
 
       return output;

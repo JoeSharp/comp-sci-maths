@@ -24,14 +24,14 @@ describe("Dmux8Way - Functional", () => {
       ({ input, sel, a, b, c, d, e, f, g, h }) => {
         const selBool = bin(sel);
         const result = op(input, selBool);
-        expect(result.a).toBe(a);
-        expect(result.b).toBe(b);
-        expect(result.c).toBe(c);
-        expect(result.d).toBe(d);
-        expect(result.e).toBe(e);
-        expect(result.f).toBe(f);
-        expect(result.g).toBe(g);
-        expect(result.h).toBe(h);
+        expect(result[0]).toBe(a);
+        expect(result[1]).toBe(b);
+        expect(result[2]).toBe(c);
+        expect(result[3]).toBe(d);
+        expect(result[4]).toBe(e);
+        expect(result[5]).toBe(f);
+        expect(result[6]).toBe(g);
+        expect(result[7]).toBe(h);
       }
     );
   });
