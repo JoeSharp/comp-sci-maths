@@ -29,7 +29,7 @@ const ram4K: MemoryFn = (
     ram512(input, address3_11, l, contents.slice(i * 512, (i + 1) * 512))
   );
 
-  const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address0_2);
+  const out = mux8way16([ra, rb, rc, rd, re, rf, rg, rh], address0_2);
 
   return {
     out,

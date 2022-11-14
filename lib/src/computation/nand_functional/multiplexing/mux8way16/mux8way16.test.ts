@@ -36,14 +36,7 @@ describe("MUX8WAY16 - Functional", () => {
         const selBool = bin(sel);
 
         const resultBool = mux8way16(
-          aBool,
-          bBool,
-          cBool,
-          dBool,
-          eBool,
-          fBool,
-          gBool,
-          hBool,
+          [aBool, bBool, cBool, dBool, eBool, fBool, gBool, hBool],
           selBool
         );
         const result = arr(resultBool);

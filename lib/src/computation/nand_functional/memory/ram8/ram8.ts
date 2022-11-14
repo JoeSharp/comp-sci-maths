@@ -22,7 +22,7 @@ const ram8: MemoryFn = (
     simpleRegister(input, l, contents[i])
   );
 
-  const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address);
+  const out = mux8way16([ra, rb, rc, rd, re, rf, rg, rh], address);
 
   return {
     out,
@@ -37,8 +37,8 @@ export type Ram8State = RegisterState[];
 export const createRam8 = (state = createPersistentMemory(8)) => {
   const registers = state.map(createRegister);
 
-  const { output: loadDemux8WayOutput, op: loadDemux8Way } = createDemux8Way();
-  const { output: outMux8WayOutput, op: outMux8Way } = createMux8Way16();
+  const { output: loadBits, op: loadDemux8Way } = createDemux8Way();
+  const { output, op: outMux8Way } = createMux8Way16();
 
   return {
     state,

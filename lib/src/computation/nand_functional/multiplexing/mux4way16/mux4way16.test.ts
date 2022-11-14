@@ -28,7 +28,7 @@ describe("MUX4WAY16 - Functional", () => {
         const dBool = bin(d);
         const selBool = bin(sel);
 
-        const resultBool = op(aBool, bBool, cBool, dBool, selBool);
+        const resultBool = op([aBool, bBool, cBool, dBool], selBool);
         const result = arr(resultBool);
         expect(result).toBe(expected);
       }

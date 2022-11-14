@@ -11,19 +11,9 @@ import { createMux4Way16 } from "../mux4way16/mux4way16";
  *       etc.
  *       h if sel == 111
  */
-export default (
-  a: boolean[],
-  b: boolean[],
-  c: boolean[],
-  d: boolean[],
-  e: boolean[],
-  f: boolean[],
-  g: boolean[],
-  h: boolean[],
-  sel: boolean[]
-): boolean[] => {
-  const abcd = mux4way16(a, b, c, d, sel.slice(0, 2));
-  const efgh = mux4way16(e, f, g, h, sel.slice(0, 2));
+export default (input: boolean[][], sel: boolean[]): boolean[] => {
+  const abcd = mux4way16(input.slice(0, 4), sel.slice(0, 2));
+  const efgh = mux4way16(input.slice(4, 8), sel.slice(0, 2));
   return mux16(abcd, efgh, sel[2]);
 };
 
@@ -34,19 +24,9 @@ export const createMux8Way16 = (output: boolean[] = [...ZERO_WORD]) => {
 
   return {
     output,
-    op: (
-      a: boolean[],
-      b: boolean[],
-      c: boolean[],
-      d: boolean[],
-      e: boolean[],
-      f: boolean[],
-      g: boolean[],
-      h: boolean[],
-      sel: boolean[]
-    ) => {
-      const abcd = mux4way16_abcd(a, b, c, d, sel.slice(0, 2));
-      const efgh = mux4way16_efgh(e, f, g, h, sel.slice(0, 2));
+    op: (input: boolean[][], sel: boolean[]) => {
+      const abcd = mux4way16_abcd(input.slice(0, 4), sel.slice(0, 2));
+      const efgh = mux4way16_efgh(input.slice(4, 8), sel.slice(0, 2));
       return mux16_output(abcd, efgh, sel[2]);
     },
   };

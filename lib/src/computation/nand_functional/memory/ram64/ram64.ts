@@ -29,7 +29,7 @@ const ram64: MemoryFn = (
     ram8(input, address3_5, l, contents.slice(i * 8, (i + 1) * 8))
   );
 
-  const out = mux8way16(ra, rb, rc, rd, re, rf, rg, rh, address0_2);
+  const out = mux8way16([ra, rb, rc, rd, re, rf, rg, rh], address0_2);
 
   return {
     out,
