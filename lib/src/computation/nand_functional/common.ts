@@ -1,4 +1,5 @@
 import assert from "assert";
+import { ZERO_WORD } from "../nand/types";
 import { createRegisterState, RegisterState } from "./memory/register";
 
 export const WORD_LENGTH = 16;
@@ -13,12 +14,19 @@ export const createMemory = (registers: number): Memory =>
     .fill(null)
     .map(() => Array(WORD_LENGTH).fill(false));
 
-export type PersistentMemory = RegisterState[];
+export type PersistentMemory = {
+  output: boolean[];
+  contents: RegisterState[];
+};
 
-export const createPersistentMemory = (registers: number): PersistentMemory =>
-  Array(registers)
+export const createPersistentMemory = (
+  registers: number
+): PersistentMemory => ({
+  output: [...ZERO_WORD],
+  contents: Array(registers)
     .fill(null)
-    .map(() => createRegisterState());
+    .map(() => createRegisterState()),
+});
 
 export type MemoryFn = (
   input: boolean[],

@@ -12,6 +12,8 @@ import dmux4way, { createDmux4Way } from "../dmux4way/dmux4way";
 // 8 output booleans
 export type Dmux8WayOutput = boolean[];
 
+export const createDmux8WayOutput = () => Array(8).fill(false);
+
 export default (input: boolean, sel: boolean[]): Dmux8WayOutput => {
   const notSel2 = not(sel[2]);
 
@@ -25,7 +27,7 @@ export default (input: boolean, sel: boolean[]): Dmux8WayOutput => {
 };
 
 export const createDemux8Way = (
-  output: Dmux8WayOutput = Array(8).fill(false)
+  output: Dmux8WayOutput = createDmux8WayOutput()
 ) => {
   const { op: dmux4way_inAndNotSel2 } = createDmux4Way();
   const { op: dmux4way_inAndSel2 } = createDmux4Way();

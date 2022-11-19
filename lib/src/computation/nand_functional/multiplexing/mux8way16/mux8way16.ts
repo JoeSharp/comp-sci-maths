@@ -17,7 +17,11 @@ export default (input: boolean[][], sel: boolean[]): boolean[] => {
   return mux16(abcd, efgh, sel[2]);
 };
 
-export const createMux8Way16 = (output: boolean[] = [...ZERO_WORD]) => {
+export const createMux8Way16Output = () => [...ZERO_WORD];
+
+export const createMux8Way16 = (
+  output: boolean[] = createMux8Way16Output()
+) => {
   const { op: mux4way16_abcd } = createMux4Way16();
   const { op: mux4way16_efgh } = createMux4Way16();
   const { op: mux16_output } = createMux16(output);
