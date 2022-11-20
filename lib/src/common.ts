@@ -1,4 +1,3 @@
-
 import {
   EqualityCheck,
   ToString,
@@ -18,25 +17,25 @@ const generateUniqueId = (): string => `${nextId++}`;
 export const generateLineRef = (rawLineRef?: RawLineRef): LineReference => {
   if (rawLineRef === undefined) {
     return {
-      id: generateUniqueId()
-    }
+      id: generateUniqueId(),
+    };
   }
   if (isString(rawLineRef)) {
     return {
       id: generateUniqueId(),
-      originalLine: rawLineRef
-    }
+      originalLine: rawLineRef,
+    };
   }
 
-  if ('id' in rawLineRef) {
+  if ("id" in rawLineRef) {
     return rawLineRef;
   } else {
     return {
       id: generateUniqueId(),
-      ...rawLineRef
-    }
+      ...rawLineRef,
+    };
   }
-}
+};
 
 export const ROOT_RECURSION_KEY = 50;
 
@@ -45,12 +44,20 @@ export interface IndexWindow {
   end: number;
 }
 
-export const bytesToString = (contents: number[], columns: number, window: IndexWindow) => {
+export const bytesToString = (
+  contents: number[],
+  columns: number,
+  window: IndexWindow
+) => {
   return contents
     .filter((_, i) => i >= window.start && i < window.end)
-    .map((x, i) => i % columns === 0 ? `\n${(i + window.start).toString(10)}: ${x.toString(10)}` : x.toString(10))
-    .join(", ")
-}
+    .map((x, i) =>
+      i % columns === 0
+        ? `\n${(i + window.start).toString(10)}: ${x.toString(10)}`
+        : x.toString(10)
+    )
+    .join(", ");
+};
 
 export const defaultEqualityCheck: EqualityCheck<any> = (a: any, b: any) =>
   a === b;
@@ -65,13 +72,13 @@ export function simpleSwap<T>(arr: T[], from: number, to: number) {
 export function objToString(o?: object) {
   return !!o
     ? Object.entries(o)
-      .map((k) => `${k[0]}=${k[1]}`)
-      .join(" ")
+        .map((k) => `${k[0]}=${k[1]}`)
+        .join(" ")
     : "none";
 }
 
 // tslint:disable-next-line: no-empty
-export const emptyObserver = () => { };
+export const emptyObserver = () => {};
 
 // This needs to work for strings and numbers, which is why I cannot use b-a
 export const anyComparator: Comparator<any> = (a: any, b: any) => {
@@ -121,7 +128,8 @@ export function fisherYatesShuffle(array: any[]) {
   }
 }
 
-export const generateRandomNumber = (from: number, to: number): number => from + Math.floor((to - from) * Math.random());
+export const generateRandomNumber = (from: number, to: number): number =>
+  from + Math.floor((to - from) * Math.random());
 
 /**
  * Generate a list of random numbers in array of given length
@@ -143,9 +151,7 @@ export function generateRandomNumbers(
       .map((i) => from + i);
     fisherYatesShuffle(data);
   } else {
-    data = Array(length)
-      .fill(null)
-      .map(generateRandomNumber);
+    data = Array(length).fill(null).map(generateRandomNumber);
   }
 
   if (sorted) {
@@ -219,11 +225,11 @@ export const generateRandomLetters = (
 };
 
 export const getAllEnumKeys = (enumType: any): string[] =>
-  Object.keys(enumType).filter(key => isNaN(Number(key)))
+  Object.keys(enumType).filter((key) => isNaN(Number(key)));
 export const getAllEnumValues = (enumType: any) =>
-  getAllEnumKeys(enumType).map((key: string) => enumType[key])
+  getAllEnumKeys(enumType).map((key: string) => enumType[key]);
 export const getAllEnumEntries = (enumType: any) =>
-  getAllEnumKeys(enumType).map((key: string) => [key, enumType[key]])
+  getAllEnumKeys(enumType).map((key: string) => [key, enumType[key]]);
 
 export function pickRandomIndex(from: any[]): number {
   return Math.floor(from.length * Math.random());
@@ -234,4 +240,14 @@ export function pickRandomIndex(from: any[]): number {
  */
 export function pickRandom<T>(from: T[]): T {
   return from[pickRandomIndex(from)];
+}
+
+export function validateArrayIndices(arr: any[], ...index: number[]) {
+  index.forEach((i) => {
+    if (i >= arr.length || i < 0) {
+      throw new Error(
+        `Invalid index ${index} to access array of index ${arr.length}`
+      );
+    }
+  });
 }
