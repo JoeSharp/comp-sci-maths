@@ -1,14 +1,12 @@
-import { validateArrayIndices } from "../../common";
+import {
+  arrayIsInOrder,
+  numberComparator,
+  validateArrayIndices,
+} from "../../common";
 
-export type HanoiStack = {
-  state: number[];
-  lastMoveValid: boolean;
-};
+export type HanoiStack = number[];
 
-export type HanoiStacks = {
-  stacks: HanoiStack[];
-  lastMoveValid: boolean;
-};
+export type HanoiStacks = HanoiStack[];
 
 const NUMBER_OF_STACKS = 3;
 const DEFAULT_HEIGHT = 5;
@@ -20,12 +18,10 @@ const DEFAULT_HEIGHT = 5;
  */
 export const createStacks = (
   heightOfFirst: number = DEFAULT_HEIGHT
-): HanoiStacks => ({
-  stacks: Array(NUMBER_OF_STACKS)
+): HanoiStacks =>
+  Array(NUMBER_OF_STACKS)
     .fill(null)
-    .map((_, i) => createStack(i === 0 ? heightOfFirst : 0)),
-  lastMoveValid: true,
-});
+    .map((_, i) => createStack(i === 0 ? heightOfFirst : 0));
 
 /**
  * Create a new stack. For non zero height, populate with one-up numbers.
@@ -33,14 +29,10 @@ export const createStacks = (
  * @param height The height of the stack to build.
  * @returns The created stack.
  */
-export const createStack = (height: number = 0): HanoiStack => {
-  return {
-    state: Array(height)
-      .fill(null)
-      .map((_, i) => i + 1),
-    lastMoveValid: true,
-  };
-};
+export const createStack = (height: number = 0): HanoiStack =>
+  Array(height)
+    .fill(null)
+    .map((_, i) => i + 1);
 
 /**
  * Attempt to place an item on a hanoi stack.
@@ -50,26 +42,20 @@ export const createStack = (height: number = 0): HanoiStack => {
  *
  * @param item The item to place
  * @param param1 The current state of the stack
- * @returns The new state of the stack
+ * @returns An array containing a success indicator and the new state of the stack
  */
-export const placeItem = (item: number, { state }: HanoiStack): HanoiStack => {
-  if (state.length === 0) {
-    return {
-      state: [item],
-      lastMoveValid: true,
-    };
+export const placeItem = (
+  item: number,
+  stack: HanoiStack
+): [boolean, HanoiStack] => {
+  if (stack.length === 0) {
+    return [true, [item]];
   }
 
-  if (state[0] > item) {
-    return {
-      state: [item, ...state],
-      lastMoveValid: true,
-    };
+  if (stack[0] > item) {
+    return [true, [item, ...stack]];
   } else {
-    return {
-      state,
-      lastMoveValid: false,
-    };
+    return [false, stack];
   }
 };
 
@@ -79,28 +65,16 @@ export const placeItem = (item: number, { state }: HanoiStack): HanoiStack => {
  * @param stack The stack from which to remove an item
  * @returns The state of the stack after the removal, with the item removed
  */
-export const removeItem = ({
-  state,
-}: HanoiStack): { item: number | undefined; stack: HanoiStack } => {
-  if (state.length === 0) {
-    return {
-      item: undefined,
-      stack: {
-        state,
-        lastMoveValid: false,
-      },
-    };
+export const removeItem = (
+  stack: HanoiStack
+): [boolean, number | undefined, HanoiStack] => {
+  if (stack.length === 0) {
+    return [false, undefined, stack];
   }
 
-  const [item, ...items] = state;
+  const [item, ...items] = stack;
 
-  return {
-    item,
-    stack: {
-      state: items,
-      lastMoveValid: true,
-    },
-  };
+  return [true, item, items];
 };
 
 /**
@@ -114,33 +88,33 @@ export const removeItem = ({
 export const moveItem = (
   from: number,
   to: number,
-  { stacks }: HanoiStacks
-): HanoiStacks => {
+  stacks: HanoiStacks
+): [boolean, HanoiStacks] => {
   validateArrayIndices(stacks, from, to);
 
-  const removeResult = removeItem(stacks[from]);
-  if (!removeResult.stack.lastMoveValid) {
-    return { stacks, lastMoveValid: false };
+  const [removeSuccess, removedItem, fromStack] = removeItem(stacks[from]);
+  if (!removeSuccess) {
+    return [false, stacks];
   }
 
-  const placeResult = placeItem(removeResult.item, stacks[to]);
-  if (!placeResult.lastMoveValid) {
-    return { stacks, lastMoveValid: false };
+  const [placeSuccess, toStack] = placeItem(removedItem, stacks[to]);
+  if (!placeSuccess) {
+    return [false, stacks];
   }
 
-  return {
-    stacks: stacks.map((stack, i) => {
+  return [
+    true,
+    stacks.map((stack, i) => {
       switch (i) {
         case from:
-          return removeResult.stack;
+          return fromStack;
         case to:
-          return placeResult;
+          return toStack;
         default:
           return stack;
       }
     }),
-    lastMoveValid: true,
-  };
+  ];
 };
 
 /**
@@ -152,5 +126,19 @@ export const moveItem = (
  * @returns A boolean to indicate if the game is won.
  */
 export const isComplete = (stacks: HanoiStacks): boolean => {
+  if (stacks.length !== 3) {
+    throw new Error("Invalid number of stacks");
+  }
+
+  if (stacks[0].length > 0) return false;
+  if (stacks[1].length > 0) return false;
+  if (stacks[2].length === 0) {
+    throw new Error("There are not items on any stacks");
+  }
+
+  if (!arrayIsInOrder(stacks[2], numberComparator)) {
+    throw new Error("The last stack is not in order");
+  }
+
   return true;
 };

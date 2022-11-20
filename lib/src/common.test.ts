@@ -1,4 +1,10 @@
-import { generateLineRef, validateArrayIndices } from "./common";
+import {
+  arrayIsInOrder,
+  generateLineRef,
+  numberComparator,
+  stringComparator,
+  validateArrayIndices,
+} from "./common";
 
 describe("Common", () => {
   test("Line References", () => {
@@ -52,6 +58,32 @@ describe("Common", () => {
 
     it("Doesn`t throw error for valid indices", () => {
       expect(() => validateArrayIndices([1, 2, 3], 0, 1, 2)).not.toThrowError();
+    });
+  });
+
+  describe("arrayIsInOrder - number", () => {
+    it("empty array is in order", () => {
+      expect(arrayIsInOrder([], numberComparator)).toBeTruthy();
+    });
+
+    it("array correctly identified as in order", () => {
+      expect(arrayIsInOrder([1, 2, 3], numberComparator)).toBeTruthy();
+    });
+
+    it("array correctly identified as out of order", () => {
+      expect(arrayIsInOrder([1, 2, 5, 7, 4], numberComparator)).toBeFalsy();
+    });
+  });
+
+  describe("arrayIsInOrder - string", () => {
+    it("array correctly identified as in order", () => {
+      expect(arrayIsInOrder(["a", "b", "c"], stringComparator)).toBeTruthy();
+    });
+
+    it("array correctly identified as out of order", () => {
+      expect(
+        arrayIsInOrder(["a", "b", "c", "f", "e"], stringComparator)
+      ).toBeFalsy();
     });
   });
 });

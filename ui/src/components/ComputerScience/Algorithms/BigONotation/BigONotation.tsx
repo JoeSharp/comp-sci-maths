@@ -1,4 +1,4 @@
-import { arithmeticComparator } from "@comp-sci-maths/lib/dist/common";
+import { numberComparator } from "@comp-sci-maths/lib/dist/common";
 import React from "react";
 import Checkbox from "../../../Bootstrap/Checkbox";
 import useSketch from "../../../p5/useSketch";
@@ -21,18 +21,15 @@ const DEFAULT_START_SIZE: number = 10;
 const DEFAULT_END_SIZE: number = 1000;
 
 const BigONotation: React.FunctionComponent = () => {
-  const { componentProps: algorithmTypePickerProps } = useAlgorithmTypePicker(
-    "form-control"
-  );
+  const { componentProps: algorithmTypePickerProps } =
+    useAlgorithmTypePicker("form-control");
 
   const {
     algorithm: searchAlgorithm,
     componentProps: searchAlgorithmPickerProps,
   } = useSearchAlgorithmPicker("form-control");
-  const {
-    algorithm: sortAlgorithm,
-    componentProps: sortAlgorithmPickerProps,
-  } = useSortAlgorithmPicker("form-control");
+  const { algorithm: sortAlgorithm, componentProps: sortAlgorithmPickerProps } =
+    useSortAlgorithmPicker("form-control");
 
   const [step, setStep] = React.useState<number>(DEFAULT_STEP);
   const [startSize, setStartSize] = React.useState<number>(DEFAULT_START_SIZE);
@@ -47,14 +44,14 @@ const BigONotation: React.FunctionComponent = () => {
         searchAlgorithm.search(inputList, inputList[indexToFind], {
           compare: (a, b) => {
             numberOfComparisons++;
-            return arithmeticComparator(a, b);
+            return numberComparator(a, b);
           },
         });
       } else if (algorithmTypePickerProps.value === "sort" && !!sortAlgorithm) {
         sortAlgorithm.sort(inputList, {
           compare: (a, b) => {
             numberOfComparisons++;
-            return arithmeticComparator(a, b);
+            return numberComparator(a, b);
           },
         });
       }
@@ -72,27 +69,28 @@ const BigONotation: React.FunctionComponent = () => {
     algorithmWrapper,
   });
 
-  const onStepChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setStep(parseInt(value)),
-    [setStep]
-  );
-  const onStartSizeChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setStartSize(parseInt(value)),
-    [setStartSize]
-  );
-  const onEndSizeChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    ({ target: { value } }) => setEndSize(parseInt(value)),
-    [setEndSize]
-  );
+  const onStepChange: React.ChangeEventHandler<HTMLInputElement> =
+    React.useCallback(
+      ({ target: { value } }) => setStep(parseInt(value)),
+      [setStep]
+    );
+  const onStartSizeChange: React.ChangeEventHandler<HTMLInputElement> =
+    React.useCallback(
+      ({ target: { value } }) => setStartSize(parseInt(value)),
+      [setStartSize]
+    );
+  const onEndSizeChange: React.ChangeEventHandler<HTMLInputElement> =
+    React.useCallback(
+      ({ target: { value } }) => setEndSize(parseInt(value)),
+      [setEndSize]
+    );
 
   const { refContainer, updateConfig } = useSketch(BigOSketch);
 
-  React.useEffect(() => updateConfig({ startSize, endSize, measurements }), [
-    startSize,
-    endSize,
-    measurements,
-    updateConfig,
-  ]);
+  React.useEffect(
+    () => updateConfig({ startSize, endSize, measurements }),
+    [startSize, endSize, measurements, updateConfig]
+  );
 
   return (
     <div>

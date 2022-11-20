@@ -1,5 +1,5 @@
 import {
-  arithmeticComparator,
+  numberComparator,
   generateRandomNumbers,
 } from "@comp-sci-maths/lib/dist/common";
 import React from "react";
@@ -34,7 +34,7 @@ const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
 
       for (let n = state.startSize; n < state.endSize; n += state.step) {
         const inputList: number[] = generateRandomNumbers(0, 1000, n);
-        inputList.sort(arithmeticComparator);
+        inputList.sort(numberComparator);
 
         // Search for some specific indices
         let numberOfComparisons: number = state.algorithmWrapper(inputList);
@@ -42,10 +42,10 @@ const reducer = (state: ReducerState, action: ReducerAction): ReducerState => {
         measurements[n] =
           state.iterations > 0
             ? Math.floor(
-              numberOfComparisons / (state.iterations + 1) +
-              ((state.measurements[n] || 0) * state.iterations) /
-              (state.iterations + 1)
-            )
+                numberOfComparisons / (state.iterations + 1) +
+                  ((state.measurements[n] || 0) * state.iterations) /
+                    (state.iterations + 1)
+              )
             : numberOfComparisons;
       }
       return {

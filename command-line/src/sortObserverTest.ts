@@ -1,13 +1,13 @@
 import {
   generateRandomNumbers,
-  arithmeticComparator,
+  numberComparator,
   objToString,
 } from "@comp-sci-maths/lib/dist/common";
 
 import algorithms from "@comp-sci-maths/lib/dist/algorithms/sort";
 import { SortObserver } from "@comp-sci-maths/lib/dist/algorithms/sort/types";
 
-import simpleLogger from './simpleLogger';
+import simpleLogger from "./simpleLogger";
 
 const observe: SortObserver<number> = (
   stageName: string,
@@ -29,5 +29,5 @@ algorithms.forEach(({ name, sort }) => {
   const inputList: number[] = generateRandomNumbers(0, 100, 10);
 
   // Execute the sort
-  sort(inputList, { compare: arithmeticComparator, observe });
+  sort(inputList, { compare: numberComparator, observe });
 });

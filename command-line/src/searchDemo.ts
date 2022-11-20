@@ -1,11 +1,11 @@
 import algorithms from "@comp-sci-maths/lib/dist/algorithms/search";
 import {
-  arithmeticComparator,
+  numberComparator,
   generateRandomNumbers,
   objToString,
 } from "@comp-sci-maths/lib/dist/common";
 import { SearchObserver } from "@comp-sci-maths/lib/dist/types";
-import simpleLogger from './simpleLogger';
+import simpleLogger from "./simpleLogger";
 
 const observe: SearchObserver = (
   stageName: string,
@@ -22,7 +22,7 @@ algorithms.forEach(({ name, search }) => {
   const inputList: number[] = generateRandomNumbers(0, 100, 20);
 
   // Binary search requires sorted array, so lets just sort it for all tests
-  inputList.sort(arithmeticComparator);
+  inputList.sort(numberComparator);
 
   // Search for some specific indices
   [1, 10, 14, 19].forEach((index) => {
@@ -30,7 +30,7 @@ algorithms.forEach(({ name, search }) => {
 
     // Search for the 15th one
     const found = search(inputList, inputList[index], {
-      compare: arithmeticComparator,
+      compare: numberComparator,
       observe,
     });
 

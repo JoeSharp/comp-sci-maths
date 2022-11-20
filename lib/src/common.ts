@@ -101,10 +101,8 @@ export const anyComparator: Comparator<any> = (a: any, b: any) => {
  * @param {number | string} a First item
  * @param {number | string} b Second item
  */
-export const arithmeticComparator: Comparator<number> = (
-  a: number,
-  b: number
-) => a - b;
+export const numberComparator: Comparator<number> = (a: number, b: number) =>
+  a - b;
 
 export const stringComparator: Comparator<string> = (a: string, b: string) =>
   a.localeCompare(b);
@@ -250,4 +248,26 @@ export function validateArrayIndices(arr: any[], ...index: number[]) {
       );
     }
   });
+}
+
+/**
+ * Check that an array is in order.
+ *
+ * @param arr The array
+ * @param comparator A method for comparing items in the array
+ * @returns True if the array is in order
+ */
+export function arrayIsInOrder<T>(
+  arr: T[],
+  comparator: Comparator<T>
+): boolean {
+  if (arr.length < 2) return true;
+
+  for (let i = 1; i < arr.length; i++) {
+    if (comparator(arr[i - 1], arr[i]) > 0) {
+      return false;
+    }
+  }
+
+  return true;
 }

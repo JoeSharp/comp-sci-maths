@@ -1,5 +1,4 @@
-import { simpleSwap, arithmeticComparator, stringComparator } from "./common";
-
+import { simpleSwap, numberComparator, stringComparator } from "./common";
 
 test("Swap (numbers)", () => {
   const data = [5, 6, 9, 1, 3];
@@ -23,9 +22,9 @@ test("Swap (objects)", () => {
 });
 
 test("Compare (numbers)", () => {
-  const inOrder = arithmeticComparator(5, 6);
-  const outOfOrder = arithmeticComparator(8, 3);
-  const isEqual = arithmeticComparator(4, 4);
+  const inOrder = numberComparator(5, 6);
+  const outOfOrder = numberComparator(8, 3);
+  const isEqual = numberComparator(4, 4);
 
   expect(inOrder).toBeLessThan(0);
   expect(outOfOrder).toBeGreaterThan(0);
