@@ -32,7 +32,7 @@ interface AluOutput {
  * @param negate Should we then negate it?
  * @returns Output based on those decision.
  */
-const alu_input_proc = (
+const aluInputProc = (
   input: boolean[],
   zero: boolean,
   negate: boolean
@@ -51,7 +51,7 @@ const alu_input_proc = (
  * @param no Negate the output?
  * @returns The output
  */
-const alu_function_calc = (
+const aluFunctionCalc = (
   x: boolean[],
   y: boolean[],
   f: boolean,
@@ -78,11 +78,11 @@ export default (
   no: boolean
 ): AluOutput => {
   // Generate processed versions of the inputs based on the flags
-  const xProcessed = alu_input_proc(x, zx, nx);
-  const yProcessed = alu_input_proc(y, zy, ny);
+  const xProcessed = aluInputProc(x, zx, nx);
+  const yProcessed = aluInputProc(y, zy, ny);
 
   // Calculate output value
-  const output = alu_function_calc(xProcessed, yProcessed, f, no);
+  const output = aluFunctionCalc(xProcessed, yProcessed, f, no);
 
   // Assess output
   const zrLsb = or8way(output.slice(0, 8));

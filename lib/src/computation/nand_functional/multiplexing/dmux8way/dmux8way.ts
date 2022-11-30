@@ -29,8 +29,8 @@ export default (input: boolean, sel: boolean[]): Dmux8WayOutput => {
 export const createDemux8Way = (
   output: Dmux8WayOutput = createDmux8WayOutput()
 ) => {
-  const { op: dmux4way_inAndNotSel2 } = createDmux4Way();
-  const { op: dmux4way_inAndSel2 } = createDmux4Way();
+  const { op: dmux4wayInAndNotSel2 } = createDmux4Way();
+  const { op: dmux4wayInAndSel2 } = createDmux4Way();
 
   return {
     output,
@@ -43,7 +43,7 @@ export const createDemux8Way = (
         [1]: output[1],
         [2]: output[2],
         [3]: output[3],
-      } = dmux4way_inAndNotSel2(inAndNotSel2, sel.slice(0, 2)));
+      } = dmux4wayInAndNotSel2(inAndNotSel2, sel.slice(0, 2)));
 
       const inAndSel2 = and(input, sel[2]);
       ({
@@ -51,7 +51,7 @@ export const createDemux8Way = (
         [1]: output[5],
         [2]: output[6],
         [3]: output[7],
-      } = dmux4way_inAndSel2(inAndSel2, sel.slice(0, 2)));
+      } = dmux4wayInAndSel2(inAndSel2, sel.slice(0, 2)));
 
       return output;
     },

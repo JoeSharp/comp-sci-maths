@@ -31,18 +31,18 @@ export default (input: boolean, sel: boolean[]): Dmux4WayOutput => {
 export const createDmux4Way = (
   output: Dmux4WayOutput = Array(4).fill(false)
 ) => {
-  const { op: dmux_ab } = createDmux();
-  const { op: dmux_bc } = createDmux();
+  const { op: dmuxAb } = createDmux();
+  const { op: dmuxBc } = createDmux();
 
   return {
     output,
     op: (input: boolean, sel: boolean[]) => {
       const notSel1 = not(sel[1]);
       const inAndNotSel1 = and(input, notSel1);
-      ({ a: output[0], b: output[1] } = dmux_ab(inAndNotSel1, sel[0]));
+      ({ a: output[0], b: output[1] } = dmuxAb(inAndNotSel1, sel[0]));
 
       const inAndSel1 = and(input, sel[1]);
-      ({ a: output[2], b: output[3] } = dmux_bc(inAndSel1, sel[0]));
+      ({ a: output[2], b: output[3] } = dmuxBc(inAndSel1, sel[0]));
 
       return output;
     },

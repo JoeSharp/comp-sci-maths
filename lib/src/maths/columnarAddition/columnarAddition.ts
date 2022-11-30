@@ -20,7 +20,7 @@ export interface ColumnarAdditionState {
  * @returns A structure that contains the digits
  */
 export const expandDigits = (base: number, value: number): Digits => {
-  let digits: Digits = [];
+  const digits: Digits = [];
 
   while (value > 0) {
     digits.push(value % base);
@@ -39,13 +39,13 @@ export const createWorkedAddition = (
   ...rawInputs: number[]
 ): ColumnarAdditionState => {
   let index = 0;
-  let result: Digits = [];
-  let carries: Digits = [];
+  const result: Digits = [];
+  const carries: Digits = [];
   let carry = 0;
   const inputs = rawInputs.map((i) => expandDigits(base, i));
 
   while (true) {
-    let digitsToAdd = inputs
+    const digitsToAdd = inputs
       .filter((input) => input.length > index)
       .map((input) => input[index]);
     index++;
@@ -54,7 +54,7 @@ export const createWorkedAddition = (
     if (digitsToAdd.length === 0) break;
 
     // Calculate the total for this column
-    let totalForDigit = digitsToAdd.reduce((acc, curr) => acc + curr, carry);
+    const totalForDigit = digitsToAdd.reduce((acc, curr) => acc + curr, carry);
 
     // Split into the result and the carry
     carry = Math.floor(totalForDigit / base);
@@ -63,7 +63,6 @@ export const createWorkedAddition = (
   }
 
   // If there is a non-zero carry at the end, push it onto the result
-  carries.shift;
   if (carries.length > 0 && carries[carries.length - 1]) {
     result.push(carries[carries.length - 1]);
     carries.push(0);

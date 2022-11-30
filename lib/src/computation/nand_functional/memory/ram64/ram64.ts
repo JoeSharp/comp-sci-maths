@@ -11,10 +11,10 @@ const ram64: MemoryFn = (
   load: boolean,
   contents: Memory = DEFAULT_CONTENTS
 ) => {
-  const address0_2 = address.slice(0, 3);
-  const address3_5 = address.slice(3, 6);
+  const address0to2 = address.slice(0, 3);
+  const address3to5 = address.slice(3, 6);
 
-  const loadBits = dmux8way(load, address0_2);
+  const loadBits = dmux8way(load, address0to2);
 
   const [
     { out: ra, contents: ca },
@@ -26,10 +26,10 @@ const ram64: MemoryFn = (
     { out: rg, contents: cg },
     { out: rh, contents: ch },
   ] = loadBits.map((l, i) =>
-    ram8(input, address3_5, l, contents.slice(i * 8, (i + 1) * 8))
+    ram8(input, address3to5, l, contents.slice(i * 8, (i + 1) * 8))
   );
 
-  const out = mux8way16([ra, rb, rc, rd, re, rf, rg, rh], address0_2);
+  const out = mux8way16([ra, rb, rc, rd, re, rf, rg, rh], address0to2);
 
   return {
     out,

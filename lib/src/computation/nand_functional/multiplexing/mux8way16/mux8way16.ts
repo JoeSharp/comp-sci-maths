@@ -22,16 +22,16 @@ export const createMux8Way16Output = () => [...ZERO_WORD];
 export const createMux8Way16 = (
   output: boolean[] = createMux8Way16Output()
 ) => {
-  const { op: mux4way16_abcd } = createMux4Way16();
-  const { op: mux4way16_efgh } = createMux4Way16();
-  const { op: mux16_output } = createMux16(output);
+  const { op: mux4way16Abcd } = createMux4Way16();
+  const { op: mux4way16Efgh } = createMux4Way16();
+  const { op: mux16Output } = createMux16(output);
 
   return {
     output,
     op: (input: boolean[][], sel: boolean[]) => {
-      const abcd = mux4way16_abcd(input.slice(0, 4), sel.slice(0, 2));
-      const efgh = mux4way16_efgh(input.slice(4, 8), sel.slice(0, 2));
-      return mux16_output(abcd, efgh, sel[2]);
+      const abcd = mux4way16Abcd(input.slice(0, 4), sel.slice(0, 2));
+      const efgh = mux4way16Efgh(input.slice(4, 8), sel.slice(0, 2));
+      return mux16Output(abcd, efgh, sel[2]);
     },
   };
 };
