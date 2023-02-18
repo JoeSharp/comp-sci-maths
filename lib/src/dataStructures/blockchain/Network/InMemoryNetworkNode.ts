@@ -1,8 +1,8 @@
 import Message from "./Message";
 import NetworkNode from "./NetworkNode";
 
-class InMemoryNetworkNode<T> extends NetworkNode<T> {
-  messages: Message<T>[];
+class InMemoryNetworkNode extends NetworkNode {
+  messages: Message[];
 
   constructor(id: string) {
     super(id);
@@ -10,12 +10,12 @@ class InMemoryNetworkNode<T> extends NetworkNode<T> {
     this.messages = [];
   }
 
-  receiveMessage(message: Message<T>): Promise<boolean> {
+  receiveMessage(message: Message): Promise<boolean> {
     this.messages.push(message);
     return Promise.resolve(true);
   }
 
-  popMessage(): Message<T> | undefined {
+  popMessage(): Message | undefined {
     return this.messages.shift();
   }
 }

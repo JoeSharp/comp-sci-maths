@@ -8,23 +8,21 @@ describe("Network", () => {
   const NODE_ID_3 = "mary";
 
   test("Simple One to One Communication", () => {
-    const network = new Network<string>();
-    const bob = new InMemoryNetworkNode<string>(NODE_ID_1);
-    const alice = new InMemoryNetworkNode<string>(NODE_ID_2);
-    const mary = new InMemoryNetworkNode<string>(NODE_ID_3);
+    const network = new Network();
+    const bob = new InMemoryNetworkNode(NODE_ID_1);
+    const alice = new InMemoryNetworkNode(NODE_ID_2);
+    const mary = new InMemoryNetworkNode(NODE_ID_3);
 
     [bob, alice, mary].forEach((node) => network.addNode(node));
 
     const bobToMary = bob.sendMessage(
-      new Message<string>().to(mary.id).containing("Hello Mary From Bob")
+      new Message().to(mary.id).containing("Hello Mary From Bob")
     );
     const maryToAlice = mary.sendMessage(
-      new Message<string>().to(alice.id).containing("Hello Alice From Mary")
+      new Message().to(alice.id).containing("Hello Alice From Mary")
     );
     const aliceToMary = alice.sendMessage(
-      new Message<string>()
-        .to(mary.id)
-        .containing("Hello There Mary From Alice")
+      new Message().to(mary.id).containing("Hello There Mary From Alice")
     );
 
     expect(bobToMary).resolves.toBeTruthy();

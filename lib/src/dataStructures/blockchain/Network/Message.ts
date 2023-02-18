@@ -1,7 +1,10 @@
-class Message<T> {
+import { sign } from "crypto";
+
+class Message {
   sourceId: string;
   destinationId: string;
-  content: T;
+  content: Buffer; // Base 64 encoded
+  signature?: Buffer; // Base 64 encoded
 
   from(sourceId: string): this {
     this.sourceId = sourceId;
@@ -13,8 +16,13 @@ class Message<T> {
     return this;
   }
 
-  containing(contents: T): this {
-    this.content = contents;
+  containing(contents: Buffer | string): this {
+    this.content = Buffer.isBuffer(contents) ? contents : Buffer.from(contents);
+    return this;
+  }
+
+  signedWith(signature: Buffer): this {
+    this.signature = signature;
     return this;
   }
 }

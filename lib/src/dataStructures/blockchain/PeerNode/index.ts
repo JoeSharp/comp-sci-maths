@@ -1,1 +1,2 @@
-export { default } from './PeerNode';
+export { default } from "./PeerNode";
+export * from "./PeerNode";
