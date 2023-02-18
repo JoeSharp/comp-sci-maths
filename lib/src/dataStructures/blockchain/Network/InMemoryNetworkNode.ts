@@ -1,23 +1,23 @@
-import Message from './Message';
-import NetworkNode from './NetworkNode'
+import Message from "./Message";
+import NetworkNode from "./NetworkNode";
 
-class InMemoryNetworkNode extends NetworkNode {
-    messages: Message[];
+class InMemoryNetworkNode<T> extends NetworkNode<T> {
+  messages: Message<T>[];
 
-    constructor(id: string) {
-        super(id);
+  constructor(id: string) {
+    super(id);
 
-        this.messages = [];
-    }
+    this.messages = [];
+  }
 
-    receiveMessage(message: Message): Promise<boolean> {
-        this.messages.push(message);
-        return Promise.resolve(true);
-    }
+  receiveMessage(message: Message<T>): Promise<boolean> {
+    this.messages.push(message);
+    return Promise.resolve(true);
+  }
 
-    popMessage(): Message | undefined {
-        return this.messages.shift();
-    }
+  popMessage(): Message<T> | undefined {
+    return this.messages.shift();
+  }
 }
 
 export default InMemoryNetworkNode;
