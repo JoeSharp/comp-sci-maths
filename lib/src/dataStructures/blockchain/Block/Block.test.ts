@@ -1,71 +1,29 @@
-import { anyHashIsOk, topXNibblesAreZero } from "../MerkleTree/hashTest";
 import Block from "./Block";
 
 describe("Block", () => {
-  test("Create Simple", () => {
+  it("Creates list of transactions", () => {
     const block = new Block<string>(0)
       .addTransaction("Hello")
       .addTransaction("World")
       .addTransaction("Mr Sharp")
-      .addTransaction("Will Return")
-      .mineToCompletion(anyHashIsOk);
+      .addTransaction("Will Return");
 
-    expect(block.nonce).toBe(0);
-    expect(block.verify()).toBeTruthy();
+    expect(block.transactions).toHaveLength(4);
   });
 
-  test("Create With Real Work", () => {
-    const topTwoNibblesAreZero = topXNibblesAreZero(2);
+  it("Uses the given nonce correctly", () => {
     const block = new Block<string>(0)
       .addTransaction("Hello")
       .addTransaction("World")
       .addTransaction("Mr Sharp")
-      .addTransaction("Will Return Again")
-      .mineToCompletion(topTwoNibblesAreZero);
+      .addTransaction("Will Return");
 
-    expect(block.nonce).toBeGreaterThan(0);
-    expect(block.verify()).toBeTruthy();
-  });
+    const hashFor5 = block.generateHash(5);
+    const hashWithDefault = block.generateHash();
+    block.setNonce(5, hashFor5);
+    const regenHash = block.generateHash();
 
-  test("Create With Hard Work", () => {
-    const topThreeNibblesAreZero = topXNibblesAreZero(3);
-    const block = new Block<string>(0)
-      .addTransaction("Hello")
-      .addTransaction("World")
-      .addTransaction("Mr Sharp")
-      .addTransaction("Will Return")
-      .mineToCompletion(topThreeNibblesAreZero);
-
-    expect(block.nonce).toBeGreaterThan(0);
-    expect(block.verify()).toBeTruthy();
-  });
-
-  test("Iterative Mining", () => {
-    const topThreeNibblesAreZero = topXNibblesAreZero(3);
-    const block = new Block<string>(0)
-      .addTransaction("Hello")
-      .addTransaction("World")
-      .addTransaction("Mr Sharp")
-      .addTransaction("Will Return")
-      .startMine();
-
-    while (!block.testMine(topThreeNibblesAreZero)) {
-      block.iterateMine();
-    }
-
-    expect(block.nonce).toBeGreaterThan(0);
-    expect(block.verify()).toBeTruthy();
-  });
-  test("Create and Make Changes", () => {
-    const topNibbleIsZero = topXNibblesAreZero(1);
-    const block = new Block<string>(0)
-      .addTransaction("Hello")
-      .addTransaction("World")
-      .addTransaction("Mr Sharp")
-      .addTransaction("Will Return")
-      .mineToCompletion(topNibbleIsZero);
-
-    block.transactions[1] = "Foo";
-    expect(block.verify()).toBeFalsy();
+    expect(hashFor5).toBe(regenHash);
+    expect(regenHash).not.toBe(hashWithDefault);
   });
 });

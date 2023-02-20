@@ -36,8 +36,10 @@ describe("Network", () => {
     [maryReceived1, maryReceived2, aliceReceived].forEach((r) =>
       expect(r).toBeDefined()
     );
-    expect(maryReceived1?.content).toEqual("Hello Mary From Bob");
-    expect(maryReceived2?.content).toEqual("Hello There Mary From Alice");
-    expect(aliceReceived?.content).toEqual("Hello Alice From Mary");
+    expect(maryReceived1?.content.toString()).toEqual("Hello Mary From Bob");
+    expect(maryReceived2?.content.toString()).toEqual(
+      "Hello There Mary From Alice"
+    );
+    expect(aliceReceived?.content.toString()).toEqual("Hello Alice From Mary");
   });
 });

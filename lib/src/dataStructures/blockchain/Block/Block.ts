@@ -1,6 +1,5 @@
 import MerkleTree from "../MerkleTree/MerkleTree";
 import { generateSha256 } from "../MerkleTree/generateHash";
-import { HashTest } from "../MerkleTree/hashTest";
 
 const INITIAL_HASH: string = "FEFIFOFUM";
 
@@ -35,62 +34,31 @@ class Block<T> {
   }
 
   /**
-   * If we want to mine in a single blocking call (synchronously) then call this function
-   * To execute the mining in one process.
-   * @param hashTest The function used to test the hash.
-   * @returns This block (method chaining.)
-   */
-  mineToCompletion(hashTest: HashTest): this {
-    this.startMine();
-
-    while (!hashTest(this.hash)) {
-      this.iterateMine();
-    }
-
-    return this;
-  }
-
-  /**
-   * Once all the transactions have been added, call this to generate it's hash.
-   * It will generate a single hash, but leave it to the chain to determine if the hash passes the difficultly test.
-   *
-   * @returns The block itself (method chaining)
-   */
-  startMine(): this {
-    this.hash = this.generateHash();
-    return this;
-  }
-
-  /**
-   * Calls upon the block to iterate it's nonce.
-   * It will then recalculate the hash with this new value allowing the chain to determine if it passes difficulty test.
-   * @returns The block (method chaining)
-   */
-  iterateMine(): this {
-    this.nonce += 1;
-    this.hash = this.generateHash();
-    return this;
-  }
-
-  /**
-   * Given a hash testing function, puts this blocks has through it.
-   * @param hashTest The test function
-   * @returns True/False if the hash passes the test.
-   */
-  testMine(hashTest: HashTest): boolean {
-    return hashTest(this.hash);
-  }
-
-  /**
    * A private function for setting up the hash calculation.
+   * @param nonceToTry The nonce to use
    * @returns The new hash based on our current contents.
    */
-  generateHash(): string {
+  generateHash(nonceToTry?: number): string {
+    const nonce = nonceToTry ?? this.nonce;
+
     return new MerkleTree(generateSha256)
       .addTransaction(this.previousHash)
       .addTransaction(...this.transactions)
-      .addTransaction(this.nonce.toString(10))
+      .addTransaction(nonce.toString(10))
       .calculateRootHash();
+  }
+
+  /**
+   * Once a valid nonce has been discovered by a miner, set it here.
+   *
+   * @param newNonce The nonce to set
+   * @param newHash The hash that has been calculated
+   * @returns Itself for method chaining.
+   */
+  setNonce(newNonce: number, newHash: string): Block<T> {
+    this.nonce = newNonce;
+    this.hash = newHash;
+    return this;
   }
 
   verify(previousHashExpected: string = INITIAL_HASH): boolean {
@@ -109,6 +77,10 @@ class Block<T> {
     return true;
   }
 
+  /**
+   *
+   * @returns A printable string representation
+   */
   toString(): string {
     return `Block:\t${this.blockNumber}\n\tNonce: \t${this.nonce}\n\tPHash:\t${
       this.previousHash
