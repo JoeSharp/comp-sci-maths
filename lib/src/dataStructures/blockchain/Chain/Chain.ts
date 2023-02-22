@@ -29,29 +29,6 @@ class Chain<T> {
     );
   }
 
-  /**
-   *
-   * @returns True/False to indicate if the chain is still valid.
-   */
-  verify(): boolean {
-    let isValid = true;
-
-    let lastBlock = this.blocks[0];
-    let i = 1;
-
-    while (isValid && i < this.blocks.length) {
-      const thisBlock = this.blocks[i];
-      if (!thisBlock.verify(lastBlock.hash)) {
-        isValid = false;
-      }
-
-      lastBlock = thisBlock;
-      i++;
-    }
-
-    return isValid;
-  }
-
   toString(): string {
     return `Blockchain with ${this.blocks.length} blocks:\n${this.blocks
       .map((block) => block.toString())

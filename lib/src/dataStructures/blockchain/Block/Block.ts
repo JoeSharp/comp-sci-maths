@@ -1,7 +1,7 @@
 import MerkleTree from "../MerkleTree/MerkleTree";
 import { generateSha256 } from "../MerkleTree/generateHash";
 
-const INITIAL_HASH: string = "FEFIFOFUM";
+export const INITIAL_HASH: string = "FEFIFOFUM";
 
 /**
  * Encapsulates a single block in our chain.
@@ -59,22 +59,6 @@ class Block<T> {
     this.nonce = newNonce;
     this.hash = newHash;
     return this;
-  }
-
-  verify(previousHashExpected: string = INITIAL_HASH): boolean {
-    // Is the previous hash as expected?
-    if (this.previousHash !== previousHashExpected) {
-      return false;
-    }
-
-    // Does the hash we carry still match the one we calculated before?
-    const hashCheck = this.generateHash();
-    if (hashCheck !== this.hash) {
-      return false;
-    }
-
-    // Nothing went wrong, assume all is good
-    return true;
   }
 
   /**

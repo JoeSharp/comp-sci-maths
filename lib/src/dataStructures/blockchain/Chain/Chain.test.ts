@@ -1,6 +1,7 @@
 import { anyHashIsOk } from "../MerkleTree/hashTest";
 import Miner from "../Miner";
 import Chain from "./Chain";
+import verifyChain from "./verifyChain";
 
 describe("Chain", () => {
   test("Simple Chain", () => {
@@ -50,12 +51,12 @@ describe("Chain", () => {
     expect(chain.blocks.length).toBe(3);
 
     // Check that verify is working
-    const shouldBeValid = chain.verify();
+    const shouldBeValid = verifyChain(chain);
     expect(shouldBeValid).toBeTruthy();
 
     // Make fraudulent amendments and check that verify picks them up
     chain.blocks[1].transactions[0] = "Foo";
-    const shouldBeInvalid = chain.verify();
+    const shouldBeInvalid = verifyChain(chain);
     expect(shouldBeInvalid).toBeFalsy();
   });
 });

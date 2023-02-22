@@ -1,4 +1,5 @@
 import Block from "../Block";
+import verifyBlock from "../Block/verifyBlock";
 import { anyHashIsOk, topXNibblesAreZero } from "../MerkleTree/hashTest";
 import Miner from "./Miner";
 
@@ -13,7 +14,7 @@ describe("Miner", () => {
     new Miner<string>(anyHashIsOk, block).mineToCompletion();
 
     expect(block.nonce).toBe(0);
-    expect(block.verify()).toBeTruthy();
+    expect(verifyBlock(block)).toBeTruthy();
   });
 
   it("can mine with a non trivial workload (2)", () => {
@@ -27,7 +28,7 @@ describe("Miner", () => {
     new Miner<string>(topTwoNibblesAreZero, block).mineToCompletion();
 
     expect(block.nonce).toBeGreaterThan(0);
-    expect(block.verify()).toBeTruthy();
+    expect(verifyBlock(block)).toBeTruthy();
   });
 
   it("can mine with a non trivial workload (3)", () => {
@@ -41,7 +42,7 @@ describe("Miner", () => {
     new Miner<string>(topThreeNibblesAreZero, block).mineToCompletion();
 
     expect(block.nonce).toBeGreaterThan(0);
-    expect(block.verify()).toBeTruthy();
+    expect(verifyBlock(block)).toBeTruthy();
   });
 
   it("allows iterative mining", () => {
@@ -59,7 +60,7 @@ describe("Miner", () => {
     }
 
     expect(block.nonce).toBeGreaterThan(0);
-    expect(block.verify()).toBeTruthy();
+    expect(verifyBlock(block)).toBeTruthy();
   });
 
   it("correctly detects amendments made to the transactions", () => {
@@ -73,6 +74,6 @@ describe("Miner", () => {
     new Miner<string>(topNibbleIsZero, block).mineToCompletion();
 
     block.transactions[1] = "Foo";
-    expect(block.verify()).toBeFalsy();
+    expect(verifyBlock(block)).toBeFalsy();
   });
 });
