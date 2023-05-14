@@ -5,6 +5,15 @@ interface IndexedBlock {
   block: Block;
 }
 
+const DEFAULT_LONG_CHAIN_PULL = 3;
+
+/**
+ * The data structure of a block chain.
+ * It's a branching structure, such that different miners may append blocks to same endpoint, so
+ * this structure needs to keep track of the various paths and as one branch becomes longer, choose it and prune
+ * the dead ones. It's only once transactions are behind the 'last consolidated' block ID that they are really
+ * committed to the ledger.
+ */
 class Chain {
   // The genesis block ID
   firstBlockId: string;
@@ -16,10 +25,14 @@ class Chain {
   // Blocks are keyed by their own ID
   blocks: Map<string, IndexedBlock>;
 
-  constructor() {
+  // The longest current chain should 'pull' the consolidation point forward.
+  longChainPull: number;
+
+  constructor(longChainPull: number = DEFAULT_LONG_CHAIN_PULL) {
     this.blocks = new Map();
     this.firstBlockId = "";
     this.consolidatedBlockId = "";
+    this.longChainPull = longChainPull;
   }
 
   /**
@@ -64,7 +77,33 @@ class Chain {
    * If one branch has got far enough ahead of the others,
    * then it consolidates the chain at the end of that branch and all other branches are pruned.
    */
-  consolidateChains() {}
+  consolidateChains() {
+    const longestChain = this.getLongestChain();
+
+    // If the longest chain is not long enough to cause a pull, return now
+    if (longestChain.length <= this.longChainPull) {
+      return;
+    }
+
+    // Pick the elements of the chain behind the 'pull' point and prune any alternative paths
+    const chainToConsolidate = longestChain.slice(0, -this.longChainPull);
+
+    // Clean out the 'next block ids' for all the points behind our consolidation point
+    chainToConsolidate
+      .map((blockId) => this.blocks.get(blockId))
+      .forEach(({ nextBlockIds }, index) => {
+        const nextIdToKeep = longestChain[index + 1];
+        [...nextBlockIds]
+          .filter((blockId) => blockId !== nextIdToKeep)
+          .forEach((blockId) => this.blocks.delete(blockId));
+        nextBlockIds.clear();
+        nextBlockIds.add(nextIdToKeep);
+      });
+
+    // Move our consolidation point
+    this.consolidatedBlockId =
+      chainToConsolidate[chainToConsolidate.length - 1];
+  }
 
   /**
    * Push a new block onto the chain

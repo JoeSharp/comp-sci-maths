@@ -1,7 +1,7 @@
 import Block from "../Block/Block";
 import { anyHashIsOk } from "../MerkleTree/hashTest";
 import Miner from "../Miner";
-import { createTestBlock } from "../testUtils";
+import { createTestBlock, createTestChain } from "../testUtils";
 import Chain from "./Chain";
 import verifyChain from "./verifyChain";
 
@@ -128,5 +128,13 @@ describe("Chain", () => {
     expect(allChainsAsStr).toContain(expectedChain2);
     expect(allChainsAsStr).toContain(expectedChain3);
     expect(longestChainAsStr).toBe(expectedChain2);
+  });
+
+  test.only("forked chain prunes itself correctly", () => {
+    const chain = new Chain(3);
+    createTestChain(chain, 8);
+
+    const longestChain = chain.getLongestChain();
+    expect(longestChain).toHaveLength(8);
   });
 });
