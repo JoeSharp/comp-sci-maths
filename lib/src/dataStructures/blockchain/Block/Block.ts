@@ -1,25 +1,48 @@
 import MerkleTree from "../MerkleTree/MerkleTree";
 import { generateSha256 } from "../MerkleTree/generateHash";
+import { v4 as uuid } from "uuid";
 
-export const INITIAL_HASH: string = "FEFIFOFUM";
+export const INITIAL_HASH = "FEFIFOFUM";
+export const INITIAL_ID = "00000000-0000-0000-0000-000000000000";
+
+export const NO_HASH = "";
+export const FIRST_BLOCK_NUMBER = 0;
 
 /**
  * Encapsulates a single block in our chain.
  * A block can be made up of multiple transactions.
  */
-class Block<T> {
+class Block {
   blockNumber: number;
+  id: string;
   nonce: number;
+  previousId: string;
   previousHash: string;
-  transactions: T[];
+  transactions: string[];
   hash: string;
 
-  constructor(blockNumber: number, previousHash: string = INITIAL_HASH) {
+  constructor(
+    blockNumber: number = FIRST_BLOCK_NUMBER,
+    previousHash: string = INITIAL_HASH,
+    previousId: string = INITIAL_ID
+  ) {
     this.blockNumber = blockNumber;
+    this.id = uuid();
     this.nonce = 0;
     this.previousHash = previousHash;
+    this.previousId = previousId;
     this.transactions = [];
-    this.hash = "";
+    this.hash = NO_HASH;
+  }
+
+  createNextBlock(): Block {
+    if (this.hash === NO_HASH) {
+      throw new Error(
+        "Cannot create next block before this one has been minted"
+      );
+    }
+
+    return new Block(this.blockNumber + 1, this.hash, this.id);
   }
 
   /**
@@ -28,7 +51,7 @@ class Block<T> {
    * @param transactions The transactions to add
    * @returns This, to allow method chaining
    */
-  addTransaction(...transactions: T[]): this {
+  addTransaction(...transactions: string[]): this {
     this.transactions.push(...transactions);
     return this;
   }
@@ -42,9 +65,11 @@ class Block<T> {
     const nonce = nonceToTry ?? this.nonce;
 
     return new MerkleTree(generateSha256)
-      .addTransaction(this.previousHash)
-      .addTransaction(...this.transactions)
-      .addTransaction(nonce.toString(10))
+      .addElements(this.id)
+      .addElements(this.previousId)
+      .addElements(this.previousHash)
+      .addElements(...this.transactions)
+      .addElements(nonce.toString(10))
       .calculateRootHash();
   }
 
@@ -55,7 +80,7 @@ class Block<T> {
    * @param newHash The hash that has been calculated
    * @returns Itself for method chaining.
    */
-  setNonce(newNonce: number, newHash: string): Block<T> {
+  setNonce(newNonce: number, newHash: string): Block {
     this.nonce = newNonce;
     this.hash = newHash;
     return this;

@@ -11,14 +11,14 @@ interface IdentifiedHash {
  * It's a more sophisticated method than simply concatenating all the items.
  * It has some interesting properties...which I do not yet understand.
  */
-class MerkleTree<T> {
+class MerkleTree {
   hashFunction: HashFunction;
-  rawTransactions: T[];
+  elements: string[];
   hashTree: IdentifiedHash[];
 
   constructor(hashFunction: HashFunction) {
     this.hashFunction = hashFunction;
-    this.rawTransactions = [];
+    this.elements = [];
     this.hashTree = [];
   }
 
@@ -27,8 +27,8 @@ class MerkleTree<T> {
    * @param transaction The transaction to add to our list
    * @returns This tree, allow method chaining.
    */
-  addTransaction(...transactions: T[]): this {
-    this.rawTransactions.push(...transactions);
+  addElements(...newElements: string[]): this {
+    this.elements.push(...newElements);
     return this;
   }
 
@@ -38,11 +38,11 @@ class MerkleTree<T> {
    * @returns The root hash for this tree.
    */
   calculateRootHash(): string {
-    if (this.rawTransactions.length === 0) {
+    if (this.elements.length === 0) {
       throw new Error("Cannot create Merkle Tree without transactions");
     }
 
-    let hashList: IdentifiedHash[] = this.rawTransactions.map((t, i) => ({
+    let hashList: IdentifiedHash[] = this.elements.map((t, i) => ({
       id: i.toString(10),
       hash: this.hashFunction(JSON.stringify(t)),
     }));

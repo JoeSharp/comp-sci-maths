@@ -1,8 +1,13 @@
 import Block from "./Block";
 
 describe("Block", () => {
+  it("Creates a sensible string representation", () => {
+    const result = new Block(0).addTransaction("Hello").toString();
+    expect(result).toContain("Hello");
+  });
+
   it("Creates list of transactions", () => {
-    const block = new Block<string>(0)
+    const block = new Block(0)
       .addTransaction("Hello")
       .addTransaction("World")
       .addTransaction("Mr Sharp")
@@ -12,7 +17,7 @@ describe("Block", () => {
   });
 
   it("Uses the given nonce correctly", () => {
-    const block = new Block<string>(0)
+    const block = new Block(0)
       .addTransaction("Hello")
       .addTransaction("World")
       .addTransaction("Mr Sharp")

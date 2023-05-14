@@ -7,8 +7,8 @@ import Block, { INITIAL_HASH } from "./Block";
  * @param previousHashExpected The previous hash, from a previous block
  * @returns true if it's valid
  */
-function verifyBlock<T>(
-  block: Block<T>,
+function verifyBlock(
+  block: Block,
   previousHashExpected: string = INITIAL_HASH
 ): boolean {
   // Is the previous hash as expected?

@@ -4,13 +4,13 @@ import { HashTest } from "../MerkleTree/hashTest";
 /**
  * An instance of this is created to mine a given block.
  */
-class Miner<T> {
+class Miner {
   hashTest: HashTest;
-  block: Block<T>;
+  block: Block;
   hash: string;
   nonce: number;
 
-  constructor(hashTest: HashTest, block: Block<T>) {
+  constructor(hashTest: HashTest, block: Block) {
     this.hashTest = hashTest;
     this.block = block;
     this.hash = "";
@@ -23,7 +23,7 @@ class Miner<T> {
    * @param hashTest The function used to test the hash.
    * @returns This block (method chaining.)
    */
-  mineToCompletion(): Block<T> {
+  mineToCompletion(): Block {
     this.startMine();
 
     while (!this.hashTest(this.hash)) {
@@ -39,7 +39,7 @@ class Miner<T> {
    *
    * @returns The block itself (method chaining)
    */
-  startMine(): Miner<T> {
+  startMine(): Miner {
     this.hash = this.block.generateHash(this.nonce);
     this.validateHash(); // We might get luck on the first nonce
     return this;

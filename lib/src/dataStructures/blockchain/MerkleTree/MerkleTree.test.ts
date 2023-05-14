@@ -2,6 +2,12 @@ import MerkleTree from "./MerkleTree";
 import { generateSha256 } from "./generateHash";
 
 describe("Merkle Tree", () => {
+  test("Empty tree throws error", () => {
+    const tree = new MerkleTree(generateSha256);
+
+    expect(() => tree.calculateRootHash()).toThrowError();
+  });
+
   test("Using SHA-256", () => {
     // "4"
     // 2bf175f9655e7bb7357b9f0a7c6051465a5ae701104ffe741b98e852c0e4d460
@@ -18,9 +24,9 @@ describe("Merkle Tree", () => {
     // "4566"
     // c2dc2f55af0fd5270c4b57a6f663b35af9bfcf6339b00603f022ed4ad8e1454e
     const tree = new MerkleTree(generateSha256)
-      .addTransaction("4")
-      .addTransaction("5")
-      .addTransaction("6");
+      .addElements("4")
+      .addElements("5")
+      .addElements("6");
     const rootHash: string = tree.calculateRootHash();
 
     const h4 = tree.hashTree.find((t) => t.id === "0");
